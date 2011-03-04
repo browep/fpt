@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              style="@style/BaseScreen"
+              android:orientation="vertical"
+              android:layout_height="match_parent">
+   <Button
+         android:id="@+id/for_reps_button"
+         style="@style/HomeButton"
+         android:text="For Reps"
+         android:background="@drawable/layers"
+         android:orientation="vertical"
+
+       />
+    <TextView
+
+            style="@style/HelperText"
+            android:text="Push Ups, Crunches"
+            />
+    <Button
+         android:id="@+id/for_time_button"
+         style="@style/HomeButton"
+         android:text="For Time"
+         android:background="@drawable/layers"
+
+       />
+    <TextView
+            style="@style/HelperText"
+            android:text="Laps in an hour, Push Ups in 60 sec, etc."
+            />
+    <Button
+         android:id="@+id/for_distance_button"
+         style="@style/HomeButton"
+         android:text="For Distance"
+         android:background="@drawable/layers"
+
+       />
+    <TextView
+            style="@style/HelperText"
+            android:text="Miles ran, Laps completed, Miles biked"
+            />
+
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="@style/BaseScreen"
+
+    >
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Welcome to your Personal Fitness Tracker"
+    style="@style/BaseText"
+
+    />
+
+    <Button
+            android:id="@+id/enter_workout_entry_button"
+            android:text="Enter Data For A Workout"
+            style="@style/HomeButton"
+            android:background="@drawable/layers"
+            />
+
+    <Button
+            android:id="@+id/create_workout_button"
+            android:text="Define a New Workout"
+            style="@style/HomeButton"
+            android:background="@drawable/layers"
+            />
+</LinearLayout>
+
