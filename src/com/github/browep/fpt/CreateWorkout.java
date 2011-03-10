@@ -34,6 +34,10 @@ public class CreateWorkout extends DaoAwareActivity {
         forTimeButton.setTag(R.id.associated_class, C.FOR_TIME_WORKOUT_TYPE);
         forTimeButton.setOnClickListener(onClickListener);
 
+        View forMaxWeightButton = findViewById(R.id.for_max_weight_button);
+        forMaxWeightButton.setTag(R.id.associated_class, C.FOR_MAX_WEIGHT_WORKOUT_TYPE);
+        forMaxWeightButton.setOnClickListener(onClickListener);
+
 
     }
 
@@ -41,14 +45,19 @@ public class CreateWorkout extends DaoAwareActivity {
         public void onClick(View view) {
             Intent createWorkout2 = new Intent();
             Integer type = (Integer) view.getTag(R.id.associated_class);
-            Workout workout = new Workout(type);
-//            workout.setCreated(new Date());
-//            workout.setModified(new Date());
+            WorkoutDefinition definition = new WorkoutDefinition();
+            definition.put(C.WORKOUT_TYPE,type);
 
-            createWorkout2.putExtra(C.WORKOUT_OBJECT, workout);
+            createWorkout2.putExtra(C.WORKOUT_DEFINITION, definition);
             createWorkout2.setClass(self,CreateWorkout2.class);
-            self.startActivity(createWorkout2);
+            self.startActivityForResult(createWorkout2,R.id.workout_saved);
         }
     };
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
+        finish();
+    }
 }

@@ -11,11 +11,15 @@ import android.os.Bundle;
  * Time: 6:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DaoAwareActivity extends Activity{
+public class DaoAwareActivity extends AnalyzableActivity {
     protected Dao dao;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         dao = new Dao(getApplicationContext());
     }
+
+
+
+
 }

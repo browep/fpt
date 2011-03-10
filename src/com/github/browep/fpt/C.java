@@ -13,5 +13,16 @@ public class C {
     public static final Integer FOR_REPS_WORKOUT_TYPE = 10;
     public static final Integer FOR_TIME_WORKOUT_TYPE = 11;
     public static final Integer FOR_DISTANCE_WORKOUT_TYPE = 12;
+    public static final Integer FOR_MAX_WEIGHT_WORKOUT_TYPE = 13;
+
+    public static final Integer WORKOUT_DEFINITION_TYPE = 5;
+
     public static final String WORKOUT_OBJECT = "workout_object";
+
+
+    public static final Integer[] WORKOUT_TYPES = new Integer[]{FOR_REPS_WORKOUT_TYPE,FOR_TIME_WORKOUT_TYPE,FOR_DISTANCE_WORKOUT_TYPE,FOR_MAX_WEIGHT_WORKOUT_TYPE};
+    public static final String WORKOUT_TYPE = "workout_type";
+    public static final String WORKOUT_DEFINITION = "workout_definition";
+    public static final String WORKOUT_NAME = "workout_name";
+    public static final String FLURRY_ID = "9CH766MN9XHGAHDT39YI";
 }

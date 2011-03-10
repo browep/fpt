@@ -27,5 +27,20 @@
             style="@style/HomeButton"
             android:background="@drawable/layers"
             />
+
+
+    <Button
+            android:id="@+id/see_progress"
+            android:text="See Your Progress"
+            style="@style/HomeButton"
+            android:background="@drawable/layers"
+            />
+
+    <Button
+            android:id="@+id/progress_picture"
+            android:text="Add a Progress Picture"
+            style="@style/HomeButton"
+            android:background="@drawable/layers"
+            />
 </LinearLayout>
 

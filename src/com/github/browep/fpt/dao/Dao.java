@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.Workout;
+import com.github.browep.fpt.WorkoutDefinition;
 import com.github.browep.fpt.util.Log;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
@@ -27,20 +30,27 @@ import java.util.*;
 public class Dao {
     private static final String INSTANCES_TABLE_NAME = "instances";
     private static final String INDEXES_TABLE_NAME = "indexes";
-    private SQLiteDatabase db;
+    private SQLiteDatabase db = null;
     private static Map<Integer,Class> CLASS_TO_TYPE = new HashMap<Integer,Class>();
     private static final SimpleDateFormat SQL_FORMAT =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Context self ;
 
+    static {
+        CLASS_TO_TYPE.put(C.FOR_DISTANCE_WORKOUT_TYPE, Workout.class);
+        CLASS_TO_TYPE.put(C.FOR_TIME_WORKOUT_TYPE, Workout.class);
+        CLASS_TO_TYPE.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE, Workout.class);
+        CLASS_TO_TYPE.put(C.FOR_REPS_WORKOUT_TYPE, Workout.class);
+        CLASS_TO_TYPE.put(C.WORKOUT_DEFINITION_TYPE, WorkoutDefinition.class);
+    }
 
     public Dao(Context context){
-        FptSqliteOpener fptSqliteOpener = new FptSqliteOpener(context);
-        db = fptSqliteOpener.getWritableDatabase();
+//        FptSqliteOpener fptSqliteOpener = new FptSqliteOpener(context);
+//        db = fptSqliteOpener.getWritableDatabase();
         self = context;
     }
 
 
-    public void save(Storable storable) throws IOException {
+    public void save(Storable storable) {
         // if there is an id, do an update
         db = getOrOpen();
         try {
@@ -65,6 +75,8 @@ public class Dao {
                 values.put("path", indexPath);
                 db.insert(INDEXES_TABLE_NAME, null, values);
             }
+        } catch (IOException e){
+            Log.e("Error trying to save" + storable.toString(),e);
         } finally {
             db.close();
         }
@@ -72,9 +84,10 @@ public class Dao {
     }
 
     private int getLastInsertedRowId(){
-        db = getOrOpen();
 
         try {
+            db = getOrOpen();
+
             Cursor cursor = db.query(INSTANCES_TABLE_NAME,new String[]{"last_insert_rowid()"},null,null,null,null,null);
             cursor.moveToFirst();
             return cursor.getInt(0);
@@ -92,10 +105,11 @@ public class Dao {
 
 
     public Storable initialize(Storable storable) {
-        db = getOrOpen();
 
 
         try {
+            db = getOrOpen();
+
 // create an entry in the db
             ContentValues values = new ContentValues();
             values.put("modified", SQL_FORMAT.format(storable.getModified()));
@@ -118,38 +132,43 @@ public class Dao {
     }
 
     public SQLiteDatabase getOrOpen() {
-        return db.isOpen() ? db : (new FptSqliteOpener(self)).getWritableDatabase();
+        return db != null && db.isOpen() ? db : (new FptSqliteOpener(self)).getWritableDatabase();
     }
 
 
     public void dumpDbToLog(){
 
-        db = getOrOpen();
+        Log.i("dumping to log");
+        try {
+            db = getOrOpen();
 
-        Cursor cursor= db.query(INSTANCES_TABLE_NAME,new String[]{"ROWID","type","created","modified","data"},null,null,null,null,null);
-        cursor.move(1);
-        while (!cursor.isAfterLast()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("INSTANCE: ").append(cursor.getInt(0)).append(",").append(cursor.getString(1)).append(",").append(cursor.getString(2)).append(",").append(cursor.getString(3)).append(",").append(cursor.getString(4));
-            Log.i(sb.toString());
+            Cursor cursor= db.query(INSTANCES_TABLE_NAME,new String[]{"ROWID","type","created","modified","data"},null,null,null,null,null);
             cursor.move(1);
-        }
+            while (!cursor.isAfterLast()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("INSTANCE: ").append(cursor.getInt(0)).append(",").append(cursor.getString(1)).append(",").append(cursor.getString(2)).append(",").append(cursor.getString(3)).append(",").append(cursor.getString(4));
+                Log.i(sb.toString());
+                cursor.move(1);
+            }
 
-        cursor= db.query(INDEXES_TABLE_NAME,new String[]{"ROWID","instance_id","path"},null,null,null,null,null);
-        cursor.move(1);
-        while (!cursor.isAfterLast()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("INDEX   : ").append(cursor.getInt(0)).append(",").append(cursor.getInt(1)).append(",").append(cursor.getString(2));
-            Log.i(sb.toString());
+            cursor= db.query(INDEXES_TABLE_NAME,new String[]{"ROWID","instance_id","path"},null,null,null,null,null);
             cursor.move(1);
+            while (!cursor.isAfterLast()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("INDEX   : ").append(cursor.getInt(0)).append(",").append(cursor.getInt(1)).append(",").append(cursor.getString(2));
+                Log.i(sb.toString());
+                cursor.move(1);
+            }
+        } finally {
+            db.close();
+
         }
-        db.close();
 
     }
 
 
-    public Storable get(int id) throws IllegalAccessException, InstantiationException, ParseException {
-        Storable storable;
+    public Storable get(int id) {
+        Storable storable = null;
         try {
             db = getOrOpen();
             Cursor cursor= db.query(INSTANCES_TABLE_NAME,new String[]{"ROWID","type","created","modified","data"},"ROWID = ?",new String[]{String.valueOf(id)},null,null,null);
@@ -157,18 +176,14 @@ public class Dao {
             if(cursor.isAfterLast()){
                 throw new NotFoundInDb();
             }
-            int type = cursor.getInt(1);
-            Class clazz = CLASS_TO_TYPE.get(type);
-            storable = (Storable) clazz.newInstance();
-            storable.setId(cursor.getInt(0));
-            storable.setCreated(SQL_FORMAT.parse(cursor.getString(2)));
-            storable.setModified(SQL_FORMAT.parse(cursor.getString(3)));
             try {
-                storable.setData(cursor.getString(4));
+                storable = inflate(cursor);
             } catch (IOException e) {
                 Log.e(cursor.getString(3), e);
 
             }
+        }catch(Exception e){
+            Log.e("problem retrieving " + id,e);
         } finally {
             db.close();
 
@@ -177,11 +192,24 @@ public class Dao {
 
     }
 
+    private Storable inflate(Cursor cursor) throws InstantiationException, IllegalAccessException, ParseException, IOException {
+        Storable storable;
+        int type = cursor.getInt(1);
+        Class clazz = CLASS_TO_TYPE.get(type);
+        storable = (Storable) clazz.newInstance();
+        storable.setId(cursor.getInt(0));
+        storable.setCreated(SQL_FORMAT.parse(cursor.getString(2)));
+        storable.setModified(SQL_FORMAT.parse(cursor.getString(3)));
+        storable.setData(cursor.getString(4));
+        return storable;
+    }
+
 
     public List<Storable> where(Map<String,String> wheres){
-        db = getOrOpen();
 
         try {
+            db = getOrOpen();
+
             List<Integer> found = null;
 
             for(Map.Entry<String,String> where : wheres.entrySet()){
@@ -229,4 +257,29 @@ public class Dao {
         }
         return  storables;
     }
+
+    public List<Storable> getByType(int type) {
+        return getByType(type, 100);
+    }
+
+    public List<Storable> getByType(int type, int limit) {
+        List<Storable> storables = new LinkedList<Storable>();
+        try {
+            db = getOrOpen();
+            Cursor cursor= db.query(INSTANCES_TABLE_NAME,new String[]{"ROWID","type","created","modified","data"},"type = ?",new String[]{String.valueOf(type)},null,null,null, String.valueOf(limit));
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                try {
+                    storables.add(inflate(cursor));
+                } catch (Exception e) {
+                    Log.e("issue inflating " + cursor, e);
+                }
+                cursor.move(1);
+            }
+        } finally {
+            db.close();
+        }
+        return storables;
+    }
+
 }

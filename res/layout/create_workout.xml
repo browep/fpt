@@ -41,4 +41,16 @@
             android:text="Miles ran, Laps completed, Miles biked"
             />
 
+    <Button
+         android:id="@+id/for_max_weight_button"
+         style="@style/HomeButton"
+         android:text="For Max Weight"
+         android:background="@drawable/layers"
+
+       />
+    <TextView
+            style="@style/HelperText"
+            android:text="Most benched, Dead lifted, Curled in a session"
+            />
+
 </LinearLayout>

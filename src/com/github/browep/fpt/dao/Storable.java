@@ -34,6 +34,7 @@ public abstract class Storable implements Parcelable{
     public String serialize() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         (new ObjectMapper()).writeValue(baos,map);
+
         return baos.toString();
     }
 
@@ -104,15 +105,16 @@ public abstract class Storable implements Parcelable{
 
     public abstract List<String> getIndexBys();
 
-    public String toString(){
+    public String toString() {
         String data = map.toString();
         String modifiedStr = "";
-        String createdStr="";
+        String createdStr = "";
         try {
             modifiedStr = modified.toString();
             createdStr = created.toString();
             data = serialize();
-        } catch (Exception e){        }
+        } catch (Exception e) {
+        }
         return "Type:" + getType() + " created: " + createdStr + " modified: " + modifiedStr + " data:" + data;
     }
 
