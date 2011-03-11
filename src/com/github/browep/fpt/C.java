@@ -24,5 +24,6 @@ public class C {
     public static final String WORKOUT_TYPE = "workout_type";
     public static final String WORKOUT_DEFINITION = "workout_definition";
     public static final String WORKOUT_NAME = "workout_name";
-    public static final String FLURRY_ID = "9CH766MN9XHGAHDT39YI";
+    public static final String FLURRY_ID = "PJ4JF52Q57JRP84IIGAY";
+    public static final String REPS = "reps";
 }

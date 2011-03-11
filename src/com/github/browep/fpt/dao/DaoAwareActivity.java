@@ -3,6 +3,7 @@ package com.github.browep.fpt.dao;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Window;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +17,7 @@ public class DaoAwareActivity extends AnalyzableActivity {
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         dao = new Dao(getApplicationContext());
     }
 

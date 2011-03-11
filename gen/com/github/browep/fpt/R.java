@@ -17,22 +17,24 @@ public final class R {
     }
     public static final class id {
         public static final int associated_class=0x7f040000;
-        public static final int create_workout_button=0x7f04000c;
-        public static final int done_button=0x7f040011;
-        public static final int enter_workout_entry_button=0x7f04000b;
-        public static final int for_distance_button=0x7f040007;
-        public static final int for_max_weight_button=0x7f040008;
-        public static final int for_reps_button=0x7f040005;
-        public static final int for_time_button=0x7f040006;
-        public static final int name_box=0x7f040009;
-        public static final int pick_date_button=0x7f04000a;
-        public static final int progress_picture=0x7f04000e;
-        public static final int rep_count=0x7f040004;
-        public static final int see_progress=0x7f04000d;
-        public static final int submittable=0x7f040010;
+        public static final int create_workout_button=0x7f04000e;
+        public static final int date_display=0x7f040006;
+        public static final int done_button=0x7f040013;
+        public static final int enter_workout_entry_button=0x7f04000d;
+        public static final int for_distance_button=0x7f04000a;
+        public static final int for_max_weight_button=0x7f04000b;
+        public static final int for_reps_button=0x7f040008;
+        public static final int for_time_button=0x7f040009;
+        public static final int name_box=0x7f04000c;
+        public static final int name_display=0x7f040004;
+        public static final int pick_date_button=0x7f040007;
+        public static final int progress_picture=0x7f040010;
+        public static final int rep_count=0x7f040005;
+        public static final int see_progress=0x7f04000f;
+        public static final int submittable=0x7f040012;
         public static final int workout_data_added=0x7f040003;
         public static final int workout_definition_id=0x7f040002;
-        public static final int workout_list=0x7f04000f;
+        public static final int workout_list=0x7f040011;
         public static final int workout_saved=0x7f040001;
     }
     public static final class layout {
@@ -55,9 +57,13 @@ public final class R {
         public static final int BaseObject=0x7f060005;
         public static final int BaseScreen=0x7f060001;
         public static final int BaseText=0x7f060002;
+        public static final int FormRow=0x7f060009;
+        public static final int FormText=0x7f06000a;
         public static final int HelperText=0x7f060003;
         public static final int HomeButton=0x7f060000;
         public static final int InputBaseObject=0x7f060006;
+        public static final int SmallButton=0x7f060007;
+        public static final int TitleText=0x7f060008;
         public static final int TopHelperText=0x7f060004;
     }
 }

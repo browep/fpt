@@ -37,5 +37,26 @@
     <style name="InputBaseObject" parent="BaseObject">
         <item name="android:layout_marginBottom">10px</item>
     </style>
+    <style name="SmallButton" parent="HomeButton">
+        <item name="android:layout_width">72px</item>
+        <item name="android:layout_height">36px</item>
+
+
+    </style>
+    <style name="TitleText" parent="BaseText">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="FormRow">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10px</item>
+    </style>
+    <style name="FormText" parent="BaseText">
+         <item name="android:layout_height">wrap_content</item>
+         <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
 
 </resources>
