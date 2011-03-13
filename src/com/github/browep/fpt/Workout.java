@@ -16,6 +16,36 @@ import java.util.*;
  */
 public class Workout extends FPTStorable {
 
+    public Workout(){
+        super();
+    }
+
+    public Workout(int type){
+        super();
+        this.type = type;
+    }
+
+    public Workout(int type, String data) throws IOException, JSONException {
+        super(data);
+        this.type=type;
+    }
+
+    private int type;
+
+    @Override
+    public int getType() {
+        return type;
+    }
+
+    @Override
+    public List<String> getIndexBys() {
+        List<String> indexes = super.getIndexBys();    //To change body of overridden methods use File | Settings | File Templates.
+        if(get(C.WORKOUT_DEFINITION_ID) != null)
+            indexes.add(toIndexPathFormat(C.WORKOUT_DEFINITION_ID, get(C.WORKOUT_DEFINITION_ID).toString()));
+        return indexes;
+    }
+
+
     public static final Creator<Workout> CREATOR = new Creator<Workout>() {
         public Workout createFromParcel(Parcel source) {
             try {
@@ -38,21 +68,4 @@ public class Workout extends FPTStorable {
             return new Workout[size];
         }
     };
-
-    public Workout(int type){
-        super();
-        this.type = type;
-    }
-
-    public Workout(int type, String data) throws IOException, JSONException {
-        super(data);
-        this.type=type;
-    }
-
-    private int type;
-
-    @Override
-    public int getType() {
-        return type;
-    }
 }

@@ -5,14 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.github.browep.fpt.dao.DaoAwareActivity;
-import com.github.browep.fpt.dao.Storable;
-import com.github.browep.fpt.util.Log;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Welcome extends DaoAwareActivity
 {
@@ -33,6 +25,12 @@ public class Welcome extends DaoAwareActivity
         Button enterDataButton = (Button) findViewById(R.id.enter_workout_entry_button);
         enterDataButton.setOnClickListener(enterDataOnClickListener);
 
+        Button seeProgressButton = (Button) findViewById(R.id.see_progress);
+        seeProgressButton.setOnClickListener(seeProgressOnClickListener);
+
+        Button takeProgressPicture = (Button) findViewById(R.id.progress_picture);
+        takeProgressPicture.setOnClickListener(takeProgressPictureOnClickListener);
+
     }
 
     View.OnClickListener createWorkoutButtonOnClickListener = new View.OnClickListener() {
@@ -47,6 +45,22 @@ public class Welcome extends DaoAwareActivity
         public void onClick(View view) {
             Intent intent = new Intent();
             intent.setClass(self,SelectWorkout.class);
+            self.startActivity(intent);
+        }
+    };
+
+    View.OnClickListener seeProgressOnClickListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            Intent intent = new Intent();
+            intent.setClass(self,SeeProgressChooser.class);
+            self.startActivity(intent);
+        }
+    };
+
+    View.OnClickListener takeProgressPictureOnClickListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            Intent intent = new Intent();
+            intent.setClass(self,TakeProgressPicture.class);
             self.startActivity(intent);
         }
     };

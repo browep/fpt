@@ -59,4 +59,9 @@
         <item name="android:gravity">left|center_vertical</item>
     </style>
 
+    <style name="ProgressGraph">
+        <item name="android:background">#FFFFFF</item>
+
+    </style>
+
 </resources>

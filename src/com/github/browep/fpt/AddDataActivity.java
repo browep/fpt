@@ -4,13 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import com.github.browep.fpt.util.Util;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +26,6 @@ public class AddDataActivity extends SubmittableActivity {
      private TextView mDateDisplay;
     private Button mPickDate;
     private Calendar mCalendar = Calendar.getInstance();
-
-    private static final SimpleDateFormat DISPLAY_FORMAT = new SimpleDateFormat("EEEEE, MMMMM dd, yyyy");
 
     static final int DATE_DIALOG_ID = 0;
 
@@ -92,7 +88,7 @@ public class AddDataActivity extends SubmittableActivity {
             Integer reps = Integer.valueOf(repsText);
             workout.put(C.REPS, reps);
             workout.setCreated(mCalendar.getTime());
-            workout.put(C.WORKOUT_DEFINITION,definition.getId());
+            workout.put(C.WORKOUT_DEFINITION_ID,definition.getId());
             // create a new workout
 
             dao.save(workout);
@@ -105,7 +101,7 @@ public class AddDataActivity extends SubmittableActivity {
 
     // updates the date in the TextView
     private void updateDisplay() {
-        mDateDisplay.setText( DISPLAY_FORMAT.format(mCalendar.getTime()));
+        mDateDisplay.setText( C.DISPLAY_FORMAT.format(mCalendar.getTime()));
 
     }
 
