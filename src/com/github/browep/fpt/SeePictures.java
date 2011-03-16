@@ -38,7 +38,6 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
      private SeePictures self = this;
     private Bitmap currentBitmap;
 
-    private Bitmap[] bitmappedImages;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -80,6 +79,8 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
             currentBitmap = Util.decodeFile(pictureFile);
             mSwitcher.setImageDrawable(new BitmapDrawable(currentBitmap));
             updateTextDislay(pictureFile);
+
+
         } else {
             Util.longToastMessage(this,"Need to add pictures first. Click \"Add a Progress Picture\" on the welcome screen first");
             finish();
@@ -91,8 +92,6 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
     View.OnClickListener nextButtonOnClickListener = new View.OnClickListener() {
         public void onClick(View view) {
             if (picturesList.size() > 1) {
-                Bitmap oldNextBitmap = nextBitmap;
-                Bitmap oldCurrentBitmap = currentBitmap;
 
                 mSwitcher.setImageDrawable(new BitmapDrawable(nextBitmap));
 
@@ -103,11 +102,10 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
 
                 File file = picturesList.get(index);
                 Log.i("setting to file " + file.getName());
-                nextBitmap = Util.decodeFile(file);
-                currentBitmap = oldNextBitmap;
-                previousBitmap = oldCurrentBitmap;
 
                 updateTextDislay(file);
+
+                setupNextImages(index);
 
             }else{
                 Util.longToastMessage(self, MORE_PICTURES_MESSAGE);
@@ -120,8 +118,8 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
     View.OnClickListener previousButtonOnClickListener = new View.OnClickListener() {
         public void onClick(View view) {
             if (picturesList.size() > 1) {
-                Bitmap oldCurrentBitmap = currentBitmap;
-                Bitmap oldPreviousBitmap = previousBitmap;
+
+
                 mSwitcher.setImageDrawable(new BitmapDrawable(previousBitmap));
                 if(index == 0)
                     index = picturesList.size() -1;
@@ -131,10 +129,10 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
                 File file = picturesList.get(index);
                 Log.i("setting to file " + file.getName());
 
-                previousBitmap = Util.decodeFile(file);
-                currentBitmap = oldPreviousBitmap;
-                nextBitmap = oldCurrentBitmap;
                 updateTextDislay(file);
+
+                setupNextImages(index);
+
 
             }else{
                 Util.longToastMessage(self, MORE_PICTURES_MESSAGE);
@@ -162,13 +160,15 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        setupNextImages();
+        setupNextImages(0);
     }
 
-    private void setupNextImages() {
+    private void setupNextImages(Integer currentIndex) {
         if (picturesList.size() > 1) {
-            Integer nextIndex = index == picturesList.size()-1 ? 0 : index+1;
-            Integer previousIndex = index == 0 ? picturesList.size()-1 : index -1;
+
+            Integer nextIndex = currentIndex == picturesList.size()-1 ? 0 : currentIndex+1;
+            Integer previousIndex = currentIndex == 0 ? picturesList.size()-1 : currentIndex-1;
+
             nextBitmap = Util.decodeFile(picturesList.get(nextIndex));
             previousBitmap = Util.decodeFile(picturesList.get(previousIndex));
         }
