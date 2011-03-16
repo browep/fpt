@@ -25,26 +25,29 @@ public final class R {
         public static final int associated_class=0x7f050000;
         public static final int create_workout_button=0x7f05000e;
         public static final int date_display=0x7f050006;
-        public static final int done_button=0x7f050016;
+        public static final int done_button=0x7f050019;
         public static final int enter_workout_entry_button=0x7f05000d;
-        public static final int flipper=0x7f050013;
         public static final int for_distance_button=0x7f05000a;
         public static final int for_max_weight_button=0x7f05000b;
         public static final int for_reps_button=0x7f050008;
         public static final int for_time_button=0x7f050009;
-        public static final int mySimpleXYPlot=0x7f050017;
+        public static final int mySimpleXYPlot=0x7f05001a;
         public static final int name_box=0x7f05000c;
         public static final int name_display=0x7f050004;
+        public static final int next_button=0x7f050016;
         public static final int pick_date_button=0x7f050007;
+        public static final int picture_title=0x7f050015;
+        public static final int previous_button=0x7f050014;
         public static final int progress_image_title=0x7f050012;
         public static final int progress_image_view=0x7f050011;
         public static final int progress_picture=0x7f050010;
         public static final int rep_count=0x7f050005;
         public static final int see_progress=0x7f05000f;
-        public static final int submittable=0x7f050015;
+        public static final int submittable=0x7f050018;
+        public static final int switcher=0x7f050013;
         public static final int workout_data_added=0x7f050003;
         public static final int workout_definition_id=0x7f050002;
-        public static final int workout_list=0x7f050014;
+        public static final int workout_list=0x7f050017;
         public static final int workout_saved=0x7f050001;
     }
     public static final class layout {
@@ -77,6 +80,7 @@ public final class R {
         public static final int HelperText=0x7f070003;
         public static final int HomeButton=0x7f070000;
         public static final int InputBaseObject=0x7f070006;
+        public static final int PicFlipButton=0x7f07000c;
         public static final int ProgressGraph=0x7f07000b;
         public static final int SmallButton=0x7f070007;
         public static final int TitleText=0x7f070008;

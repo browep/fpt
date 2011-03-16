@@ -2,6 +2,7 @@ package com.github.browep.fpt;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,7 +15,7 @@ import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
 
 import java.io.File;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,104 +24,164 @@ import java.util.Date;
  * Time: 3:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SeePictures extends DaoAwareActivity {
+public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFactory {
 
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    private GestureDetector gestureDetector;
-    View.OnTouchListener gestureListener;
-    private Animation slideLeftIn;
-    private Animation slideLeftOut;
-    private Animation slideRightIn;
-    private Animation slideRightOut;
-    private ViewFlipper viewFlipper;
+    private static final String MORE_PICTURES_MESSAGE = "Take more pictures!";
+    private Bitmap nextBitmap;
+    private Bitmap previousBitmap;
+    private ImageSwitcher mSwitcher;
+    private Button previousButton;
+    private Button nextButton;
+    private Integer index = 0;
+    private List<File> picturesList;
+    private Display display;
+     private SeePictures self = this;
+    private Bitmap currentBitmap;
 
-
+    private Bitmap[] bitmappedImages;
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.see_pictures);
-        slideLeftIn = AnimationUtils.loadAnimation(this, R.anim.slide_left_in);
-        slideLeftOut = AnimationUtils.loadAnimation(this, R.anim.slide_left_out);
-        slideRightIn = AnimationUtils.loadAnimation(this, R.anim.slide_right_in);
-        slideRightOut = AnimationUtils.loadAnimation(this, R.anim.slide_right_out);
 
-        viewFlipper = (ViewFlipper) findViewById(R.id.flipper);
+        previousButton = (Button) findViewById(R.id.previous_button);
+        nextButton = (Button) findViewById(R.id.next_button);
 
-        // get all the pictures
+        previousButton.setOnClickListener(previousButtonOnClickListener);
+        nextButton.setOnClickListener(nextButtonOnClickListener);
+
+
+        mSwitcher = (ImageSwitcher) findViewById(R.id.switcher);
+        mSwitcher.setFactory(this);
+        mSwitcher.setInAnimation(AnimationUtils.loadAnimation(this,
+                android.R.anim.fade_in));
+        mSwitcher.setOutAnimation(AnimationUtils.loadAnimation(this,
+                android.R.anim.fade_out));
+
+        // get the earliest picture
+
         File pictureDirectory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com.github.browep.fpt");
         File[] pictures = pictureDirectory.listFiles();
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        int i = 0;
-        for (File picture : pictures) {
-            Log.i("adding " +  picture.getAbsolutePath());
+        if (pictures.length > 0) {
+            picturesList = new LinkedList<File>();
+            for (File pictureFile : pictures)
+                picturesList.add(pictureFile);
 
-            // inflate the image view container
-            ViewGroup inflatee = (ViewGroup) inflater.inflate(R.layout.image_text_container, viewFlipper, true);
+            Collections.sort(picturesList, new Comparator<File>() {
+                public int compare(File file, File file1) {
+                    return file.getAbsoluteFile().compareTo(file1.getAbsoluteFile());
+                }
+            });
 
-            LinearLayout imageTextContainer = (LinearLayout) inflatee.getChildAt(i);
-
-            // infate the merge view into the imageTextContainer
-            inflater.inflate(R.layout.picture_widget, imageTextContainer, true);
-
-            ImageView imageView = (ImageView) imageTextContainer.findViewById(R.id.progress_image_view);
-
-            Bitmap bitmap = Util.decodeFile(picture,display.getWidth(),display.getHeight());
-            imageView.setImageBitmap(bitmap);
-
-            String pictureName = picture.getName().replace(".jpg","");
-            Date pictureTaken = new Date(Long.parseLong(pictureName));
-            Long deltaDays = (( (new Date()).getTime() - pictureTaken.getTime() ) / C.MILLIS_IN_A_DAY);
-
-            TextView textView = (TextView) imageTextContainer.findViewById(R.id.progress_image_title);
-            textView.setText(deltaDays.toString() + " days ago");
-
-            i++;
-
+            File pictureFile = picturesList.get(index);
+            display = getWindowManager().getDefaultDisplay();
+            currentBitmap = Util.decodeFile(pictureFile);
+            mSwitcher.setImageDrawable(new BitmapDrawable(currentBitmap));
+            updateTextDislay(pictureFile);
+        } else {
+            Util.longToastMessage(this,"Need to add pictures first. Click \"Add a Progress Picture\" on the welcome screen first");
+            finish();
         }
 
-        gestureDetector = new GestureDetector(new MyGestureDetector());
-        gestureListener = new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if (gestureDetector.onTouchEvent(event)) {
-                    return true;
-                }
-                return false;
-            }
-        };
     }
 
-    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            try {
-                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                    return false;
-                // right to left swipe
-                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    viewFlipper.setInAnimation(slideLeftIn);
-                    viewFlipper.setOutAnimation(slideLeftOut);
-                    viewFlipper.showNext();
-                } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    viewFlipper.setInAnimation(slideRightIn);
-                    viewFlipper.setOutAnimation(slideRightOut);
-                    viewFlipper.showPrevious();
-                }
-            } catch (Exception e) {
-                // nothing
+
+    View.OnClickListener nextButtonOnClickListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            if (picturesList.size() > 1) {
+                Bitmap oldNextBitmap = nextBitmap;
+                Bitmap oldCurrentBitmap = currentBitmap;
+
+                mSwitcher.setImageDrawable(new BitmapDrawable(nextBitmap));
+
+                if(index == picturesList.size() -1)
+                    index = 0;
+                else
+                    index += 1;
+
+                File file = picturesList.get(index);
+                Log.i("setting to file " + file.getName());
+                nextBitmap = Util.decodeFile(file);
+                currentBitmap = oldNextBitmap;
+                previousBitmap = oldCurrentBitmap;
+
+                updateTextDislay(file);
+
+            }else{
+                Util.longToastMessage(self, MORE_PICTURES_MESSAGE);
             }
-            return false;
+
         }
+    };
+
+
+    View.OnClickListener previousButtonOnClickListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            if (picturesList.size() > 1) {
+                Bitmap oldCurrentBitmap = currentBitmap;
+                Bitmap oldPreviousBitmap = previousBitmap;
+                mSwitcher.setImageDrawable(new BitmapDrawable(previousBitmap));
+                if(index == 0)
+                    index = picturesList.size() -1;
+                else
+                    index -= 1;
+
+                File file = picturesList.get(index);
+                Log.i("setting to file " + file.getName());
+
+                previousBitmap = Util.decodeFile(file);
+                currentBitmap = oldPreviousBitmap;
+                nextBitmap = oldCurrentBitmap;
+                updateTextDislay(file);
+
+            }else{
+                Util.longToastMessage(self, MORE_PICTURES_MESSAGE);
+            }
+        }
+    };
+
+
+
+    private void updateTextDislay(File file) {
+        try{
+            String name = file.getName().replace(".jpg","");
+            Date date = new Date(Long.parseLong(name));
+            int dateDelta = (int) (((new Date()).getTime() - date.getTime()) / C.MILLIS_IN_A_DAY);
+            TextView pictureTitle = (TextView) findViewById(R.id.picture_title);
+            String title = dateDelta == 0 ? "Today" : dateDelta + " days ago";
+            pictureTitle.setText(title);
+        }   catch (Exception e){
+            Log.e("error with " + file != null ? file.getAbsolutePath() : "null file", e);
+        }
+
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (gestureDetector.onTouchEvent(event))
-            return true;
-        else
-            return false;
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        setupNextImages();
+    }
+
+    private void setupNextImages() {
+        if (picturesList.size() > 1) {
+            Integer nextIndex = index == picturesList.size()-1 ? 0 : index+1;
+            Integer previousIndex = index == 0 ? picturesList.size()-1 : index -1;
+            nextBitmap = Util.decodeFile(picturesList.get(nextIndex));
+            previousBitmap = Util.decodeFile(picturesList.get(previousIndex));
+        }
+
+
+    }
+
+    public View makeView() {
+        ImageView i = new ImageView(this);
+        i.setBackgroundColor(0xFF000000);
+        i.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        i.setLayoutParams(new ImageSwitcher.LayoutParams(Gallery.LayoutParams.MATCH_PARENT,
+                Gallery.LayoutParams.MATCH_PARENT));
+        return i;
     }
 }

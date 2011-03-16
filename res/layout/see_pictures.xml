@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-        >
 
-    <ViewFlipper
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/flipper"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <ImageSwitcher android:id="@+id/switcher"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:layout_alignParentTop="true"
+            />
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+
+
+                  android:gravity="bottom"
+
             >
+        <Button android:id="@+id/previous_button"
+                style="@style/PicFlipButton"
+                android:background="@drawable/layers"
+                android:text="Previous"/>
+        <TextView
+                android:layout_height="39px"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:text=""
+                android:gravity="center"
+                android:background="#AA000000"
+                android:id="@+id/picture_title">
 
-    </ViewFlipper>
-</LinearLayout>
+
+        </TextView>
+        <Button android:id="@+id/next_button"
+                style="@style/PicFlipButton"
+                android:background="@drawable/layers"
+                android:gravity="right|center_vertical"
+
+                android:text="Next"
+                />
+    </LinearLayout>
+</merge>
 

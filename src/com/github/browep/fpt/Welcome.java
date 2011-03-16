@@ -44,7 +44,7 @@ public class Welcome extends DaoAwareActivity
     View.OnClickListener enterDataOnClickListener = new View.OnClickListener() {
         public void onClick(View view) {
             Intent intent = new Intent();
-            intent.setClass(self,SelectWorkout.class);
+            intent.setClass(self,EnterDataChooser.class);
             self.startActivity(intent);
         }
     };

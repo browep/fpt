@@ -23,17 +23,32 @@ public class CreateWorkout2 extends SubmittableActivity {
     static Map<Integer,Integer> WORKOUT_TYPE_TO_FORM_ID = new HashMap<Integer,Integer>();
     private WorkoutDefinition definition;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+    static {
 
         WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_REPS_WORKOUT_TYPE,R.layout.create_workout_reps);
         WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_TIME_WORKOUT_TYPE,R.layout.create_workout_reps);
         WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_DISTANCE_WORKOUT_TYPE,R.layout.create_workout_reps);
         WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE,R.layout.create_workout_reps);
 
-        definition = (WorkoutDefinition) getIntent().getExtras().get(C.WORKOUT_DEFINITION);
-        Log.i("in CreateWorkout2, got this: " + definition.toString());
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+
+        // check to see if this is create or edit
+
+        Bundle extras = getIntent().getExtras();
+        if (extras.get(C.WORKOUT_DEFINITION) != null) {
+            definition = (WorkoutDefinition) extras.get(C.WORKOUT_DEFINITION);
+        } else if (extras.get(C.WORKOUT_DEFINITION_ID) != null) {
+            Integer workoutDefintionId = extras.getInt(C.WORKOUT_DEFINITION_ID);
+            definition = (WorkoutDefinition) dao.get(workoutDefintionId);
+        }else
+            throw new IllegalStateException("could not get a workout definition or workout definition id out of the bundle");
+
+
+
         setContentView(R.layout.submittable);
         LinearLayout wrapper = (LinearLayout) findViewById(R.id.submittable);
         LinearLayout workoutForm;
@@ -55,8 +70,12 @@ public class CreateWorkout2 extends SubmittableActivity {
 
         // grab the details from the form, put into definition, save
         EditText nameBox = (EditText) findViewById(R.id.name_box);
-        definition = (WorkoutDefinition) dao.initialize(definition);
+
+        if(!(definition.getId() > 0)) // we are creating a workout here, need to init it
+            definition = (WorkoutDefinition) dao.initialize(definition);
+
         String name = nameBox.getText().toString();
+
         if (!StringUtils.isEmpty(name)) {
             definition.put(C.WORKOUT_NAME, name);
             dao.save(definition);

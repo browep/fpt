@@ -63,5 +63,10 @@
         <item name="android:background">#FFFFFF</item>
 
     </style>
+    <style name="PicFlipButton" parent="HomeButton">
+        <item name="android:layout_width">96px</item>
+        <item name="android:layout_height">42px</item>
+        <item name="android:layout_margin">0px</item>
+    </style>
 
 </resources>

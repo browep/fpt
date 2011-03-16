@@ -3,7 +3,6 @@ package com.github.browep.fpt.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.widget.Toast;
 
 import java.io.*;
@@ -49,25 +48,35 @@ public class Util {
         }
     }
 
-    public static Bitmap decodeFile(File f, int newWidth, int newHeight) {
-        Bitmap bitmapOrg = BitmapFactory.decodeFile(f.getAbsolutePath());
-        int width = bitmapOrg.getWidth();
-        int height = bitmapOrg.getHeight();
+    public static Bitmap decodeFile(File f) {
+        try {
 
-        // calculate the scale - in this case = 0.4f
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
+            //Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
-        // createa matrix for the manipulation
-        Matrix matrix = new Matrix();
-        // resize the bit map
-        matrix.postScale(scaleWidth, scaleHeight);
+            //The new size we want to scale to
+            final int REQUIRED_SIZE = 256;
 
-        bitmapOrg.recycle();
+            //Find the correct scale value. It should be the power of 2.
+            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int scale = 1;
+            while (true) {
+                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+                    break;
+                width_tmp /= 2;
+                height_tmp /= 2;
+                scale *= 2;
+            }
 
-        // recreate the new Bitmap
-        return Bitmap.createBitmap(bitmapOrg, 0, 0,
-                width, height, matrix, true);
+            //Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {
+        }
+        return null;
     }
 
 }
