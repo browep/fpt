@@ -7,11 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,8 +21,7 @@ import java.util.Map;
  */
 public class AddDataActivity extends SubmittableActivity {
 
-    private static Map<Integer,Integer> WORKOUT_TYPE_TO_EDIT_LAYOUT = new HashMap<Integer,Integer>();
-     private TextView mDateDisplay;
+    private TextView mDateDisplay;
     private Button mPickDate;
     private Calendar mCalendar = Calendar.getInstance();
 
@@ -32,14 +30,6 @@ public class AddDataActivity extends SubmittableActivity {
     private Integer workoutType;
     private WorkoutDefinition definition;
 
-
-    static
-    {
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_DISTANCE_WORKOUT_TYPE,R.layout.add_data_distance);
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_REPS_WORKOUT_TYPE,R.layout.add_data_reps);
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE,R.layout.add_data_max_weight);
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_TIME_WORKOUT_TYPE,R.layout.add_data_time);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +43,7 @@ public class AddDataActivity extends SubmittableActivity {
         definition = (WorkoutDefinition) dao.get(workoutDefinitionId);
         workoutType = (Integer) definition.get(C.WORKOUT_TYPE);
 
-        inflater.inflate( WORKOUT_TYPE_TO_EDIT_LAYOUT.get(workoutType), wrapper, true );
+        inflater.inflate( C.WORKOUT_TYPE_TO_EDIT_LAYOUT.get(workoutType), wrapper, true );
 
         // update the name
         TextView nameDisplay = (TextView) findViewById(R.id.name_display);
@@ -85,10 +75,21 @@ public class AddDataActivity extends SubmittableActivity {
 
             // get the reps and date, create an entry
             String repsText = ((EditText) findViewById(R.id.rep_count)).getText().toString();
+            if(StringUtils.isEmpty(repsText)){
+                Util.longToastMessage(this,"You must enter something into the \"Reps\" box");
+                return;
+            }
+
             Integer reps = Integer.valueOf(repsText);
             workout.put(C.REPS, reps);
             workout.setCreated(mCalendar.getTime());
+
             workout.put(C.WORKOUT_DEFINITION_ID,definition.getId());
+
+            String comment = ((EditText) findViewById(R.id.comment)).getText().toString();
+            if(!StringUtils.isEmpty(comment))
+                workout.put(C.COMMENT,comment);
+
             // create a new workout
 
             dao.save(workout);

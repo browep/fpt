@@ -56,5 +56,19 @@
 
     </LinearLayout>
 
+    <TextView
+              android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          style="@style/HelperText"
+                          android:text="Comment"
+              />
+
+    <EditText
+              android:layout_height="fill_parent"
+              android:layout_width="fill_parent"
+              style="@style/HelperText"
+              android:id="@+id/comment"
+            />
+
 
 </LinearLayout>

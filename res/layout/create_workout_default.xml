@@ -9,7 +9,8 @@
             android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/HelperText"
-                        android:text="Enter the name (Pull Ups, Bench Presses, Squats, etc)"
+
+                        android:id="@+id/name_helper_text"
             />
     <EditText
             android:id="@+id/name_box"

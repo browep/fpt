@@ -80,7 +80,6 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
             mSwitcher.setImageDrawable(new BitmapDrawable(currentBitmap));
             updateTextDislay(pictureFile);
 
-
         } else {
             Util.longToastMessage(this,"Need to add pictures first. Click \"Add a Progress Picture\" on the welcome screen first");
             finish();
@@ -148,7 +147,7 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
             Date date = new Date(Long.parseLong(name));
             int dateDelta = (int) (((new Date()).getTime() - date.getTime()) / C.MILLIS_IN_A_DAY);
             TextView pictureTitle = (TextView) findViewById(R.id.picture_title);
-            String title = dateDelta == 0 ? "Today" : dateDelta + " days ago";
+            String title = dateDelta == 0 ? "Today" : dateDelta + " day"+(dateDelta == 1? "":"s")+" ago";
             pictureTitle.setText(title);
         }   catch (Exception e){
             Log.e("error with " + file != null ? file.getAbsolutePath() : "null file", e);
