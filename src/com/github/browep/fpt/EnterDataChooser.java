@@ -56,7 +56,7 @@ public class EnterDataChooser extends DaoAwareActivity {
 
         public boolean onLongClick(View view) {
             Intent addDataActivity = new Intent();
-            addDataActivity.setClass(self,CreateWorkout2.class);
+            addDataActivity.setClass(self,WorkoutDefinitionForm.class);
             addDataActivity.putExtra(C.WORKOUT_DEFINITION_ID, (Integer) view.getTag(R.id.workout_definition_id));
             startActivityForResult(addDataActivity,R.id.workout_data_added);
             return true;

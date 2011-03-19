@@ -2,6 +2,7 @@ package com.github.browep.fpt;
 
 import com.github.browep.fpt.util.Log;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,14 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class C {
+
+
+    public static final Integer MILLIS_IN_HOURS =  1000 * 60 *60;
+    public static final Integer  MILLIS_IN_MINUTES =  1000 * 60;
+    public static final Integer  MILLIS_IN_SECONDS =  1000;
+    public static final String TIME = "time";
+    public static final String DISTANCE = "distance";
+    public static final String MAX_WEIGHT = "max_weight";
 
     private C(){} // should never be used, every
 
@@ -72,6 +81,25 @@ public class C {
         WORKOUT_TYPE_TO_NAME_LABEL.put(C.FOR_DISTANCE_WORKOUT_TYPE,"Enter the name (Bike Ride, Sunday Run, Rowing)");
         WORKOUT_TYPE_TO_NAME_LABEL.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE,"Enter the name (Max Bench, Max Squat, Max Curl)");
     }
+
+    static HashMap<Integer, String> WORKOUT_TYPE_TO_X_PROP_NAME = new HashMap<Integer, String>();
+    static {
+        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_REPS_WORKOUT_TYPE,C.REPS);
+        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_TIME_WORKOUT_TYPE,C.TIME);
+        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_DISTANCE_WORKOUT_TYPE, DISTANCE);
+        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE, MAX_WEIGHT);
+    }
+
+
+
+    static HashMap<Integer, Format> WORKOUT_TYPE_TO_X_FORMAT = new HashMap<Integer, Format>();
+    static {
+        WORKOUT_TYPE_TO_X_FORMAT.put(C.FOR_DISTANCE_WORKOUT_TYPE,TIME_FORMATTER);
+    }
+
+
+
+
 
 
 

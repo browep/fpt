@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c52d76a5-a625-4006-9a82-82ad4df3b15c" name="Default" comment="" />
+    <list default="true" id="c52d76a5-a625-4006-9a82-82ad4df3b15c" name="Default" comment="workout editing">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/util/FptTimeFormat.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/CreateWorkout2.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/WorkoutDefinitionForm.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/github/browep/fpt/R.java" afterPath="$PROJECT_DIR$/gen/com/github/browep/fpt/R.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/add_data_time.xml" afterPath="$PROJECT_DIR$/res/layout/add_data_time.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/AddDataActivity.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/AddDataActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/C.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/C.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/CreateWorkout.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/CreateWorkout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/EnterDataChooser.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/EnterDataChooser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/SubmittableActivity.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/SubmittableActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/ViewProgress.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/ViewProgress.java" />
+    </list>
+    <list id="d38dac7f-9dbc-46c3-a07a-5127f21e89cb" name="dont check in" comment="" />
     <ignored path="fpt.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,33 +34,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/Dao.java" line="58" class="com.github.browep.fpt.dao.Dao" package="com.github.browep.fpt.dao">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/Storable.java" line="34" class="com.github.browep.fpt.dao.Storable" package="com.github.browep.fpt.dao">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/github/browep/fpt/CreateWorkout2.java" line="58" class="com.github.browep.fpt.CreateWorkout2" package="com.github.browep.fpt">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/github/browep/fpt/SeePictures.java" line="165" class="com.github.browep.fpt.SeePictures" package="com.github.browep.fpt">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -107,8 +95,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -117,37 +105,81 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SelectWorkout.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/SelectWorkout.java">
+      <file leaf-file-name="WorkoutDefinitionForm.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/WorkoutDefinitionForm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="37" selection-start="1938" selection-end="1938" vertical-scroll-proportion="0.0">
+            <state line="81" column="50" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddDataActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AddDataActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/AddDataActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="52" selection-start="805" selection-end="805" vertical-scroll-proportion="0.50442475">
+            <state line="82" column="47" selection-start="2909" selection-end="2909" vertical-scroll-proportion="-2.6">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dao.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/Dao.java">
+      <file leaf-file-name="ViewProgress.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ViewProgress.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="169" column="32" selection-start="5590" selection-end="5590" vertical-scroll-proportion="0.0">
+            <state line="74" column="55" selection-start="2622" selection-end="2622" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FptDateFormat.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/FptDateFormat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="13" selection-start="0" selection-end="866" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FptTimeFormat.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/FptTimeFormat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="49" selection-start="624" selection-end="665" vertical-scroll-proportion="0.6213018">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditText.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/android-sdk-linux_x86/platforms/android-8/android.jar!/android/widget/EditText.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="13" selection-start="152" selection-end="152" vertical-scroll-proportion="-3.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreateWorkout2.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/CreateWorkout2.java">
+      <file leaf-file-name="C.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/C.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="68" selection-start="1306" selection-end="1333" vertical-scroll-proportion="0.0">
+            <state line="92" column="0" selection-start="4117" selection-end="4117" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add_data_time.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/add_data_time.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="92" column="45" selection-start="2813" selection-end="2813" vertical-scroll-proportion="-10.8">
               <folding />
             </state>
           </provider>
@@ -156,53 +188,19 @@
       <file leaf-file-name="SubmittableActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/SubmittableActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="778" selection-end="778" vertical-scroll-proportion="0.0">
+            <state line="21" column="25" selection-start="619" selection-end="619" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add_data_reps.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/add_data_reps.xml">
+      <file leaf-file-name="Util.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/Util.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="20" selection-start="433" selection-end="433" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="add_data_time.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/add_data_time.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="1" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="add_data_max_weight.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/add_data_max_weight.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="1" selection-start="41" selection-end="53" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="add_data_distance.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/add_data_distance.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="1" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="create_workout_reps.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/create_workout_reps.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="28" selection-start="953" selection-end="953" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="31" column="14" selection-start="822" selection-end="825" vertical-scroll-proportion="-2.4">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -221,22 +219,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/C.java" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/dao/AnalyzableActivity.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/Welcome.java" />
-        <option value="$PROJECT_DIR$/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/res/layout/select_workout_button.xml" />
-        <option value="$PROJECT_DIR$/res/layout/select_workout.xml" />
-        <option value="$PROJECT_DIR$/res/layout/add_data.xml" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/SelectWorkout.java" />
+        <option value="$PROJECT_DIR$/res/layout/see_pictures.xml" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/TakeProgressPicture.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/EnterDataChooser.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/SeePictures.java" />
         <option value="$PROJECT_DIR$/res/layout/add_data_reps.xml" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/res/layout/create_workout_default.xml" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/CreateWorkout2.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/Welcome.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/WorkoutDefinitionForm.java" />
         <option value="$PROJECT_DIR$/res/layout/add_data_time.xml" />
-        <option value="$PROJECT_DIR$/res/layout/add_data_max_weight.xml" />
-        <option value="$PROJECT_DIR$/res/layout/add_distance.xml" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/dao/Dao.java" />
-        <option value="$PROJECT_DIR$/res/layout/create_workout_reps.xml" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/SubmittableActivity.java" />
         <option value="$PROJECT_DIR$/src/com/github/browep/fpt/AddDataActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ViewProgress.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/C.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/util/FptTimeFormat.java" />
       </list>
     </option>
   </component>
@@ -251,7 +249,7 @@
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -277,9 +275,9 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Favorites" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -302,6 +300,92 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -321,17 +405,23 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.github.browep.fpt.C" />
+      <recent name="C" />
+    </key>
     <key name="IntroduceConstantDialog.RECENTS_KEY">
+      <recent name="com.github.browep.fpt.C" />
+      <recent name="com.github.browep.fpt.SeePictures" />
       <recent name="com.github.browep.fpt.dao.Dao" />
       <recent name="com.github.browep.fpt.dao.FptSqliteOpener" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.github.browep.fpt.dao" />
       <recent name="com.github.browep.fpt" />
+      <recent name="com.github.browep.fpt.dao" />
     </key>
   </component>
   <component name="RunManager" selected="Android Application.fpt">
@@ -498,9 +588,11 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="c52d76a5-a625-4006-9a82-82ad4df3b15c" name="Default" comment="" />
+      <changelist id="d38dac7f-9dbc-46c3-a07a-5127f21e89cb" name="dont check in" comment="" />
       <created>1298846734227</created>
-      <updated>1298846734227</updated>
+      <updated>1299724353640</updated>
     </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -524,26 +616,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1922" height="1033" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="24" width="1920" height="1032" extended-state="4" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39187706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48076922" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45993415" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24906467" sideWeight="0.27302632" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24933119" sideWeight="0.32711306" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24906467" sideWeight="0.3892544" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24933119" sideWeight="0.27222833" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3223684" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48793858" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32162458" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4873765" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -563,7 +655,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="LAST_COMMIT_MESSAGE" value="this should be versioned" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -576,6 +668,11 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="save data entry (for reps)" />
+    <MESSAGE value="taking pictures, gallery" />
+    <MESSAGE value="picture taking in good state" />
+    <MESSAGE value="picture taking fixed!" />
+    <MESSAGE value="this should be versioned" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -585,87 +682,125 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/Welcome.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="444" selection-end="444" vertical-scroll-proportion="0.0" />
+        <state line="8" column="37" selection-start="234" selection-end="234" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/select_workout_button.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/DaoAwareActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="24" selection-start="131" selection-end="131" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/select_workout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="569" selection-end="569" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/github/browep/fpt/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="32" selection-start="1796" selection-end="1796" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/create_workout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/add_data.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="19" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/SelectWorkout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="37" selection-start="1938" selection-end="1938" vertical-scroll-proportion="0.0" />
+        <state line="20" column="20" selection-start="557" selection-end="557" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/Dao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="32" selection-start="5590" selection-end="5590" vertical-scroll-proportion="0.0" />
+        <state line="45" column="92" selection-start="1613" selection-end="1613" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/CreateWorkout2.java">
+    <entry file="file://$PROJECT_DIR$/gen/com/github/browep/fpt/R.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="68" selection-start="1306" selection-end="1333" vertical-scroll-proportion="0.0" />
+        <state line="29" column="32" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/SubmittableActivity.java">
+    <entry file="jar://$USER_HOME$/android-sdk-linux_x86/platforms/android-8/android.jar!/org/apache/http/impl/conn/DefaultClientConnectionOperator.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="778" selection-end="778" vertical-scroll-proportion="0.0" />
+        <state line="14" column="25" selection-start="874" selection-end="874" vertical-scroll-proportion="-8.4">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/add_data_reps.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/EnterDataChooser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="20" selection-start="433" selection-end="433" vertical-scroll-proportion="0.0" />
+        <state line="33" column="43" selection-start="1164" selection-end="1164" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/WorkoutDefinitionForm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="50" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/android-sdk-linux_x86/platforms/android-8/android.jar!/android/widget/EditText.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="13" selection-start="152" selection-end="152" vertical-scroll-proportion="-3.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/add_data_time.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="1" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/add_data_max_weight.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="1" selection-start="41" selection-end="53" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/add_data_distance.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="1" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/create_workout_reps.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="28" selection-start="953" selection-end="953" vertical-scroll-proportion="0.0">
+        <state line="92" column="45" selection-start="2813" selection-end="2813" vertical-scroll-proportion="-10.8">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/SubmittableActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="25" selection-start="619" selection-end="619" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="14" selection-start="822" selection-end="825" vertical-scroll-proportion="-2.4">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/AddDataActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="52" selection-start="805" selection-end="805" vertical-scroll-proportion="0.50442475">
+        <state line="82" column="47" selection-start="2909" selection-end="2909" vertical-scroll-proportion="-2.6">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/C.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="0" selection-start="4117" selection-end="4117" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ViewProgress.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="55" selection-start="2622" selection-end="2622" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/FptDateFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="13" selection-start="0" selection-end="866" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/FptTimeFormat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="49" selection-start="624" selection-end="665" vertical-scroll-proportion="0.6213018">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -675,7 +810,6 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>unnamed</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -692,7 +826,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>Android (fpt)|Android</last-edited>
+          <last-edited>Android</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

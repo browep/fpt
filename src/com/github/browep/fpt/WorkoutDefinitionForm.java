@@ -15,8 +15,10 @@ import com.github.browep.fpt.util.Util;
  * Time: 10:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CreateWorkout2 extends SubmittableActivity {
+public class WorkoutDefinitionForm extends SubmittableActivity {
     private WorkoutDefinition definition;
+
+    private boolean isEdit = false;
 
 
     @Override
@@ -31,6 +33,7 @@ public class CreateWorkout2 extends SubmittableActivity {
         } else if (extras.get(C.WORKOUT_DEFINITION_ID) != null) {
             Integer workoutDefintionId = extras.getInt(C.WORKOUT_DEFINITION_ID);
             definition = (WorkoutDefinition) dao.get(workoutDefintionId);
+            isEdit=true;
         }else
             throw new IllegalStateException("could not get a workout definition or workout definition id out of the bundle");
 
@@ -48,6 +51,13 @@ public class CreateWorkout2 extends SubmittableActivity {
         TextView nameHelperTextView = (TextView) workoutForm.findViewById(R.id.name_helper_text);
         if(nameHelperTextView != null){
             nameHelperTextView.setText(C.WORKOUT_TYPE_TO_NAME_LABEL.get(workoutType));
+        }
+
+        if(isEdit){ // update the contents
+            ((EditText)workoutForm.findViewById(R.id.name_box)).setText((CharSequence) definition.get(C.WORKOUT_NAME));
+
+            updateSubmitButtonText("Update");
+
         }
 
         wrapper.addView(workoutForm);
@@ -70,7 +80,7 @@ public class CreateWorkout2 extends SubmittableActivity {
         if (!StringUtils.isEmpty(name)) {
             definition.put(C.WORKOUT_NAME, name);
             dao.save(definition);
-            Util.longToastMessage(this,"'" +name + "' has been created. ");
+            Util.longToastMessage(this,"'" +name + "' has been " + (isEdit ? "updated." : "created."));
             finish();
         }
         else{

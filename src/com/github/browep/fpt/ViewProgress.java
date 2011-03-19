@@ -33,6 +33,7 @@ public class ViewProgress extends DaoAwareActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_progress);
 
+        mySimpleXYPlot = (XYPlot) findViewById(R.id.mySimpleXYPlot);
 
         workoutDefinitionId = getIntent().getExtras().getInt(C.WORKOUT_DEFINITION_ID);
         definition = (WorkoutDefinition) dao.get(workoutDefinitionId);
@@ -43,29 +44,25 @@ public class ViewProgress extends DaoAwareActivity{
         Map where = new HashMap();
         where.put(C.WORKOUT_DEFINITION_ID,workoutDefinitionId.toString());
         List<Storable> entries = dao.where(where);
+
+        String xValuePropName = C.WORKOUT_TYPE_TO_X_PROP_NAME.get(definition.getType());
+        if(C.WORKOUT_TYPE_TO_X_FORMAT.get(definition.getType())!=null)
+            mySimpleXYPlot.setRangeValueFormat();
+
         for(Storable storable : entries){
             Workout workout = (Workout) storable;
-            yValues.add((Number) workout.get(C.REPS));
+            yValues.add((Number) workout.get(xValuePropName));
             xValues.add(workout.getCreated().getTime());
         }
 
-        mySimpleXYPlot = (XYPlot) findViewById(R.id.mySimpleXYPlot);
 
         mySimpleXYPlot.setBackgroundColor(Color.TRANSPARENT);
-//        Paint borderPaint = new Paint();
-//        borderPaint.setColor(Color.WHITE);
-//        borderPaint.setAntiAlias(true);
-//        mySimpleXYPlot.setBorderPaint(borderPaint);
+
         mySimpleXYPlot.setDrawBorderEnabled(false);
-
-
-
-
 
         XYSeries series1 = new SimpleXYSeries(
                 xValues,
                 yValues,
-
                 "");
                                  // Create a formatter to use for drawing a series using LineAndPointRenderer:
         LineAndPointFormatter series1Format = new LineAndPointFormatter(
@@ -74,7 +71,6 @@ public class ViewProgress extends DaoAwareActivity{
 
         mySimpleXYPlot.addSeries(series1, series1Format);
         mySimpleXYPlot.setTitle((String) definition.get(C.WORKOUT_NAME));
-
 
         mySimpleXYPlot.setDomainValueFormat( new FptDateFormat());
 

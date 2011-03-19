@@ -22,18 +22,56 @@
 
         <TextView
                 style="@style/FormText"
-                android:text="Reps"
+                android:text="Time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 />
         <EditText
-                android:id="@+id/rep_count"
+                android:id="@+id/hours"
                 style="@style/InputBaseObject"
                 android:layout_width="72px"
                 android:layout_height="wrap_content"
+                android:text="0"
+                android:nextFocusDown="@+id/minutes"
                 android:inputType="number"
                 />
+
+
+        <TextView
+                style="@style/FormText"
+                android:text=":"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        <EditText
+                android:id="@+id/minutes"
+                style="@style/InputBaseObject"
+                android:layout_width="72px"
+                android:layout_height="wrap_content"
+                android:nextFocusDown="@+id/seconds"
+                android:text="0"
+                android:inputType="number"
+                />
+        <TextView
+                style="@style/FormText"
+                android:text=":"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+
+        <EditText
+                android:id="@+id/seconds"
+                style="@style/InputBaseObject"
+                android:layout_width="72px"
+                android:layout_height="wrap_content"
+                android:nextFocusDown="@+id/comments"
+                android:text="0"
+                android:inputType="number"
+                />
+
     </LinearLayout>
 
 

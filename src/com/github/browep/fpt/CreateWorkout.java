@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 
-import java.util.Date;
-
 /**
  * Created by IntelliJ IDEA.
  * User: paul
@@ -49,7 +47,7 @@ public class CreateWorkout extends DaoAwareActivity {
             definition.put(C.WORKOUT_TYPE,type);
 
             createWorkout2.putExtra(C.WORKOUT_DEFINITION, definition);
-            createWorkout2.setClass(self,CreateWorkout2.class);
+            createWorkout2.setClass(self,WorkoutDefinitionForm.class);
             self.startActivityForResult(createWorkout2,R.id.workout_saved);
         }
     };

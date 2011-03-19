@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
 
@@ -69,33 +70,48 @@ public class AddDataActivity extends SubmittableActivity {
     @Override
     public void onSubmit(View view) {
         // get all the data for the
+        Workout workout = (Workout) dao.initialize(new Workout(workoutType));
+
         if (workoutType.equals(C.FOR_REPS_WORKOUT_TYPE)) {
-
-            Workout workout = (Workout) dao.initialize(new Workout(C.FOR_REPS_WORKOUT_TYPE));
-
             // get the reps and date, create an entry
             String repsText = ((EditText) findViewById(R.id.rep_count)).getText().toString();
-            if(StringUtils.isEmpty(repsText)){
-                Util.longToastMessage(this,"You must enter something into the \"Reps\" box");
+            if (StringUtils.isEmpty(repsText)) {
+                Util.longToastMessage(this, "You must enter something into the \"Reps\" box");
                 return;
             }
-
             Integer reps = Integer.valueOf(repsText);
             workout.put(C.REPS, reps);
-            workout.setCreated(mCalendar.getTime());
 
-            workout.put(C.WORKOUT_DEFINITION_ID,definition.getId());
 
-            String comment = ((EditText) findViewById(R.id.comment)).getText().toString();
-            if(!StringUtils.isEmpty(comment))
-                workout.put(C.COMMENT,comment);
+        } else if (workoutType.equals(C.FOR_TIME_WORKOUT_TYPE)) {
+            String hoursStr = ((EditText) findViewById(R.id.hours)).getText().toString();
+            String minutesStr = ((EditText) findViewById(R.id.minutes)).getText().toString();
+            String secondsStr = ((EditText) findViewById(R.id.seconds)).getText().toString();
+            try{
+                Integer hours = Integer.valueOf(StringUtils.isEmpty(hoursStr) ? "0" : hoursStr);
+                Integer minutes = Integer.valueOf(StringUtils.isEmpty(minutesStr) ? "0" : minutesStr);
+                Integer seconds = Integer.valueOf(StringUtils.isEmpty(secondsStr) ? "0" : secondsStr);
 
-            // create a new workout
-
-            dao.save(workout);
-            Util.longToastMessage(this, "Entry saved for \"" + definition.get(C.WORKOUT_NAME) + "\"");
-            finish();
+                int totalMillis = hours * C.MILLIS_IN_HOURS +  minutes * C.MILLIS_IN_MINUTES + seconds * C.MILLIS_IN_SECONDS;
+                workout.put(C.TIME,totalMillis);
+            }
+            catch (Exception e){
+                Log.e("problem with saving time from time workout type",e);
+                Util.longToastMessage(this,"There was a problem with the values you entered for the time, please try again");
+                return;
+            }
         }
+
+        workout.setCreated(mCalendar.getTime());
+
+        workout.put(C.WORKOUT_DEFINITION_ID, definition.getId());
+
+        String comment = ((EditText) findViewById(R.id.comment)).getText().toString();
+        if (!StringUtils.isEmpty(comment))
+            workout.put(C.COMMENT, comment);
+        dao.save(workout);
+        Util.longToastMessage(this, "Entry saved for \"" + definition.get(C.WORKOUT_NAME) + "\"");
+        finish();
 
 
     }
