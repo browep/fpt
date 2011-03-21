@@ -1,0 +1,52 @@
+{
+  "models":
+  {
+    "commentable":
+    {
+      "abstract":true,
+      "id":40,
+      "properties":
+      {"comment":
+      {
+        "name":"comment",
+        "type":"text",
+        "enter-text":"Comment"
+      }
+
+      }
+    },
+    "for_reps":
+    {
+      "id":10,
+      "parent":"commentable",
+      "add_date_template_id":2130903043,
+      "properties":
+      {"reps":
+      {
+        "name":"reps",
+        "view_id":2131099653,
+        "required":true,
+        "failure_message":"You must enter the amount of reps you completed",
+        "type":"integer",
+        "enter-text":"Reps"
+      }
+      }
+    },
+    "for_time":
+    {
+      "id":11,
+      "parent":"commentable",
+      "properties":
+      {"time":
+      {
+        "name":"time",
+        "type":"time",
+        "enter-text":"Time"
+      }
+      }
+    }
+
+
+  }
+
+}

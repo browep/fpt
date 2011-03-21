@@ -94,7 +94,7 @@ public class C {
 
     static HashMap<Integer, Format> WORKOUT_TYPE_TO_X_FORMAT = new HashMap<Integer, Format>();
     static {
-        WORKOUT_TYPE_TO_X_FORMAT.put(C.FOR_DISTANCE_WORKOUT_TYPE,TIME_FORMATTER);
+//        WORKOUT_TYPE_TO_X_FORMAT.put(C.FOR_DISTANCE_WORKOUT_TYPE,TIME_FORMATTER);
     }
 
 

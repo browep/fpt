@@ -3,7 +3,8 @@
       package="com.github.browep.fpt"
       android:versionCode="1"
       android:versionName="1.0">
-    <application android:label="Fitness Progress Tracker" android:icon="@drawable/icon" android:debuggable="true"
+    <application android:name=".FptApp"
+        android:label="Fitness Progress Tracker" android:icon="@drawable/icon" android:debuggable="true"
             >
         <uses-permission android:name="android.permission.INTERNET" />
 

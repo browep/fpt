@@ -46,8 +46,8 @@ public class ViewProgress extends DaoAwareActivity{
         List<Storable> entries = dao.where(where);
 
         String xValuePropName = C.WORKOUT_TYPE_TO_X_PROP_NAME.get(definition.getType());
-        if(C.WORKOUT_TYPE_TO_X_FORMAT.get(definition.getType())!=null)
-            mySimpleXYPlot.setRangeValueFormat();
+//        if(C.WORKOUT_TYPE_TO_X_FORMAT.get(definition.getType())!=null)
+//            mySimpleXYPlot.setRangeValueFormat();
 
         for(Storable storable : entries){
             Workout workout = (Workout) storable;
@@ -55,7 +55,7 @@ public class ViewProgress extends DaoAwareActivity{
             xValues.add(workout.getCreated().getTime());
         }
 
-
+        
         mySimpleXYPlot.setBackgroundColor(Color.TRANSPARENT);
 
         mySimpleXYPlot.setDrawBorderEnabled(false);
