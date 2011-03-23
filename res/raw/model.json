@@ -20,6 +20,7 @@
       "id":10,
       "parent":"commentable",
       "add_date_template_id":2130903043,
+      "x_value_name":"reps",
       "properties":
       {"reps":
       {
