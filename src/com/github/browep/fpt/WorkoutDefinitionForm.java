@@ -1,12 +1,14 @@
 package com.github.browep.fpt;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,76 +18,121 @@ import com.github.browep.fpt.util.Util;
  * To change this template use File | Settings | File Templates.
  */
 public class WorkoutDefinitionForm extends SubmittableActivity {
-    private WorkoutDefinition definition;
+  private WorkoutDefinition definition;
 
-    private boolean isEdit = false;
+  private boolean isEdit = false;
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
 
-        // check to see if this is create or edit
+    // check to see if this is create or edit
 
-        Bundle extras = getIntent().getExtras();
-        if (extras.get(C.WORKOUT_DEFINITION) != null) {
-            definition = (WorkoutDefinition) extras.get(C.WORKOUT_DEFINITION);
-        } else if (extras.get(C.WORKOUT_DEFINITION_ID) != null) {
-            Integer workoutDefintionId = extras.getInt(C.WORKOUT_DEFINITION_ID);
-            definition = (WorkoutDefinition) dao.get(workoutDefintionId);
-            isEdit=true;
-        }else
-            throw new IllegalStateException("could not get a workout definition or workout definition id out of the bundle");
+    Bundle extras = getIntent().getExtras();
+    if (extras.get(C.WORKOUT_DEFINITION) != null) {
+      definition = (WorkoutDefinition) extras.get(C.WORKOUT_DEFINITION);
+    } else if (extras.get(C.WORKOUT_DEFINITION_ID) != null) {
+      Integer workoutDefintionId = extras.getInt(C.WORKOUT_DEFINITION_ID);
+      definition = (WorkoutDefinition) dao.get(workoutDefintionId);
+      isEdit = true;
+    } else
+      throw new IllegalStateException("could not get a workout definition or workout definition id out of the bundle");
 
-        setContentView(R.layout.submittable);
-        LinearLayout wrapper = (LinearLayout) findViewById(R.id.submittable);
-        LinearLayout workoutForm;
-        Integer workoutType = (Integer) definition.get(C.WORKOUT_TYPE);
+    setContentView(R.layout.submittable);
+    LinearLayout wrapper = (LinearLayout) findViewById(R.id.submittable);
+    LinearLayout workoutForm;
+    Integer workoutType = (Integer) definition.get(C.WORKOUT_TYPE);
+    Map model = getViewService().getModel(workoutType);
 
-        if (C.WORKOUT_TYPE_TO_FORM_ID.get(workoutType) == null)
-            throw new IllegalStateException("definition type of  " + workoutType + " could not be determined");
+    Integer definitionFormId = model.get("define_data_template_id") != null ? (Integer) model.get("define_data_template_id") : R.layout.create_workout_default;
+    workoutForm = (LinearLayout) View.inflate(this, definitionFormId, null);
 
-        workoutForm = (LinearLayout) View.inflate(this, C.WORKOUT_TYPE_TO_FORM_ID.get(workoutType), null);
+    // set the helper text
+    TextView nameHelperTextView = (TextView) workoutForm.findViewById(R.id.name_helper_text);
+    if (nameHelperTextView != null) {
+      nameHelperTextView.setText((String) model.get("name_label"));
+    }
 
-        // set the helper text
-        TextView nameHelperTextView = (TextView) workoutForm.findViewById(R.id.name_helper_text);
-        if(nameHelperTextView != null){
-            nameHelperTextView.setText(C.WORKOUT_TYPE_TO_NAME_LABEL.get(workoutType));
+    // make enter in the name hide the keyboard
+    workoutForm.findViewById(R.id.name_box).setOnKeyListener(hideKeyBoardListener);
+
+    RadioGroup radioGroup = (RadioGroup) workoutForm.findViewById(R.id.label_radio);
+    if(radioGroup != null && model.get("possible_labels")  != null){
+      String label = (String) definition.get("label");
+      // fill with all possible labels
+      List<String> possibleLabels = (List<String>) model.get("possible_labels");
+      boolean radioDefaulted = false;
+      for(String possibleLabel : possibleLabels){
+        RadioButton radioButton = new RadioButton(this);
+        radioButton.setTextColor(Color.BLACK);
+        radioButton.setText(possibleLabel);
+        radioGroup.addView(radioButton);
+        if(!StringUtils.isEmpty(label) && label.equals(possibleLabel)){
+          radioButton.setChecked(true);
+          radioDefaulted = true;
         }
-
-        if(isEdit){ // update the contents
-            ((EditText)workoutForm.findViewById(R.id.name_box)).setText((CharSequence) definition.get(C.WORKOUT_NAME));
-
-            updateSubmitButtonText("Update");
-
+        else if(!radioDefaulted)          {
+          radioButton.setChecked(true);
+          radioDefaulted = true;
         }
+      }
 
-        wrapper.addView(workoutForm);
+    }
 
+
+    if (isEdit) { // update the contents
+      ((EditText) workoutForm.findViewById(R.id.name_box)).setText((CharSequence) definition.get(C.WORKOUT_NAME));
+
+      updateSubmitButtonText("Update");
 
 
     }
 
-    @Override
-    public void onSubmit(View view) {
+    wrapper.addView(workoutForm);
 
-        // grab the details from the form, put into definition, save
-        EditText nameBox = (EditText) findViewById(R.id.name_box);
 
-        if(!(definition.getId() > 0)) // we are creating a workout here, need to init it
-            definition = (WorkoutDefinition) dao.initialize(definition);
+  }
 
-        String name = nameBox.getText().toString();
+  @Override
+  public void onSubmit(View view) {
 
-        if (!StringUtils.isEmpty(name)) {
-            definition.put(C.WORKOUT_NAME, name);
-            dao.save(definition);
-            Util.longToastMessage(this,"'" +name + "' has been " + (isEdit ? "updated." : "created."));
-            finish();
-        }
-        else{
-            Util.longToastMessage(this,"You must input a name first");
-        }
+    // grab the details from the form, put into definition, save
+    EditText nameBox = (EditText) findViewById(R.id.name_box);
+
+    if (!(definition.getId() > 0)) // we are creating a workout here, need to init it
+      definition = (WorkoutDefinition) dao.initialize(definition);
+
+    String name = nameBox.getText().toString();
+
+    if (!StringUtils.isEmpty(name)) {
+      definition.put(C.WORKOUT_NAME, name);
+    } else {
+      Util.longToastMessage(this, "You must input a name first");
+      return;
     }
+
+    // look for radio button for distance type
+    RadioGroup radioGroup = (RadioGroup) findViewById(R.id.label_radio);
+    if(radioGroup != null){
+      String selectedText = null;
+      int count = radioGroup.getChildCount();
+      for (int i = 0; i < count; i++) {
+        View o = radioGroup.getChildAt(i);
+        if (o instanceof RadioButton) {
+          RadioButton radioButton = (RadioButton) o;
+          if (radioButton.isChecked()) {
+            selectedText = radioButton.getText().toString();
+          }
+        }
+      }
+
+      definition.put("label",selectedText);
+    }
+
+    dao.save(definition);
+    Util.longToastMessage(this, "'" + name + "' has been " + (isEdit ? "updated." : "created."));
+    finish();
+  }
 }
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              style="@style/BaseScreen"
+              android:layout_height="match_parent" android:orientation="horizontal">
+
+    <TextView android:id="@+id/edit_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+            />
+    <Button android:id="@+id/edit_data_button"
+            android:text="Edit"
+            style="@style/Button_96"
+            ></Button>
+
+    <Button android:id="@+id/delete_data_button"
+            android:text="Delete"
+            style="@style/Button_96"
+            >
+
+    </Button>
+
+
+</LinearLayout>

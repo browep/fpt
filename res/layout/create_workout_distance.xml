@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              style="@style/BaseScreen"
+              android:orientation="vertical"
+              android:layout_height="match_parent">
+    <TextView
+            android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/HelperText"
+
+                        android:id="@+id/name_helper_text"
+            />
+    <EditText
+            android:id="@+id/name_box"
+            style="@style/InputBaseObject"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+        <RadioGroup
+                android:id="@+id/label_radio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <!--<LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal" android:id="@+id/radio_button_container">-->
+
+            <!--</LinearLayout>-->
+
+        </RadioGroup>
+
+
+</LinearLayout>

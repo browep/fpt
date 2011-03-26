@@ -12,6 +12,7 @@ import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
 
 import java.util.Calendar;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,6 +52,12 @@ public class AddDataActivity extends SubmittableActivity {
     TextView nameDisplay = (TextView) findViewById(R.id.name_display);
     nameDisplay.setText((CharSequence) definition.get(C.WORKOUT_NAME));
 
+    Map model = getViewService().getModel(workoutType);
+    if(model.get("possible_labels")!=null){
+      // update the label
+      ((TextView)inflated.findViewById(R.id.count_label)).setText("Number of " + definition.get("label"));
+    }
+
     // capture our View elements
     mDateDisplay = (TextView) findViewById(R.id.date_display);
     mPickDate = (Button) findViewById(R.id.pick_date_button);
@@ -72,34 +79,53 @@ public class AddDataActivity extends SubmittableActivity {
     // get all the data for the
     Workout workout = (Workout) dao.initialize(new Workout(workoutType));
 
-    if (workoutType.equals(C.FOR_REPS_WORKOUT_TYPE)) {
-      // get the reps and date, create an entry
-      String repsText = ((EditText) findViewById(R.id.rep_count)).getText().toString();
-      if (StringUtils.isEmpty(repsText)) {
-        Util.longToastMessage(this, "You must enter something into the \"Reps\" box");
-        return;
-      }
-      Integer reps = Integer.valueOf(repsText);
-      workout.put(C.REPS, reps);
+    // iterate over the properties, add the ones that have an id with them
 
+    Map model = getViewService().getModel((Integer) definition.get("workout_type"));
+    Map<String,Map> props = getViewService().getPropertyDefinition((Integer) model.get("id"));
 
-    } else if (workoutType.equals(C.FOR_TIME_WORKOUT_TYPE)) {
-      String hoursStr = ((EditText) findViewById(R.id.hours)).getText().toString();
-      String minutesStr = ((EditText) findViewById(R.id.minutes)).getText().toString();
-      String secondsStr = ((EditText) findViewById(R.id.seconds)).getText().toString();
-      try {
-        Integer hours = Integer.valueOf(StringUtils.isEmpty(hoursStr) ? "0" : hoursStr);
-        Integer minutes = Integer.valueOf(StringUtils.isEmpty(minutesStr) ? "0" : minutesStr);
-        Integer seconds = Integer.valueOf(StringUtils.isEmpty(secondsStr) ? "0" : secondsStr);
+    for(Map.Entry<String,Map> prop : props.entrySet()){
+      Map propAttributes = prop.getValue();
+      Integer viewId = (Integer) propAttributes.get("view_id");
+      String propType = (String) propAttributes.get("type");
 
-        int totalMillis = hours * C.MILLIS_IN_HOURS + minutes * C.MILLIS_IN_MINUTES + seconds * C.MILLIS_IN_SECONDS;
-        workout.put(C.TIME, totalMillis);
-      } catch (Exception e) {
-        Log.e("problem with saving time from time workout type", e);
-        Util.longToastMessage(this, "There was a problem with the values you entered for the time, please try again");
-        return;
+      if (viewId != null) {
+        View propView = findViewById(viewId);
+        String strValue = ((EditText) propView).getText().toString();
+        if (StringUtils.isEmpty(strValue) && Boolean.TRUE.equals(propAttributes.get("required"))) {
+          Util.longToastMessage(this, (String) propAttributes.get("failure_message"));
+          return;
+        }
+
+        if ("integer".equals(propType))
+          workout.put(prop.getKey(), Integer.parseInt(strValue));
+        else if("float".equals(propType))
+          workout.put(prop.getKey(),Float.parseFloat(strValue));
+        else if (("text".equals(propType) || "string".equals(propType)) && !"comment".equals(prop.getKey())) {
+          String value = ((EditText) propView).getText().toString();
+
+          workout.put(prop.getKey(),value);
+        }
+      }else if("time".equals(propType)){
+        // get hours and minutes and seconds
+        String hoursStr = ((EditText) findViewById(R.id.hours)).getText().toString();
+        String minutesStr = ((EditText) findViewById(R.id.minutes)).getText().toString();
+        String secondsStr = ((EditText) findViewById(R.id.seconds)).getText().toString();
+        try {
+          Integer hours = Integer.valueOf(StringUtils.isEmpty(hoursStr) ? "0" : hoursStr);
+          Integer minutes = Integer.valueOf(StringUtils.isEmpty(minutesStr) ? "0" : minutesStr);
+          Integer seconds = Integer.valueOf(StringUtils.isEmpty(secondsStr) ? "0" : secondsStr);
+
+          int totalMillis = hours * C.MILLIS_IN_HOURS + minutes * C.MILLIS_IN_MINUTES + seconds * C.MILLIS_IN_SECONDS;
+          workout.put(C.TIME, totalMillis);
+        } catch (Exception e) {
+          Log.e("problem with saving time from time workout type", e);
+          Util.longToastMessage(this, "There was a problem with the values you entered for the time, please try again");
+          return;
+        }
       }
     }
+
 
     workout.setCreated(mCalendar.getTime());
 

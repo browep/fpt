@@ -16,8 +16,26 @@ import com.github.browep.fpt.dao.DaoAwareActivity;
  * Time: 12:55 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class SubmittableActivity extends DaoAwareActivity{
-//    SubmittableActivity self = this;
+public abstract class SubmittableActivity extends DaoAwareActivity {
+  protected View.OnKeyListener hideKeyBoardListener = new View.OnKeyListener() {
+    /**
+     * This listens for the user to press the enter button on
+     * the keyboard and then hides the virtual keyboard
+     */
+    public boolean onKey(View arg0, int arg1, KeyEvent event) {
+      // If the event is a key-down event on the "enter" button
+      if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+          (arg1 == KeyEvent.KEYCODE_ENTER)) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(arg0.getWindowToken(), 0);
+        return true;
+      }
+      return false;
+    }
+  };
+
+
+  //    SubmittableActivity self = this;
     public abstract void onSubmit(View view);
 
     @Override
@@ -34,22 +52,7 @@ public abstract class SubmittableActivity extends DaoAwareActivity{
 
         if (commentBox != null) {
             // kill keyboard when enter is pressed
-            commentBox.setOnKeyListener(new View.OnKeyListener() {
-                /**
-                 * This listens for the user to press the enter button on
-                 * the keyboard and then hides the virtual keyboard
-                 */
-                public boolean onKey(View arg0, int arg1, KeyEvent event) {
-                    // If the event is a key-down event on the "enter" button
-                    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                            (arg1 == KeyEvent.KEYCODE_ENTER)) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(commentBox.getWindowToken(), 0);
-                        return true;
-                    }
-                    return false;
-                }
-            });
+          commentBox.setOnKeyListener(hideKeyBoardListener);
         }
     }
 
@@ -58,5 +61,6 @@ public abstract class SubmittableActivity extends DaoAwareActivity{
         doneButton.setText(buttonText);
 
     }
-
 }
+
+

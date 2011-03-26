@@ -59,7 +59,7 @@ public class ModelService {
 
   public Integer getAddDataViewId(Integer modelId){
     Map model = getModel(modelId);
-    return (Integer) model.get("add_date_template_id");
+    return (Integer) model.get("add_data_template_id");
   }
 
   public Map<String,Object> getModel(Integer modelId){

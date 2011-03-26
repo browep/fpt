@@ -2,6 +2,70 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+        >
+
+    <TextView
+            android:id="@+id/name_display"
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    <LinearLayout
+            style="@style/FormRow"
+            >
+
+        <TextView
+                android:id="@+id/count_label"
+                style="@style/FormText"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+        <EditText
+                android:id="@+id/distance_count"
+                style="@style/InputBaseObject"
+                android:layout_width="72px"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                />
+    </LinearLayout>
+
+    <LinearLayout style="@style/FormRow">
+
+        <TextView
+                android:id="@+id/date_display"
+                style="@style/BaseText"
+                android:gravity="center_vertical|left"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                />
+
+        <Button android:id="@+id/pick_date_button"
+                android:text="Change"
+                android:background="@drawable/layers"
+                style="@style/SmallButton"
+
+                />
+
+    </LinearLayout>
+
+    <TextView
+                 android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             style="@style/HelperText"
+                             android:text="Comment"
+                 />
+
+       <EditText
+                 android:layout_height="fill_parent"
+                 android:layout_width="fill_parent"
+                 style="@style/HelperText"
+                 android:id="@+id/comment"
+               />
+
 
 </LinearLayout>

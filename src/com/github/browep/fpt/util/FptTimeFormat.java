@@ -15,18 +15,46 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class FptTimeFormat extends Format {
-    @Override
-    public StringBuffer format(Object o, StringBuffer stringBuffer, FieldPosition fieldPosition) {
-        // assuming this is going to be a number because thats all we will be sending in
-        Number number = (Number) o;
-        Date date = new Date(number.longValue());
+  /**
+   *
+   * @param o should be millis of time
+   * @param stringBuffer
+   * @param fieldPosition
+   * @return
+   */
+  @Override
+  public StringBuffer format(Object o, StringBuffer stringBuffer, FieldPosition fieldPosition) {
 
-        return stringBuffer.append((date.getMonth()+1)+ "/" + date.getDate() );
+    Number number = (Number) o;
+    int totalMillis = number.intValue();
+    // get hours
 
-    }
+    int hours = totalMillis/C.MILLIS_IN_HOURS;
 
-    @Override
-    public Object parseObject(String s, ParsePosition parsePosition) {
-        return s;
-    }
+    totalMillis = totalMillis % C.MILLIS_IN_HOURS;
+
+    // get minutes
+
+    int minutes = totalMillis/C.MILLIS_IN_MINUTES;
+
+    totalMillis = totalMillis%C.MILLIS_IN_MINUTES;
+
+    // get seconds
+
+    int seconds = totalMillis / 1000;
+
+    StringBuffer buffer;
+    if (hours > 0)
+      buffer = (new StringBuffer()).append(hours).append(":").append(String.format("%02d", minutes));
+    else
+      buffer = new StringBuffer(minutes);
+
+    return buffer.append(":").append(String.format("%02d", seconds));
+
+  }
+
+  @Override
+  public Object parseObject(String s, ParsePosition parsePosition) {
+    return s;
+  }
 }

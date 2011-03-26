@@ -32,7 +32,7 @@
                 style="@style/InputBaseObject"
                 android:layout_width="72px"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:maxLength="2"
                 android:nextFocusDown="@+id/minutes"
                 android:inputType="number"
                 />
@@ -51,7 +51,8 @@
                 android:layout_width="72px"
                 android:layout_height="wrap_content"
                 android:nextFocusDown="@+id/seconds"
-                android:text="0"
+                android:maxLength="2"
+
                 android:inputType="number"
                 />
         <TextView
@@ -68,7 +69,9 @@
                 android:layout_width="72px"
                 android:layout_height="wrap_content"
                 android:nextFocusDown="@+id/comments"
-                android:text="0"
+                android:maxLength="2"
+
+
                 android:inputType="number"
                 />
 

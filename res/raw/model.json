@@ -1,53 +1,108 @@
 {
-  "models":
-  {
-    "commentable":
+    "models":
     {
-      "abstract":true,
-      "id":40,
-      "properties":
-      {"comment":
-      {
-        "name":"comment",
-        "type":"text",
-        "enter-text":"Comment"
-      }
+        "commentable":
+        {
+            "abstract":true,
+            "id":40,
+            "properties":
+            {
+                "comment":
+                {
+                    "name":"comment",
+                    "type":"text",
+                    "enter-text":"Comment"
+                }
 
-      }
-    },
-    "for_reps":
-    {
-      "id":10,
-      "parent":"commentable",
-      "add_date_template_id":2130903043,
-      "x_value_name":"reps",
-      "properties":
-      {"reps":
-      {
-        "name":"reps",
-        "view_id":2131099653,
-        "required":true,
-        "failure_message":"You must enter the amount of reps you completed",
-        "type":"integer",
-        "enter-text":"Reps"
-      }
-      }
-    },
-    "for_time":
-    {
-      "id":11,
-      "parent":"commentable",
-      "properties":
-      {"time":
-      {
-        "name":"time",
-        "type":"time",
-        "enter-text":"Time"
-      }
-      }
+            }
+        },
+        "for_reps":
+        {
+            "id":10,
+            "name_label":"Enter the name (Pull Ups, Bench Presses, Squats, etc)",
+            "parent":"commentable",
+            "add_data_template_id":2130903043,
+            "x_value_name":"reps",
+            "y_label":"Count",
+            "properties":
+            {
+                "reps":
+                {
+                    "name":"reps",
+                    "view_id":2131099653,
+                    "required":true,
+                    "failure_message":"You must enter the amount of reps you completed",
+                    "type":"integer",
+                    "enter-text":"Reps"
+                }
+            }
+        },
+        "for_time":
+        {
+            "id":11,
+            "parent":"commentable",
+            "add_data_template_id":2130903044,
+            "name_label":"Enter the name (1000m dash, 8mile run, 60 sit-ups, etc)",
+            "x_value_name":"time",
+            "y_plot_width":56,
+            "y_label":"Time",
+            "properties":
+            {
+                "time":
+                {
+                    "name":"time",
+                    "type":"time",
+                    "enter-text":"Time"
+                }
+            }
+        },
+        "for_distance":
+        {
+            "id":12,
+            "parent":"commentable",
+            "add_data_template_id":2130903041,
+            "define_data_template_id":2130903047,
+            "x_value_name":"distance_amount",
+            "name_label":"Enter the name (Bike Ride, Sunday Run, Rowing)",
+            "y_plot_width":56,
+            "y_label":"Distance",
+            "possible_labels":["km","miles","meters","laps"],
+            "properties":
+            {
+                "distance_amount":
+                {
+                    "name":"distance_amount",
+                    "type":"float",
+                    "required":true,
+                    "enter-text":"Distance",
+                    "view_id":2131099654
+                }
+            }
+        },
+        "for_max_weight":
+        {
+           "id":13,
+            "name_label":"Enter the name (Max Bench, Max Squat, Max Curl)",
+            "parent":"commentable",
+            "add_data_template_id":2130903042,
+            "define_data_template_id":2130903047,
+            "x_value_name":"weight",
+            "y_label":"weight",
+            "possible_labels":["lbs","kg"],
+            "properties":
+            {
+                "weight":
+                {
+                    "name":"weight",
+                    "view_id":2131099658,
+                    "required":true,
+                    "failure_message":"You must enter your max weight for this session",
+                    "type":"float",
+                    "enter-text":"weight"
+                }
+            }
+        }
+
     }
-
-
-  }
 
 }

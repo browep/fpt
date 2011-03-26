@@ -1,5 +1,7 @@
 package com.github.browep.fpt;
 
+import com.github.browep.fpt.dao.FptSqliteOpener;
+import com.github.browep.fpt.util.FptTimeFormat;
 import com.github.browep.fpt.util.Log;
 
 import java.text.Format;
@@ -23,8 +25,9 @@ public class C {
     public static final String TIME = "time";
     public static final String DISTANCE = "distance";
     public static final String MAX_WEIGHT = "max_weight";
+  public static final String X_VALUE_NAME = "x_value_name";
 
-    private C(){} // should never be used, every
+  private C(){} // should never be used, every
 
     public static final String WORKOUT_CLASS = "workout_class";
     public static final Integer FOR_REPS_WORKOUT_TYPE = 10;
@@ -50,51 +53,9 @@ public class C {
     public static final Long MILLIS_IN_A_DAY =86400000L;
     public static final String COMMENT = "comment";
 
-
-    static Map<Integer,Integer> WORKOUT_TYPE_TO_EDIT_LAYOUT = new HashMap<Integer,Integer>();
-
-    static
-    {
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_DISTANCE_WORKOUT_TYPE,R.layout.add_data_distance);
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_REPS_WORKOUT_TYPE,R.layout.add_data_reps);
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE,R.layout.add_data_max_weight);
-        WORKOUT_TYPE_TO_EDIT_LAYOUT.put(C.FOR_TIME_WORKOUT_TYPE,R.layout.add_data_time);
-    }
-
-    static Map<Integer,Integer> WORKOUT_TYPE_TO_FORM_ID = new HashMap<Integer,Integer>();
-
-
-    static {
-
-        Log.i("doing static init");
-        WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_REPS_WORKOUT_TYPE,R.layout.create_workout_default);
-        WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_TIME_WORKOUT_TYPE,R.layout.create_workout_default);
-        WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_DISTANCE_WORKOUT_TYPE,R.layout.create_workout_default);
-        WORKOUT_TYPE_TO_FORM_ID.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE,R.layout.create_workout_default);
-
-    }
-
-    static HashMap<Integer, String> WORKOUT_TYPE_TO_NAME_LABEL = new HashMap<Integer, String>();
-    static {
-        WORKOUT_TYPE_TO_NAME_LABEL.put(C.FOR_REPS_WORKOUT_TYPE,"Enter the name (Pull Ups, Bench Presses, Squats, etc)");
-        WORKOUT_TYPE_TO_NAME_LABEL.put(C.FOR_TIME_WORKOUT_TYPE,"Enter the name (1000m dash, 8mile run, 60 sit-ups, etc)");
-        WORKOUT_TYPE_TO_NAME_LABEL.put(C.FOR_DISTANCE_WORKOUT_TYPE,"Enter the name (Bike Ride, Sunday Run, Rowing)");
-        WORKOUT_TYPE_TO_NAME_LABEL.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE,"Enter the name (Max Bench, Max Squat, Max Curl)");
-    }
-
-    static HashMap<Integer, String> WORKOUT_TYPE_TO_X_PROP_NAME = new HashMap<Integer, String>();
-    static {
-        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_REPS_WORKOUT_TYPE,C.REPS);
-        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_TIME_WORKOUT_TYPE,C.TIME);
-        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_DISTANCE_WORKOUT_TYPE, DISTANCE);
-        WORKOUT_TYPE_TO_X_PROP_NAME.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE, MAX_WEIGHT);
-    }
-
-
-
     static HashMap<Integer, Format> WORKOUT_TYPE_TO_X_FORMAT = new HashMap<Integer, Format>();
     static {
-//        WORKOUT_TYPE_TO_X_FORMAT.put(C.FOR_DISTANCE_WORKOUT_TYPE,TIME_FORMATTER);
+        WORKOUT_TYPE_TO_X_FORMAT.put(C.FOR_TIME_WORKOUT_TYPE,new FptTimeFormat());
     }
 
 
