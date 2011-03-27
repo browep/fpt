@@ -2,7 +2,13 @@
     <item type="id" name="associated_class" />
     <item type="id" name="workout_saved" />
     <item type="id" name="workout_definition_id" />
+    <item type="id" name="workout_definition_name" />
     <item type="id" name="workout_data_added" />
     <item type="id" name="workout_entry_id" />
+    <item type="id" name="view_parent" />
+    <item type="id" name="view_parent_2" />
+    <item type="id" name="data_entered" />
+    <item type="id" name="workout_modified" />
+
 
 </resources>

@@ -25,5 +25,9 @@ public class DaoAwareActivity extends AnalyzableActivity {
     return ((FptApp)getApplication()).getModelService();
   }
 
+  public Integer getIdResource(String name){
+    return ((FptApp)getApplication()).getIdResource(name );
+  }
+
 
 }

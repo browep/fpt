@@ -18,4 +18,8 @@ public class FptApp extends Application{
   public ModelService getModelService() {
     return modelService;
   }
+
+  public int getIdResource(String name){
+    return getResources().getIdentifier(name,"id",getPackageName());
+  }
 }

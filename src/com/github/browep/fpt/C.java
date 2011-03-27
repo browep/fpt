@@ -26,6 +26,8 @@ public class C {
     public static final String DISTANCE = "distance";
     public static final String MAX_WEIGHT = "max_weight";
   public static final String X_VALUE_NAME = "x_value_name";
+  public static final String Y_LABEL = "y_label";
+  public static final String WORKOUT_ENTRY_ID = "workout_entry_id";
 
   private C(){} // should never be used, every
 
@@ -57,11 +59,6 @@ public class C {
     static {
         WORKOUT_TYPE_TO_X_FORMAT.put(C.FOR_TIME_WORKOUT_TYPE,new FptTimeFormat());
     }
-
-
-
-
-
 
 
 }

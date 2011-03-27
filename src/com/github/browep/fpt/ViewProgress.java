@@ -13,6 +13,7 @@ import com.github.browep.fpt.dao.DaoAwareActivity;
 import com.github.browep.fpt.dao.Storable;
 import com.github.browep.fpt.util.FptDateFormat;
 import com.github.browep.fpt.util.StringUtils;
+import com.github.browep.fpt.util.Util;
 
 import java.util.*;
 
@@ -28,7 +29,6 @@ public class ViewProgress extends DaoAwareActivity {
   Integer workoutDefinitionId;
   WorkoutDefinition definition;
   private XYPlot xyPlot;
-
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class ViewProgress extends DaoAwareActivity {
 
     Map where = new HashMap();
     where.put(C.WORKOUT_DEFINITION_ID, workoutDefinitionId.toString());
-    List<Storable> entries = dao.where(where);
+    List<Storable> entries = Util.sortByModified(dao.where(where));
 
     String xValuePropName = (String) model.get("x_value_name");
 

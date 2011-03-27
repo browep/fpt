@@ -9,7 +9,7 @@
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="Welcome to your Personal Fitness Tracker"
+    android:text="Welcome to your Simple Workout Tracker"
     style="@style/BaseText"
 
     />

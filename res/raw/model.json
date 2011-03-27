@@ -29,7 +29,7 @@
                 "reps":
                 {
                     "name":"reps",
-                    "view_id":2131099653,
+                    "view_id":"rep_count",
                     "required":true,
                     "failure_message":"You must enter the amount of reps you completed",
                     "type":"integer",
@@ -75,7 +75,7 @@
                     "type":"float",
                     "required":true,
                     "enter-text":"Distance",
-                    "view_id":2131099654
+                    "view_id":"distance_count"
                 }
             }
         },
@@ -87,14 +87,14 @@
             "add_data_template_id":2130903042,
             "define_data_template_id":2130903047,
             "x_value_name":"weight",
-            "y_label":"weight",
+            "y_label":"Weight",
             "possible_labels":["lbs","kg"],
             "properties":
             {
                 "weight":
                 {
                     "name":"weight",
-                    "view_id":2131099658,
+                    "view_id":"weight",
                     "required":true,
                     "failure_message":"You must enter your max weight for this session",
                     "type":"float",

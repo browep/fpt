@@ -68,7 +68,7 @@
                 style="@style/InputBaseObject"
                 android:layout_width="72px"
                 android:layout_height="wrap_content"
-                android:nextFocusDown="@+id/comments"
+                android:nextFocusDown="@+id/comment"
                 android:maxLength="2"
 
 

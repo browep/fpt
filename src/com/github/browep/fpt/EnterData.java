@@ -21,7 +21,7 @@ import java.util.Map;
  * Time: 7:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AddDataActivity extends SubmittableActivity {
+public class EnterData extends SubmittableActivity {
 
   private TextView mDateDisplay;
   private Button mPickDate;
@@ -31,6 +31,8 @@ public class AddDataActivity extends SubmittableActivity {
 
   private Integer workoutType;
   private WorkoutDefinition definition;
+  private boolean isEdit;
+  private Workout existingWorkout;
 
 
   @Override
@@ -40,6 +42,14 @@ public class AddDataActivity extends SubmittableActivity {
     setContentView(R.layout.submittable);
     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     LinearLayout wrapper = (LinearLayout) findViewById(R.id.submittable);
+
+    Integer workoutEntryId = (Integer) getIntent().getExtras().get(C.WORKOUT_ENTRY_ID);
+    isEdit = false;
+    if(workoutEntryId != null){
+      isEdit = true;
+      existingWorkout = (Workout) dao.get(workoutEntryId);
+
+    }
 
     Integer workoutDefinitionId = (Integer) getIntent().getExtras().get(C.WORKOUT_DEFINITION);
     definition = (WorkoutDefinition) dao.get(workoutDefinitionId);
@@ -77,7 +87,7 @@ public class AddDataActivity extends SubmittableActivity {
   @Override
   public void onSubmit(View view) {
     // get all the data for the
-    Workout workout = (Workout) dao.initialize(new Workout(workoutType));
+    Workout workout = isEdit ? existingWorkout : (Workout) dao.initialize(new Workout(workoutType));
 
     // iterate over the properties, add the ones that have an id with them
 
@@ -86,10 +96,11 @@ public class AddDataActivity extends SubmittableActivity {
 
     for(Map.Entry<String,Map> prop : props.entrySet()){
       Map propAttributes = prop.getValue();
-      Integer viewId = (Integer) propAttributes.get("view_id");
+      String viewIdName = (String) propAttributes.get("view_id");
+      int viewId = StringUtils.isEmpty(viewIdName) ? 0 : getIdResource(viewIdName);
       String propType = (String) propAttributes.get("type");
 
-      if (viewId != null) {
+      if (viewId > 0) {
         View propView = findViewById(viewId);
         String strValue = ((EditText) propView).getText().toString();
         if (StringUtils.isEmpty(strValue) && Boolean.TRUE.equals(propAttributes.get("required"))) {
@@ -143,7 +154,45 @@ public class AddDataActivity extends SubmittableActivity {
 
   // updates the date in the TextView
   private void updateDisplay() {
-    mDateDisplay.setText(C.DISPLAY_FORMAT.format(mCalendar.getTime()));
+    if (!isEdit) {
+      mDateDisplay.setText(C.DISPLAY_FORMAT.format(mCalendar.getTime()));
+    } else {
+      mDateDisplay.setText(C.DISPLAY_FORMAT.format(existingWorkout.getCreated()));
+
+      Map model = getViewService().getModel((Integer) definition.get("workout_type"));
+      Map<String, Map> props = getViewService().getPropertyDefinition((Integer) model.get("id"));
+
+      for (Map.Entry<String, Map> prop : props.entrySet()) {
+        Map propAttributes = prop.getValue();
+        String viewIdName = (String) propAttributes.get("view_id");
+        int viewId = StringUtils.isEmpty(viewIdName) ? 0 : getIdResource(viewIdName);
+        String propType = (String) propAttributes.get("type");
+
+        if (viewId > 0) {
+          View propView = findViewById(viewId);
+
+          if ("integer".equals(propType))
+            ((EditText)propView).setText(existingWorkout.get(prop.getKey()).toString());
+          else if ("float".equals(propType))
+
+            ((EditText)propView).setText(existingWorkout.get(prop.getKey()).toString());
+          else if (("text".equals(propType) || "string".equals(propType)) && !"comment".equals(prop.getKey())) {
+            ((EditText)propView).setText(existingWorkout.get(prop.getKey()).toString());
+          }
+        } else if ("time".equals(propType)) {
+          Number value = (Number) existingWorkout.get(prop.getKey());
+          int[] values = Util.splitToHoursMinSec(value);
+          ((EditText)findViewById(R.id.hours)).setText(String.valueOf(values[0]));
+          ((EditText)findViewById(R.id.minutes)).setText(String.valueOf(values[1]));
+          ((EditText)findViewById(R.id.seconds)).setText(String.valueOf(values[2]));
+        }
+      }
+
+      String comment = (String) existingWorkout.get(C.COMMENT);
+      if(!StringUtils.isEmpty(comment))
+        ((EditText) findViewById(R.id.comment)).setText(comment);
+
+    }
 
   }
 

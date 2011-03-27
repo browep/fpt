@@ -4,8 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.Toast;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.dao.Storable;
 
 import java.io.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -79,4 +84,39 @@ public class Util {
         return null;
     }
 
+  public static int[] splitToHoursMinSec(Number number) {
+    int totalMillis = number.intValue();
+    // get hours
+
+    int hours = totalMillis/ C.MILLIS_IN_HOURS;
+
+    totalMillis = totalMillis % C.MILLIS_IN_HOURS;
+
+    // get minutes
+
+    int minutes = totalMillis/ C.MILLIS_IN_MINUTES;
+
+    totalMillis = totalMillis% C.MILLIS_IN_MINUTES;
+
+    // get seconds
+
+    int seconds = totalMillis / 1000;
+
+    int[] values = new int[3];
+    values[0] = hours;
+    values[1] = minutes;
+    values[2] = seconds;
+    return values;
+  }
+
+  static Comparator<Storable> byModifiedComparator = new Comparator<Storable>(){
+    public int compare(Storable storable, Storable storable1) {
+      return storable.getCreated().compareTo(storable1.getCreated());
+    }
+  };
+
+  public static List<Storable> sortByModified(List<Storable> storables){
+    Collections.sort(storables, byModifiedComparator );
+    return storables;
+  }
 }

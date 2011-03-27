@@ -69,9 +69,14 @@
         <item name="android:layout_margin">0px</item>
     </style>
     <style name="Button_96" parent="HomeButton">
-        <item name="android:layout_width">96px</item>
+        <item name="android:layout_width">78px</item>
         <item name="android:layout_height">42px</item>
-        <item name="android:layout_margin">0px</item>
+
+        <!--<item name="android:layout_marginLeft">0px</item>-->
+        <!--<item name="android:layout_marginRight">2px</item>-->
+        <!--<item name="android:layout_marginBottom">0px</item>-->
+        <!--<item name="android:layout_marginTop">3px</item>-->
+        <item name="android:layout_margin">1px</item>
     </style>
 
 </resources>
