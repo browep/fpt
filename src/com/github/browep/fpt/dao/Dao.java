@@ -59,6 +59,7 @@ public class Dao {
 
       ContentValues values = new ContentValues();
 
+      values.put("created", SQL_FORMAT.format(storable.getCreated()));
       values.put("modified", SQL_FORMAT.format(storable.getModified()));
       values.put("data", storable.serialize());
 

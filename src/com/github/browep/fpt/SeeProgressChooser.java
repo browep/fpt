@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 import com.github.browep.fpt.dao.Storable;
+import com.github.browep.fpt.util.Util;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -67,7 +70,16 @@ public class SeeProgressChooser extends FptActivity {
 
   private View.OnClickListener selectOnClickListener = new View.OnClickListener() {
     public void onClick(final View view) {
+      final Integer id = (Integer) view.getTag(R.id.workout_definition_id);
 
+      // check to see if ther are actually any entries for this one, display message and finish if no
+      Map where = new HashMap();
+      where.put(C.WORKOUT_DEFINITION_ID, id.toString());
+      List<Storable> entries = Util.sortByModified(dao.where(where));
+      if(entries.size() == 0){
+        Util.longToastMessage(self,"You dont't have any entries for this workout yet.");
+        return;
+      }
 
       AlertDialog.Builder builder = new AlertDialog.Builder(self);
       builder.setCancelable(true);
@@ -79,7 +91,6 @@ public class SeeProgressChooser extends FptActivity {
         public void onClick(DialogInterface dialog, int which) {
           dialog.dismiss();
           Intent intent = new Intent();
-          Integer id = (Integer) view.getTag(R.id.workout_definition_id);
           intent.putExtra(C.WORKOUT_DEFINITION_ID, id);
           intent.setClass(self, ViewProgress.class);
           startActivity(intent);
@@ -89,7 +100,6 @@ public class SeeProgressChooser extends FptActivity {
       builder.setNegativeButton("Table", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
           Intent intent = new Intent(self, EditData.class);
-          Integer id = (Integer) view.getTag(R.id.workout_definition_id);
           intent.putExtra(C.WORKOUT_DEFINITION_ID, id);
           startActivity(intent);
           dialog.dismiss();

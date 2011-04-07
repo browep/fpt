@@ -158,6 +158,7 @@ public class EnterData extends SubmittableActivity {
       mDateDisplay.setText(C.DISPLAY_FORMAT.format(mCalendar.getTime()));
     } else {
       mDateDisplay.setText(C.DISPLAY_FORMAT.format(existingWorkout.getCreated()));
+      mCalendar.setTime(existingWorkout.getCreated());
 
       Map model = getViewService().getModel((Integer) definition.get("workout_type"));
       Map<String, Map> props = getViewService().getPropertyDefinition((Integer) model.get("id"));
@@ -206,7 +207,7 @@ public class EnterData extends SubmittableActivity {
           mCalendar.set(Calendar.YEAR, year);
           mCalendar.set(Calendar.MONTH, monthOfYear);
           mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-          updateDisplay();
+          mDateDisplay.setText(C.DISPLAY_FORMAT.format(mCalendar.getTime()));
         }
       };
 

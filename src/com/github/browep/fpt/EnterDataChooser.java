@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import com.github.browep.fpt.dao.Storable;
+import com.github.browep.fpt.util.Util;
 
 import java.util.List;
 
@@ -30,6 +31,14 @@ public class EnterDataChooser extends FptActivity {
     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     List<Storable> definitions = dao.getByType(C.WORKOUT_DEFINITION_TYPE);
+
+    // if there are no workout definitions, show message and close
+    if(definitions.size() == 0){
+      Util.longToastMessage(this,"You must define a workout first.  Click \"Define a New Workout\"");
+      finish();
+    }
+
+
     int i = 0;
     for (Storable definition : definitions) {
       Button selectButton = (Button) ((LinearLayout) inflater.inflate(R.layout.select_workout_button, wrapper, true)).getChildAt(i);
