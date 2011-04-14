@@ -1,4 +1,4 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
+import com.github.browep.fpt.model.Workout;
+import com.github.browep.fpt.model.WorkoutDefinition;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;

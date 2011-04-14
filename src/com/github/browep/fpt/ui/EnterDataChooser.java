@@ -1,4 +1,4 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
 import com.github.browep.fpt.dao.Storable;
 import com.github.browep.fpt.util.Util;
 

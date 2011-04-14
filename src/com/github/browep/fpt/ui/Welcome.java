@@ -1,10 +1,21 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import com.github.browep.fpt.R;
+import com.github.browep.fpt.UploadImageTask;
 import com.github.browep.fpt.dao.DaoAwareActivity;
+import com.github.browep.fpt.dao.FptSqliteOpener;
+import com.github.browep.fpt.util.Log;
+import com.github.browep.fpt.util.Util;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 public class Welcome extends DaoAwareActivity {
   private Welcome self = this;
@@ -15,7 +26,6 @@ public class Welcome extends DaoAwareActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
 
     dao.dumpDbToLog();
 
@@ -32,6 +42,31 @@ public class Welcome extends DaoAwareActivity {
 
     Button takeProgressPicture = (Button) findViewById(R.id.progress_picture);
     takeProgressPicture.setOnClickListener(takeProgressPictureOnClickListener);
+
+  }
+
+  private void dumpDataAsJson() {
+    File publicFilesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+
+    File dbFile = new File( "/data/data/"+ getApplication().getPackageName() + "/databases/" + FptSqliteOpener.getDbName());
+
+    Log.i("dbFile size: " + dbFile.length());
+
+    Util.copyfile(dbFile.getAbsolutePath(),publicFilesDir.getAbsolutePath() + "/main_db");
+
+    try {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+      StringBuilder sb = new StringBuilder("{\"models\":");
+      (new ObjectMapper()).writeValue(baos, getViewService().getModels());
+      sb.append(baos.toString()).append(",").append(dao.dataToJson()).append("}");
+      Log.i(sb.toString());
+
+    } catch (IOException e) {
+      Log.e("", e);
+    }
+
 
   }
 

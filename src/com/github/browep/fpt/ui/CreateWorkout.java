@@ -1,8 +1,11 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
+import com.github.browep.fpt.model.WorkoutDefinition;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 
 /**

@@ -5,15 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.github.browep.fpt.C;
-import com.github.browep.fpt.Workout;
-import com.github.browep.fpt.WorkoutDefinition;
+import com.github.browep.fpt.model.Workout;
+import com.github.browep.fpt.model.WorkoutDefinition;
 import com.github.browep.fpt.util.Log;
-import com.sun.corba.se.spi.orb.StringPair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-import org.json.JSONTokener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -144,7 +139,7 @@ public class Dao {
     try {
       db = getOrOpen();
 
-      Cursor cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, null, null, null, null, null);
+      Cursor cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, null, null, null, null, null,"10000");
       cursor.move(1);
       while (!cursor.isAfterLast()) {
         StringBuilder sb = new StringBuilder();
@@ -153,7 +148,7 @@ public class Dao {
         cursor.move(1);
       }
 
-      cursor = db.query(INDEXES_TABLE_NAME, new String[]{"ROWID", "instance_id", "path"}, null, null, null, null, null);
+      cursor = db.query(INDEXES_TABLE_NAME, new String[]{"ROWID", "instance_id", "path"}, null, null, null, null, null,"100000");
       cursor.move(1);
       while (!cursor.isAfterLast()) {
         StringBuilder sb = new StringBuilder();
@@ -296,6 +291,65 @@ public class Dao {
     } finally {
       db.close();
     }
+  }
+
+
+  public String dataToJson()  {
+    StringBuilder sb = new StringBuilder();
+
+    try {
+      // get all the definitions
+      int type = 5;
+      String outputStr = innerDataToJson(type,false);
+      sb.append("\"definitions\":").append(outputStr);
+
+      // get all the workout entries
+      outputStr = innerDataToJson(type,true);
+      sb.append(",\"workouts\":").append(outputStr);
+    } catch (IOException e) {
+      Log.e("", e);
+    }
+
+    return sb.toString();
+
+
+  }
+
+  private String innerDataToJson(int type,boolean notType) throws IOException {
+    List<Map> definitions = new LinkedList<Map>();
+    ByteArrayOutputStream baos;
+    try {
+      db = getOrOpen();
+      String whereStr = notType ? " type IS NOT ? " : " type IS ?";
+
+      Cursor definitionCursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, whereStr, new String[]{String.valueOf(type)}, null, null, null);
+      definitionCursor.move(1);
+      while (!definitionCursor.isAfterLast()) {
+        try {
+          Map instance = new HashMap();
+          instance.put("id", definitionCursor.getInt(0));
+          instance.put("type", definitionCursor.getString(1));
+          instance.put("created", definitionCursor.getString(2));
+          instance.put("modified", definitionCursor.getString(3));
+          String data = definitionCursor.getString(4);
+          Map dataMap = (new ObjectMapper()).readValue(data, HashMap.class);
+
+          instance.put("data", dataMap);
+          definitions.add(instance);
+        } catch (IOException e) {
+          Log.e("", e);
+        }
+
+        definitionCursor.move(1);
+      }
+
+      baos = new ByteArrayOutputStream();
+      (new ObjectMapper()).writeValue(baos, definitions);
+    } finally {
+      db.close();
+    }
+
+    return baos.toString();
   }
 
 

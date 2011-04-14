@@ -1,4 +1,4 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import com.github.browep.fpt.R;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 
 /**

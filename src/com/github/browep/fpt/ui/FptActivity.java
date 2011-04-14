@@ -1,10 +1,12 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 import com.github.browep.fpt.dao.Storable;
 import com.github.browep.fpt.util.Util;

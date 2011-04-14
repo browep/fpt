@@ -1,7 +1,6 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import com.github.browep.fpt.dao.DaoAwareActivity;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
 import com.github.browep.fpt.dao.Storable;
 import com.github.browep.fpt.util.Util;
 
@@ -35,7 +35,7 @@ public class SeeProgressChooser extends FptActivity {
     setContentView(R.layout.select_workout);
     LinearLayout wrapper = (LinearLayout) findViewById(R.id.workout_list);
 
-    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
     // add see pictures button
     Button selectButton = (Button) ((LinearLayout) inflater.inflate(R.layout.select_workout_button, wrapper, true)).getChildAt(0);

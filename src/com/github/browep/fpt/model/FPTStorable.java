@@ -1,4 +1,4 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

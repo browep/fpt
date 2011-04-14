@@ -1,22 +1,21 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.github.browep.fpt.dao.DaoAwareActivity;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
+import com.github.browep.fpt.model.WorkoutDefinition;
 import com.github.browep.fpt.dao.Storable;
 import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
 
 import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

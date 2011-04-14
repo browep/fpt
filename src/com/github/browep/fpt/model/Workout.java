@@ -1,6 +1,7 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.model;
 
 import android.os.Parcel;
+import com.github.browep.fpt.C;
 import com.github.browep.fpt.util.Log;
 import org.json.JSONException;
 

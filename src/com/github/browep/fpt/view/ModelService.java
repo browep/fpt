@@ -1,25 +1,14 @@
 package com.github.browep.fpt.view;
 
-import android.os.Environment;
-import android.util.Xml;
 import android.view.View;
 import android.widget.EditText;
 import com.github.browep.fpt.FptApp;
 import com.github.browep.fpt.R;
-import com.github.browep.fpt.Workout;
-import com.github.browep.fpt.util.Log;
-import com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl;
+import com.github.browep.fpt.model.Workout;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ModelService {
@@ -88,4 +77,7 @@ public class ModelService {
 
   }
 
+  public Map<String, Map> getModels() {
+    return models;
+  }
 }

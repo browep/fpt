@@ -1,9 +1,13 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
+import com.github.browep.fpt.model.WorkoutDefinition;
+import com.github.browep.fpt.ui.SubmittableActivity;
 import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
 

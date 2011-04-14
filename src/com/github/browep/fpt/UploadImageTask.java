@@ -1,17 +1,21 @@
 package com.github.browep.fpt;
 
 import android.os.AsyncTask;
-import android.util.Base64;
+import com.github.browep.fpt.model.FptPicture;
 import com.github.browep.fpt.util.Log;
-import com.github.browep.fpt.util.Util;
-import sun.net.www.protocol.https.HttpsURLConnectionImpl;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.impl.client.DefaultHttpClient;
 
-import javax.imageio.ImageIO;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.io.File;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.util.EntityUtils;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,83 +24,61 @@ import java.net.URLEncoder;
  * Time: 12:39 AM
  * To change this template use File | Settings | File Templates.
  */
-public class UploadImageTask extends AsyncTask<File, Void, String> {
-  protected String doInBackground(File... files) {
+public class UploadImageTask extends AsyncTask<UploadImageTask.UploadImageTaskPackage, Void, String> {
+  protected String doInBackground(UploadImageTaskPackage... uploadImageTaskPackages) {
 
-    File imageFile = files[0];
-    Log.i("starting upload for " + imageFile);
+    UploadImageTaskPackage uploadImageTaskPackage = uploadImageTaskPackages[0];
 
+    FptApp fptApp = uploadImageTaskPackage.getFptApp();
 
-    try {
+    for (FptPicture fptPicture : uploadImageTaskPackage.getFptPictures()) {
+
+      File imageFile = new File((String) fptPicture.get("name"));
+      Log.i("starting upload for " + imageFile);
+
       // Creates Byte Array from picture
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      URL url = new URL("http://api.imgur.com/2/upload.json");
+      try {
 
-      //encodes picture with Base64 and inserts api key
-      String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(Base64.encode(Util.getBytesFromFile(imageFile), Base64.DEFAULT).toString(), "UTF-8");
-      data += "&" + URLEncoder.encode("key", "UTF-8") + "=" + URLEncoder.encode(C.IMGUR_API_KEY, "UTF-8");
-
-      // opens connection and sends data
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
-//      conn.setRequestProperty("Accept","*/*");
-
-      conn.setDoOutput(true);
-      conn.setDoInput(true);
-      OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-
-      out.write(data);
-      out.close();
-
-      InputStream inputStream = conn.getErrorStream();
-//      InputStream inputStream = conn.getErrorStream();
-      InputStreamReader inputStreamReader = new InputStreamReader(
-          inputStream);
-      BufferedReader in = new BufferedReader(
-          inputStreamReader);
-
-      String decodedString;
-      Log.i("reading from imgur input stream");
-      while ((decodedString = in.readLine()) != null) {
-        Log.i(decodedString);
+        HttpClient client = new DefaultHttpClient();
+        String postURL = "http://" + C.UPLOAD_HOSTNAME + "/reports/image?editor_id=enRlK&key=OK&filename=" + imageFile.getName();
+        Log.i("posting to: " + postURL);
+        HttpPost post = new HttpPost(postURL);
+        FileBody bin = new FileBody(imageFile);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        reqEntity.addPart("myFile", bin);
+        post.setEntity(reqEntity);
+        HttpResponse response = client.execute(post);
+        HttpEntity resEntity = response.getEntity();
+        if (resEntity != null) {
+          Log.i("RESPONSE:" + EntityUtils.toString(resEntity));
+        }
+      } catch (Exception e) {
+        Log.e("error uploading " + imageFile, e);
       }
-      in.close();
-      return null;
 
-    } catch (IOException e) {
-      Log.e("error uploading " + imageFile.getAbsolutePath(), e);
     }
     return null;
+
   }
 
   protected void onPostExecute(File result) {
   }
+
+  public static class UploadImageTaskPackage {
+
+    FptApp fptApp;
+    FptPicture[] files;
+    public UploadImageTaskPackage(FptApp fptApp, FptPicture[] files) {
+      this.fptApp = fptApp;
+      this.files = files;
+    }
+
+    public FptApp getFptApp() {
+      return fptApp;
+    }
+
+    public FptPicture[] getFptPictures() {
+      return files;
+    }
+  }
 }
-//
-//  URL url = new URL("http://api.imgur.com/2/upload");
-//
-//         // + URLEncoder.encode(new String(Base64.encode(Util.getBytesFromFile(imageFile), Base64.DEFAULT)), "UTF-8");
-//         String data = URLEncoder.encode("image", "UTF-8") + "=" ;
-//
-//         BufferedInputStream bis = new BufferedInputStream( new FileInputStream( imageFile ) );
-//
-//
-//         URLConnection conn = url.openConnection();
-//         BufferedReader in = new BufferedReader(
-//             new InputStreamReader(
-//                 conn.getInputStream()));
-//
-//         conn.setDoOutput(true);
-//         OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-//
-//         wr.write(data);
-//         int i;
-//            // read byte by byte until end of stream
-//            while ((i = bis.read()) != -1)
-//            {
-//               wr.write(i);
-//            }
-//
-//         wr.write("&" + URLEncoder.encode("key", "UTF-8") + "=" + URLEncoder.encode(C.IMGUR_API_KEY, "UTF-8"));
-//
-//         wr.flush();

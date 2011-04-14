@@ -1,4 +1,4 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -10,9 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import com.github.browep.fpt.UploadImageTask;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
+import com.github.browep.fpt.model.FptPicture;
 
 import java.io.*;
 import java.util.Date;
@@ -86,8 +88,10 @@ public class TakeProgressPicture extends DaoAwareActivity {
         Log.i("copied to " + writeToFile.getAbsolutePath());
 
         Bitmap thumbBitmap = Util.decodeFile(writeToFile);
+        File thumbFile = new File(thumbsDirPath + "/" + fileName);
+
         try {
-          thumbBitmap.compress(Bitmap.CompressFormat.JPEG,100,new FileOutputStream(new File(thumbsDirPath + "/" + fileName)));
+          thumbBitmap.compress(Bitmap.CompressFormat.JPEG,100,new FileOutputStream(thumbFile));
         } catch (FileNotFoundException e) {
           Log.e("trying to save thumb", e);
         }
@@ -95,6 +99,10 @@ public class TakeProgressPicture extends DaoAwareActivity {
         Util.longToastMessage(this, "Picture saved successfully");
 
         finish();
+
+        // try to upload
+        FptPicture fptPicture = (FptPicture) dao.initialize(new FptPicture(thumbFile));
+        new UploadImageTask().execute(fptPicture);
 
       } else {
         Util.longToastMessage(this, "Picture was not taken");

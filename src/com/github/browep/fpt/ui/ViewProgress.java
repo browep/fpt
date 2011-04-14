@@ -1,4 +1,4 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +9,10 @@ import com.androidplot.series.XYSeries;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
+import com.github.browep.fpt.model.Workout;
+import com.github.browep.fpt.model.WorkoutDefinition;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 import com.github.browep.fpt.dao.Storable;
 import com.github.browep.fpt.util.FptDateFormat;

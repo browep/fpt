@@ -1,19 +1,17 @@
-package com.github.browep.fpt;
+package com.github.browep.fpt.ui;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.*;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.R;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
