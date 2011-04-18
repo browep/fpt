@@ -51,12 +51,12 @@ public class EnterData extends SubmittableActivity {
     isEdit = false;
     if(workoutEntryId != null){
       isEdit = true;
-      existingWorkout = (Workout) dao.get(workoutEntryId);
+      existingWorkout = (Workout) getDao().get(workoutEntryId);
 
     }
 
     Integer workoutDefinitionId = (Integer) getIntent().getExtras().get(C.WORKOUT_DEFINITION);
-    definition = (WorkoutDefinition) dao.get(workoutDefinitionId);
+    definition = (WorkoutDefinition) getDao().get(workoutDefinitionId);
     workoutType = (Integer) definition.get(C.WORKOUT_TYPE);
 
     Integer addDataViewId = getViewService().getAddDataViewId(workoutType);
@@ -91,7 +91,7 @@ public class EnterData extends SubmittableActivity {
   @Override
   public void onSubmit(View view) {
     // get all the data for the
-    Workout workout = isEdit ? existingWorkout : (Workout) dao.initialize(new Workout(workoutType));
+    Workout workout = isEdit ? existingWorkout : (Workout) getDao().initialize(new Workout(workoutType));
 
     // iterate over the properties, add the ones that have an id with them
 
@@ -149,7 +149,7 @@ public class EnterData extends SubmittableActivity {
     String comment = ((EditText) findViewById(R.id.comment)).getText().toString();
     if (!StringUtils.isEmpty(comment))
       workout.put(C.COMMENT, comment);
-    dao.save(workout);
+    getDao().save(workout);
     Util.longToastMessage(this, "Entry saved for \"" + definition.get(C.WORKOUT_NAME) + "\"");
     finish();
 

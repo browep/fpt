@@ -42,7 +42,7 @@ public class ViewProgress extends DaoAwareActivity {
     xyPlot = (XYPlot) findViewById(R.id.mySimpleXYPlot);
 
     workoutDefinitionId = getIntent().getExtras().getInt(C.WORKOUT_DEFINITION_ID);
-    definition = (WorkoutDefinition) dao.get(workoutDefinitionId);
+    definition = (WorkoutDefinition) getDao().get(workoutDefinitionId);
 
     List<Number> yValues = new LinkedList<Number>();
     List<Number> xValues = new LinkedList<Number>();
@@ -51,7 +51,7 @@ public class ViewProgress extends DaoAwareActivity {
 
     Map where = new HashMap();
     where.put(C.WORKOUT_DEFINITION_ID, workoutDefinitionId.toString());
-    List<Storable> entries = Util.sortByModified(dao.where(where));
+    List<Storable> entries = Util.sortByModified(getDao().where(where));
 
     String xValuePropName = (String) model.get("x_value_name");
 

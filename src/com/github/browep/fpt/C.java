@@ -32,6 +32,8 @@ public class C {
   public static final String FILE_NAME = "file_name";
   public static final String IMGUR_API_KEY = "7d30320d0311853f5a0e99fdd08c2001";
   public static final String UPLOAD_HOSTNAME = "192.168.0.184:3000";
+  public static final String URL = "url";
+  public static final String UPLOADED = "uploaded";
 
   private C() {
   } // should never be used

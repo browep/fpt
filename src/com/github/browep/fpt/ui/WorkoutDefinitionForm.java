@@ -38,7 +38,7 @@ public class WorkoutDefinitionForm extends SubmittableActivity {
       definition = (WorkoutDefinition) extras.get(C.WORKOUT_DEFINITION);
     } else if (extras.get(C.WORKOUT_DEFINITION_ID) != null) {
       Integer workoutDefintionId = extras.getInt(C.WORKOUT_DEFINITION_ID);
-      definition = (WorkoutDefinition) dao.get(workoutDefintionId);
+      definition = (WorkoutDefinition) getDao().get(workoutDefintionId);
       isEdit = true;
     } else
       throw new IllegalStateException("could not get a workout definition or workout definition id out of the bundle");
@@ -105,7 +105,7 @@ public class WorkoutDefinitionForm extends SubmittableActivity {
     EditText nameBox = (EditText) findViewById(R.id.name_box);
 
     if (!(definition.getId() > 0)) // we are creating a workout here, need to init it
-      definition = (WorkoutDefinition) dao.initialize(definition);
+      definition = (WorkoutDefinition) getDao().initialize(definition);
 
     String name = nameBox.getText().toString();
 
@@ -134,7 +134,7 @@ public class WorkoutDefinitionForm extends SubmittableActivity {
       definition.put("label",selectedText);
     }
 
-    dao.save(definition);
+    getDao().save(definition);
     Util.longToastMessage(this, "'" + name + "' has been " + (isEdit ? "updated." : "created."));
     finish();
   }

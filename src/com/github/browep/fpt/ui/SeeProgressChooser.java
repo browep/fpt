@@ -42,7 +42,7 @@ public class SeeProgressChooser extends FptActivity {
     selectButton.setOnClickListener(seePicturesOnClickListener);
     selectButton.setText("See Your Pictures");
 
-    List<Storable> definitions = dao.getByType(C.WORKOUT_DEFINITION_TYPE);
+    List<Storable> definitions = getDao().getByType(C.WORKOUT_DEFINITION_TYPE);
     int i = 1;
     for (Storable definition : definitions) {
       selectButton = (Button) ((LinearLayout) inflater.inflate(R.layout.select_workout_button, wrapper, true)).getChildAt(i);
@@ -75,7 +75,7 @@ public class SeeProgressChooser extends FptActivity {
       // check to see if ther are actually any entries for this one, display message and finish if no
       Map where = new HashMap();
       where.put(C.WORKOUT_DEFINITION_ID, id.toString());
-      List<Storable> entries = Util.sortByModified(dao.where(where));
+      List<Storable> entries = Util.sortByModified(getDao().where(where));
       if(entries.size() == 0){
         Util.longToastMessage(self,"You dont't have any entries for this workout yet.");
         return;

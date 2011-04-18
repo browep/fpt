@@ -54,41 +54,14 @@ public class TakeProgressPicture extends DaoAwareActivity {
         ProgressDialog dialog = ProgressDialog.show(this, "",
             "Saving Picture...", true);
 
-
         //use imageUri here to access the image
         File imageFile = convertImageUriToFile(imageUri, this);
         Log.i("image file: " + imageFile.toString());
 
-        // put them into the extra directory
-        File externalStorageBase = Environment.getExternalStorageDirectory();
-
-        File fptExternalStorageDir = new File(externalStorageBase + "/com.github.browep.fpt");
-        if (!fptExternalStorageDir.exists()) {
-          // create the directory
-          boolean dirCreateSuccess = fptExternalStorageDir.mkdir();
-          if (!dirCreateSuccess)
-            throw new RuntimeException(fptExternalStorageDir.getAbsolutePath() + "  was not created");
-        }
-
-        // look to see if the thumbs dir is there if not create it.
-        String thumbsDirPath = externalStorageBase + "/com.github.browep.fpt/thumbs";
-        File fptExternalStorageThumbDir = new File(thumbsDirPath);
-        if (!fptExternalStorageThumbDir.exists()) {
-          // create the directory
-          boolean dirCreateSuccess = fptExternalStorageThumbDir.mkdir();
-          if (!dirCreateSuccess)
-            throw new RuntimeException(fptExternalStorageThumbDir.getAbsolutePath() + "  was not created");
-        }
-
-        // copy file contents to app dir
+        Bitmap thumbBitmap = Util.decodeFile(imageFile);
         String fileName = ((Long) (new Date()).getTime()).toString() + ".jpg";
-        File writeToFile = new File(fptExternalStorageDir + "/" + fileName);
-        Util.copyfile(imageFile.getAbsolutePath(), writeToFile.getAbsolutePath());
 
-        Log.i("copied to " + writeToFile.getAbsolutePath());
-
-        Bitmap thumbBitmap = Util.decodeFile(writeToFile);
-        File thumbFile = new File(thumbsDirPath + "/" + fileName);
+        File thumbFile = new File(Util.getThumbsDirectory() + "/" + fileName);
 
         try {
           thumbBitmap.compress(Bitmap.CompressFormat.JPEG,100,new FileOutputStream(thumbFile));
@@ -101,8 +74,8 @@ public class TakeProgressPicture extends DaoAwareActivity {
         finish();
 
         // try to upload
-        FptPicture fptPicture = (FptPicture) dao.initialize(new FptPicture(thumbFile));
-        new UploadImageTask().execute(fptPicture);
+        FptPicture fptPicture = (FptPicture) getDao().initialize(new FptPicture(thumbFile));
+        new UploadImageTask().execute(new UploadImageTask.UploadImageTaskPackage(getFptApplication(),new FptPicture[]{fptPicture}));
 
       } else {
         Util.longToastMessage(this, "Picture was not taken");

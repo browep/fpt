@@ -40,7 +40,7 @@ public class EditData extends FptActivity {
 
     Integer defintionId = getIntent().getExtras().getInt(C.WORKOUT_DEFINITION_ID);
 
-    definition = (WorkoutDefinition) dao.get(defintionId);
+    definition = (WorkoutDefinition) getDao().get(defintionId);
 
     Map model = getViewService().getModel((Integer) definition.get(C.WORKOUT_TYPE));
 
@@ -56,7 +56,7 @@ public class EditData extends FptActivity {
 
     Map where = new HashMap();
     where.put(C.WORKOUT_DEFINITION_ID, defintionId.toString());
-    List<Storable> entries = Util.sortByModified(dao.where(where));
+    List<Storable> entries = Util.sortByModified(getDao().where(where));
 
     LinearLayout wrapper = (LinearLayout) findViewById(R.id.edit_data_list);
 
@@ -139,7 +139,7 @@ public class EditData extends FptActivity {
 
       builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
-          dao.delete((Integer) view.getTag(R.id.workout_entry_id));
+          getDao().delete((Integer) view.getTag(R.id.workout_entry_id));
           View parentView = (View) view.getTag(R.id.view_parent);
           parentView.setVisibility(View.GONE);
           View commentView = (View) view.getTag(R.id.view_parent_2);

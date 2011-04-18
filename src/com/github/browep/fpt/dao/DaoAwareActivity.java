@@ -13,12 +13,10 @@ import com.github.browep.fpt.view.ModelService;
  * To change this template use File | Settings | File Templates.
  */
 public class DaoAwareActivity extends AnalyzableActivity {
-  protected Dao dao;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
-    dao = new Dao(getApplicationContext());
   }
 
   public ModelService getViewService(){
@@ -29,5 +27,11 @@ public class DaoAwareActivity extends AnalyzableActivity {
     return ((FptApp)getApplication()).getIdResource(name );
   }
 
+  public Dao getDao() {
+    return ((FptApp)getApplication()).getDao();
+  }
 
+  public FptApp getFptApplication(){
+    return  ((FptApp)getApplication());
+  }
 }

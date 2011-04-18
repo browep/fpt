@@ -32,7 +32,7 @@ public class EnterDataChooser extends FptActivity {
 
     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-    List<Storable> definitions = dao.getByType(C.WORKOUT_DEFINITION_TYPE);
+    List<Storable> definitions = getDao().getByType(C.WORKOUT_DEFINITION_TYPE);
 
     // if there are no workout definitions, show message and close
     if(definitions.size() == 0){

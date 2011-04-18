@@ -90,12 +90,12 @@ public abstract class FptActivity extends DaoAwareActivity{
 
     Map where = new HashMap();
     where.put(C.WORKOUT_DEFINITION_ID, workoutDefintionId.toString());
-    List<Storable> entries = dao.where(where);
+    List<Storable> entries = getDao().where(where);
     for(Storable entry: entries)
-        dao.delete(entry.getId());
+        getDao().delete(entry.getId());
 
     // delete the actual workout definition
-    dao.delete(workoutDefintionId);
+    getDao().delete(workoutDefintionId);
   }
 
 

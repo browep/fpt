@@ -27,7 +27,7 @@ public class Welcome extends DaoAwareActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    dao.dumpDbToLog();
+    getDao().dumpDbToLog();
 
     setContentView(R.layout.main);
 
@@ -60,7 +60,7 @@ public class Welcome extends DaoAwareActivity {
 
       StringBuilder sb = new StringBuilder("{\"models\":");
       (new ObjectMapper()).writeValue(baos, getViewService().getModels());
-      sb.append(baos.toString()).append(",").append(dao.dataToJson()).append("}");
+      sb.append(baos.toString()).append(",").append(getDao().dataToJson()).append("}");
       Log.i(sb.toString());
 
     } catch (IOException e) {

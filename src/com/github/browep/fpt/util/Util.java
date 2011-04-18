@@ -3,6 +3,7 @@ package com.github.browep.fpt.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.widget.Toast;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.dao.Storable;
@@ -155,4 +156,8 @@ public static byte[] getBytesFromFile(File file) throws IOException {
     is.close();
     return bytes;
 }
+
+  public static String getThumbsDirectory() {
+    return Environment.getExternalStorageDirectory() + "/com.github.browep.fpt/thumbs";
+  }
 }

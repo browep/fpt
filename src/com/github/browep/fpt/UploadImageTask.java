@@ -3,6 +3,7 @@ package com.github.browep.fpt;
 import android.os.AsyncTask;
 import com.github.browep.fpt.model.FptPicture;
 import com.github.browep.fpt.util.Log;
+import com.github.browep.fpt.util.Util;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -33,7 +34,7 @@ public class UploadImageTask extends AsyncTask<UploadImageTask.UploadImageTaskPa
 
     for (FptPicture fptPicture : uploadImageTaskPackage.getFptPictures()) {
 
-      File imageFile = new File((String) fptPicture.get("name"));
+      File imageFile = new File(Util.getThumbsDirectory() + "/" + fptPicture.get(C.FILE_NAME));
       Log.i("starting upload for " + imageFile);
 
       // Creates Byte Array from picture
@@ -50,7 +51,11 @@ public class UploadImageTask extends AsyncTask<UploadImageTask.UploadImageTaskPa
         HttpResponse response = client.execute(post);
         HttpEntity resEntity = response.getEntity();
         if (resEntity != null) {
-          Log.i("RESPONSE:" + EntityUtils.toString(resEntity));
+          String responseString = EntityUtils.toString(resEntity).trim();
+          Log.i("RESPONSE:" + responseString);
+          fptPicture.put(C.URL,responseString);
+          fptPicture.put(C.UPLOADED,true);
+          fptApp.getDao().save(fptPicture);
         }
       } catch (Exception e) {
         Log.e("error uploading " + imageFile, e);

@@ -28,7 +28,7 @@ public class FptPicture extends FPTStorable {
   public FptPicture(File file) {
     super();
     put(C.FILE_NAME, file.getName());
-    put("uploaded",false);
+    put(C.UPLOADED,false);
   }
 
   @Override
@@ -39,7 +39,7 @@ public class FptPicture extends FPTStorable {
   @Override
   public List<String> getIndexBys() {
     List<String> indexes = new LinkedList<String>();
-    indexes.add(toIndexPathFormat("uploaded",Boolean.toString((Boolean) get("uploaded"))));
+    indexes.add(toIndexPathFormat(C.UPLOADED,Boolean.toString((Boolean) get(C.UPLOADED))));
     indexes.add(toIndexPathFormat("ispic", "true"));
     return indexes;
   }
