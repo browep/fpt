@@ -27,7 +27,7 @@ public class Welcome extends DaoAwareActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    getDao().dumpDbToLog();
+//    getDao().dumpDbToLog();
 
     setContentView(R.layout.main);
 
@@ -101,5 +101,11 @@ public class Welcome extends DaoAwareActivity {
       self.startActivity(intent);
     }
   };
+
+
+  @Override
+  public String getPageName() {
+    return "Welcome";
+  }
 }
 

@@ -87,6 +87,13 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
       finish();
     }
 
+
+    getFptApplication().getTracker().trackEvent(
+           "Picture",  // Category
+           "Viewed",  // Action
+          null, // Label
+           0 );
+
   }
 
 
@@ -228,5 +235,11 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
     AlertDialog alert = builder.create();
     alert.show();
     return true;
+  }
+
+
+  @Override
+  public String getPageName() {
+    return "SeePictures";
   }
 }

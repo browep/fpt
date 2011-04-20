@@ -153,6 +153,12 @@ public class EnterData extends SubmittableActivity {
     Util.longToastMessage(this, "Entry saved for \"" + definition.get(C.WORKOUT_NAME) + "\"");
     finish();
 
+    getFptApplication().getTracker().trackEvent(
+           "Workout",  // Category
+           "Data Entered",  // Action
+           (String)definition.get(C.WORKOUT_NAME), // Label
+           0 );
+
 
   }
 
@@ -224,5 +230,11 @@ public class EnterData extends SubmittableActivity {
             mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
     }
     return null;
+  }
+
+
+  @Override
+  public String getPageName() {
+    return "EnterData";
   }
 }

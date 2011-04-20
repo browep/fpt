@@ -128,4 +128,10 @@ public class SeeProgressChooser extends FptActivity {
       finish();
     }
   }
+
+
+  @Override
+  public String getPageName() {
+    return "SeeProgressChooser";
+  }
 }

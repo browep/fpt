@@ -61,4 +61,9 @@ public class CreateWorkout extends DaoAwareActivity {
         super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
         finish();
     }
+
+  @Override
+  public String getPageName() {
+    return "CreateWorkout";
+  }
 }

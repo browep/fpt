@@ -80,4 +80,10 @@ public class EnterDataChooser extends FptActivity {
       startActivity(new Intent(self,EnterDataChooser.class));
     finish();
   }
+
+
+  @Override
+  public String getPageName() {
+    return "EnterDataChooser";
+  }
 }

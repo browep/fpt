@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import com.github.browep.fpt.C;
 import com.github.browep.fpt.UploadImageTask;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 import com.github.browep.fpt.util.Log;
@@ -74,8 +75,15 @@ public class TakeProgressPicture extends DaoAwareActivity {
         finish();
 
         // try to upload
-        FptPicture fptPicture = (FptPicture) getDao().initialize(new FptPicture(thumbFile));
-        new UploadImageTask().execute(new UploadImageTask.UploadImageTaskPackage(getFptApplication(),new FptPicture[]{fptPicture}));
+//        FptPicture fptPicture = (FptPicture) getDao().initialize(new FptPicture(thumbFile));
+//        new UploadImageTask().execute(new UploadImageTask.UploadImageTaskPackage(getFptApplication(),new FptPicture[]{fptPicture}));
+
+
+    getFptApplication().getTracker().trackEvent(
+           "Picture",  // Category
+           "Taken",  // Action
+          null, // Label
+           0 );
 
       } else {
         Util.longToastMessage(this, "Picture was not taken");
@@ -105,5 +113,11 @@ public class TakeProgressPicture extends DaoAwareActivity {
         cursor.close();
       }
     }
+  }
+
+
+  @Override
+  public String getPageName() {
+    return "TakeProgressPicture";
   }
 }

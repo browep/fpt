@@ -12,7 +12,7 @@ import com.github.browep.fpt.view.ModelService;
  * Time: 6:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DaoAwareActivity extends AnalyzableActivity {
+public abstract class DaoAwareActivity extends AnalyzableActivity {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -31,7 +31,5 @@ public class DaoAwareActivity extends AnalyzableActivity {
     return ((FptApp)getApplication()).getDao();
   }
 
-  public FptApp getFptApplication(){
-    return  ((FptApp)getApplication());
-  }
+
 }

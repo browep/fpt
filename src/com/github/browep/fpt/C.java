@@ -55,6 +55,7 @@ public class C {
   public static final String WORKOUT_DEFINITION_ID = "workout_definition_id";
   public static final String WORKOUT_NAME = "workout_name";
   public static final String FLURRY_ID = "PJ4JF52Q57JRP84IIGAY";
+  public static final String GOOGLE_ANALYTICS_ID = "UA-10324101-13";
   public static final String REPS = "reps";
   public static final SimpleDateFormat DISPLAY_FORMAT = new SimpleDateFormat("EEEEE, MMMMM dd, yyyy");
   public static final SimpleDateFormat GRAPH_DISPLAY_FORMAT = new SimpleDateFormat("MM/dd/yy");

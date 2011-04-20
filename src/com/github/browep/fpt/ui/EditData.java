@@ -103,6 +103,13 @@ public class EditData extends FptActivity {
       i++;
     }
 
+
+    getFptApplication().getTracker().trackEvent(
+           "Workout",  // Category
+           "Table Viewed",  // Action
+           (String)definition.get(C.WORKOUT_NAME), // Label
+           0 );
+
   }
 
 
@@ -159,5 +166,11 @@ public class EditData extends FptActivity {
     }
   };
 
+
+
+  @Override
+  public String getPageName() {
+    return "EditData";
+  }
 
 }

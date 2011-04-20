@@ -137,6 +137,19 @@ public class WorkoutDefinitionForm extends SubmittableActivity {
     getDao().save(definition);
     Util.longToastMessage(this, "'" + name + "' has been " + (isEdit ? "updated." : "created."));
     finish();
+
+
+    getFptApplication().getTracker().trackEvent(
+           "Workout",  // Category
+           "Created",  // Action
+           (String)definition.get(C.WORKOUT_NAME), // Label
+           0 );
+  }
+
+
+  @Override
+  public String getPageName() {
+    return "WorkoutDefinitionForm";
   }
 }
 

@@ -101,6 +101,13 @@ public class ViewProgress extends DaoAwareActivity {
     xyPlot.disableAllMarkup();
 
 
+    getFptApplication().getTracker().trackEvent(
+           "Workout",  // Category
+           "Graph Viewed",  // Action
+           (String)definition.get(C.WORKOUT_NAME), // Label
+           0 );
+
+
   }
 
   @Override
@@ -116,5 +123,11 @@ public class ViewProgress extends DaoAwareActivity {
     intent.putExtra(C.WORKOUT_DEFINITION_ID, definition.getId());
     startActivity(intent);
     return true;
+  }
+
+
+  @Override
+  public String getPageName() {
+    return "ViewProgress";
   }
 }
