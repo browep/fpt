@@ -37,11 +37,10 @@ public class UploadImageTask extends AsyncTask<UploadImageTask.UploadImageTaskPa
       File imageFile = new File(Util.getThumbsDirectory() + "/" + fptPicture.get(C.FILE_NAME));
       Log.i("starting upload for " + imageFile);
 
-      // Creates Byte Array from picture
       try {
 
         HttpClient client = new DefaultHttpClient();
-        String postURL = "http://" + C.UPLOAD_HOSTNAME + "/reports/image?editor_id=enRlK&key=OK&filename=" + imageFile.getName();
+        String postURL = "http://" + C.UPLOAD_HOSTNAME + "/reports/upload?editor_id=enRlK&key=OK&filename=" + imageFile.getName();
         Log.i("posting to: " + postURL);
         HttpPost post = new HttpPost(postURL);
         FileBody bin = new FileBody(imageFile);

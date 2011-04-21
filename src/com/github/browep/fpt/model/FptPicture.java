@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.model.FPTStorable;
 import com.github.browep.fpt.util.Log;
+import com.github.browep.nosql.Dao;
 import org.json.JSONException;
 
 import java.io.File;
@@ -25,10 +26,23 @@ public class FptPicture extends FPTStorable {
     super(data);
   }
 
-  public FptPicture(File file) {
+  public FptPicture() {
     super();
-    put(C.FILE_NAME, file.getName());
-    put(C.UPLOADED,false);
+  }
+
+  public static FptPicture fptPictureFromFile(File file,Dao dao) {
+    FptPicture fptPicture = null;
+    try {
+      fptPicture = (FptPicture) dao.initialize(FptPicture.class);
+    } catch (IllegalAccessException e) {
+      Log.e("", e);
+    } catch (InstantiationException e) {
+      Log.e("", e);
+    }
+    fptPicture.put(C.FILE_NAME, file.getName());
+    fptPicture.put(C.UPLOADED, false);
+    dao.save(fptPicture);
+    return fptPicture;
   }
 
   @Override
@@ -41,6 +55,7 @@ public class FptPicture extends FPTStorable {
     List<String> indexes = new LinkedList<String>();
     indexes.add(toIndexPathFormat(C.UPLOADED,Boolean.toString((Boolean) get(C.UPLOADED))));
     indexes.add(toIndexPathFormat("ispic", "true"));
+    indexes.add(toIndexPathFormat(C.FILE_NAME, (String) get(C.FILE_NAME)));
     return indexes;
   }
 

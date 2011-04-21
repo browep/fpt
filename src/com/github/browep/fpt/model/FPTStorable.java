@@ -1,8 +1,7 @@
 package com.github.browep.fpt.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
-import com.github.browep.fpt.dao.Storable;
+import com.github.browep.nosql.Storable;
 import com.github.browep.fpt.util.Log;
 import org.json.JSONException;
 

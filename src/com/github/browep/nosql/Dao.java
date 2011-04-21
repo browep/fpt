@@ -1,13 +1,13 @@
-package com.github.browep.fpt.dao;
+package com.github.browep.nosql;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.github.browep.fpt.C;
+import com.github.browep.fpt.model.FptPicture;
 import com.github.browep.fpt.model.Workout;
 import com.github.browep.fpt.model.WorkoutDefinition;
-import com.github.browep.fpt.util.Log;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.ByteArrayOutputStream;
@@ -30,6 +30,7 @@ public class Dao {
   private static Map<Integer, Class> CLASS_TO_TYPE = new HashMap<Integer, Class>();
   private static final SimpleDateFormat SQL_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   Context self;
+  private String dbName = NoSqlSqliteOpener.DB_NAME;
 
   static {
     CLASS_TO_TYPE.put(C.FOR_DISTANCE_WORKOUT_TYPE, Workout.class);
@@ -37,12 +38,16 @@ public class Dao {
     CLASS_TO_TYPE.put(C.FOR_MAX_WEIGHT_WORKOUT_TYPE, Workout.class);
     CLASS_TO_TYPE.put(C.FOR_REPS_WORKOUT_TYPE, Workout.class);
     CLASS_TO_TYPE.put(C.WORKOUT_DEFINITION_TYPE, WorkoutDefinition.class);
+    CLASS_TO_TYPE.put(C.PICTURE_TYPE, FptPicture.class);
   }
 
   public Dao(Context context) {
-//        FptSqliteOpener fptSqliteOpener = new FptSqliteOpener(context);
-//        db = fptSqliteOpener.getWritableDatabase();
     self = context;
+  }
+
+  public Dao(Context context,String dbName) {
+    self = context;
+    this.dbName = dbName;
   }
 
 
@@ -129,9 +134,8 @@ public class Dao {
   }
 
   public SQLiteDatabase getOrOpen() {
-    return db != null && db.isOpen() ? db : (new FptSqliteOpener(self)).getWritableDatabase();
+    return db != null && db.isOpen() ? db : (new NoSqlSqliteOpener(self,dbName)).getWritableDatabase();
   }
-
 
   public void dumpDbToLog() {
 
@@ -293,27 +297,6 @@ public class Dao {
     }
   }
 
-
-  public String dataToJson()  {
-    StringBuilder sb = new StringBuilder();
-
-    try {
-      // get all the definitions
-      int type = 5;
-      String outputStr = innerDataToJson(type,false);
-      sb.append("\"definitions\":").append(outputStr);
-
-      // get all the workout entries
-      outputStr = innerDataToJson(type,true);
-      sb.append(",\"workouts\":").append(outputStr);
-    } catch (IOException e) {
-      Log.e("", e);
-    }
-
-    return sb.toString();
-
-
-  }
 
   private String innerDataToJson(int type,boolean notType) throws IOException {
     List<Map> definitions = new LinkedList<Map>();

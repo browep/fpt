@@ -1,4 +1,4 @@
-package com.github.browep.fpt.dao;
+package com.github.browep.nosql;
 
 import android.os.Parcel;
 import android.os.Parcelable;

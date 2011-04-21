@@ -1,4 +1,4 @@
-package com.github.browep.fpt.dao;
+package com.github.browep.nosql;
 
 /**
  * Created by IntelliJ IDEA.

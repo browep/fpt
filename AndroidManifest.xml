@@ -12,7 +12,7 @@
     <application android:name=".FptApp"
                  android:label="Simple Workout Tracker"
                  android:icon="@drawable/swt_72_72"
-                 android:debuggable="false"
+                 android:debuggable="true"
             >
 
         <activity android:name=".ui.Welcome"

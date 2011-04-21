@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Window;
 import com.github.browep.fpt.FptApp;
 import com.github.browep.fpt.view.ModelService;
+import com.github.browep.nosql.Dao;
 
 /**
  * Created by IntelliJ IDEA.

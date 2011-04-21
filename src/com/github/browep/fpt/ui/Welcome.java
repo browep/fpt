@@ -6,9 +6,10 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import com.github.browep.fpt.R;
-import com.github.browep.fpt.UploadImageTask;
+import com.github.browep.fpt.UpdateImagesTask;
 import com.github.browep.fpt.dao.DaoAwareActivity;
-import com.github.browep.fpt.dao.FptSqliteOpener;
+import com.github.browep.fpt.model.FptPicture;
+import com.github.browep.nosql.NoSqlSqliteOpener;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -16,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class Welcome extends DaoAwareActivity {
   private Welcome self = this;
@@ -27,7 +29,11 @@ public class Welcome extends DaoAwareActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-//    getDao().dumpDbToLog();
+    getDao().dumpDbToLog();
+
+    new UpdateImagesTask().execute(getFptApplication());
+
+    getFptApplication().sendReport("brower.paul@gmail.com");
 
     setContentView(R.layout.main);
 
@@ -45,30 +51,6 @@ public class Welcome extends DaoAwareActivity {
 
   }
 
-  private void dumpDataAsJson() {
-    File publicFilesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-
-
-    File dbFile = new File( "/data/data/"+ getApplication().getPackageName() + "/databases/" + FptSqliteOpener.getDbName());
-
-    Log.i("dbFile size: " + dbFile.length());
-
-    Util.copyfile(dbFile.getAbsolutePath(),publicFilesDir.getAbsolutePath() + "/main_db");
-
-    try {
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-      StringBuilder sb = new StringBuilder("{\"models\":");
-      (new ObjectMapper()).writeValue(baos, getViewService().getModels());
-      sb.append(baos.toString()).append(",").append(getDao().dataToJson()).append("}");
-      Log.i(sb.toString());
-
-    } catch (IOException e) {
-      Log.e("", e);
-    }
-
-
-  }
 
   View.OnClickListener createWorkoutButtonOnClickListener = new View.OnClickListener() {
     public void onClick(View view) {

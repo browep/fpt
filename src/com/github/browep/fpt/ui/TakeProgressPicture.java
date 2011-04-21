@@ -65,7 +65,7 @@ public class TakeProgressPicture extends DaoAwareActivity {
         File thumbFile = new File(Util.getThumbsDirectory() + "/" + fileName);
 
         try {
-          thumbBitmap.compress(Bitmap.CompressFormat.JPEG,100,new FileOutputStream(thumbFile));
+          thumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(thumbFile));
         } catch (FileNotFoundException e) {
           Log.e("trying to save thumb", e);
         }
@@ -75,15 +75,15 @@ public class TakeProgressPicture extends DaoAwareActivity {
         finish();
 
         // try to upload
-//        FptPicture fptPicture = (FptPicture) getDao().initialize(new FptPicture(thumbFile));
-//        new UploadImageTask().execute(new UploadImageTask.UploadImageTaskPackage(getFptApplication(),new FptPicture[]{fptPicture}));
+        FptPicture fptPicture = FptPicture.fptPictureFromFile(thumbFile, getDao());
+        getDao().save(fptPicture);
+        new UploadImageTask().execute(new UploadImageTask.UploadImageTaskPackage(getFptApplication(), new FptPicture[]{fptPicture}));
 
-
-    getFptApplication().getTracker().trackEvent(
-           "Picture",  // Category
-           "Taken",  // Action
-          null, // Label
-           0 );
+        getFptApplication().getTracker().trackEvent(
+            "Picture",  // Category
+            "Taken",  // Action
+            null, // Label
+            0);
 
       } else {
         Util.longToastMessage(this, "Picture was not taken");

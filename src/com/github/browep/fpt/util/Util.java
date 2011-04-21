@@ -4,14 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.widget.Toast;
 import com.github.browep.fpt.C;
-import com.github.browep.fpt.dao.Storable;
+import com.github.browep.fpt.model.FptPicture;
+import com.github.browep.nosql.Dao;
+import com.github.browep.nosql.Storable;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -160,4 +161,31 @@ public static byte[] getBytesFromFile(File file) throws IOException {
   public static String getThumbsDirectory() {
     return Environment.getExternalStorageDirectory() + "/com.github.browep.fpt/thumbs";
   }
+
+  public static List<FptPicture> getAllNotYetUploadedPics(Dao dao){
+    Map where = new HashMap();
+    where.put(C.UPLOADED, "false");
+    where.put("ispic", "true");
+    List notYetUploadedPictures = dao.where(where);
+    return notYetUploadedPictures;
+  }
+
+  public static void inputStreamToFile(File f, InputStream inputStream) throws IOException {
+
+    OutputStream out = new FileOutputStream(f);
+    byte buf[] = new byte[1024];
+    int len;
+    while ((len = inputStream.read(buf)) > 0)
+      out.write(buf, 0, len);
+    out.close();
+    inputStream.close();
+  }
+public static String slurp (InputStream in) throws IOException {
+    StringBuffer out = new StringBuffer();
+    byte[] b = new byte[4096];
+    for (int n; (n = in.read(b)) != -1;) {
+        out.append(new String(b, 0, n));
+    }
+    return out.toString();
+}
 }

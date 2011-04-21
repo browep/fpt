@@ -1,8 +1,8 @@
 package com.github.browep.fpt;
 
 import android.content.Context;
-import com.github.browep.fpt.dao.Dao;
-import com.github.browep.fpt.dao.Storable;
+import com.github.browep.nosql.Dao;
+import com.github.browep.nosql.Storable;
 import com.github.browep.fpt.model.Workout;
 
 /**

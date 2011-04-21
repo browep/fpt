@@ -63,7 +63,7 @@ public class SeePictures extends DaoAwareActivity implements ViewSwitcher.ViewFa
 
     // get the earliest picture
 
-    File pictureDirectory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/com.github.browep.fpt/thumbs");
+    File pictureDirectory = new File(Util.getThumbsDirectory());
     File[] pictures = pictureDirectory.listFiles();
 
     if (pictures.length > 0) {

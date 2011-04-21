@@ -14,7 +14,7 @@ import com.github.browep.fpt.R;
 import com.github.browep.fpt.model.Workout;
 import com.github.browep.fpt.model.WorkoutDefinition;
 import com.github.browep.fpt.dao.DaoAwareActivity;
-import com.github.browep.fpt.dao.Storable;
+import com.github.browep.nosql.Storable;
 import com.github.browep.fpt.util.FptDateFormat;
 import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
