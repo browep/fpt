@@ -1,6 +1,7 @@
 package com.github.browep.fpt;
 
 import android.app.Application;
+import com.github.browep.fpt.dao.PreferencesService;
 import com.github.browep.fpt.model.FptPicture;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
@@ -33,6 +34,7 @@ public class FptApp extends Application{
   private ModelService modelService;
   private Dao dao;
   GoogleAnalyticsTracker tracker;
+  private PreferencesService preferencesService;
 
   @Override
   public void onCreate() {
@@ -43,6 +45,7 @@ public class FptApp extends Application{
     modelService = new ModelService(this);
     ViewService viewService = new ViewService(modelService);
     dao = new Dao(getApplicationContext());
+    preferencesService = new PreferencesService(getApplicationContext());
 
   }
 
@@ -141,5 +144,7 @@ public class FptApp extends Application{
 
   }
 
-
+  public PreferencesService getPreferencesService() {
+    return preferencesService;
+  }
 }

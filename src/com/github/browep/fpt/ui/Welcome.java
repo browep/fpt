@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
+import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.UpdateImagesTask;
 import com.github.browep.fpt.dao.DaoAwareActivity;
@@ -31,9 +32,9 @@ public class Welcome extends DaoAwareActivity {
 
     getDao().dumpDbToLog();
 
-    new UpdateImagesTask().execute(getFptApplication());
+//    new UpdateImagesTask().execute(getFptApplication());
 
-    getFptApplication().sendReport("brower.paul@gmail.com");
+//    getFptApplication().sendReport("brower.paul@gmail.com");
 
     setContentView(R.layout.main);
 
@@ -48,6 +49,9 @@ public class Welcome extends DaoAwareActivity {
 
     Button takeProgressPicture = (Button) findViewById(R.id.progress_picture);
     takeProgressPicture.setOnClickListener(takeProgressPictureOnClickListener);
+
+    Button sendReportButton = (Button) findViewById(R.id.send_report);
+    sendReportButton.setOnClickListener(sendReportOnClickListenere);
 
   }
 
@@ -81,6 +85,17 @@ public class Welcome extends DaoAwareActivity {
       Intent intent = new Intent();
       intent.setClass(self, TakeProgressPicture.class);
       self.startActivity(intent);
+    }
+  };
+
+  View.OnClickListener sendReportOnClickListenere = new View.OnClickListener() {
+    public void onClick(View view) {
+//      if(getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)){
+
+      if(true){
+        // open to
+
+      }
     }
   };
 

@@ -32,6 +32,7 @@ public class C {
   public static final String UPLOAD_HOSTNAME = "192.168.0.196:3000";
   public static final String URL = "url";
   public static final String UPLOADED = "uploaded";
+  public static final String AUTHORIZED_FOR_REPORT = "authorized_for_report";
 
   private C() {
   } // should never be used
@@ -65,6 +66,8 @@ public class C {
   static {
     WORKOUT_TYPE_TO_X_FORMAT.put(C.FOR_TIME_WORKOUT_TYPE, new FptTimeFormat());
   }
+
+  public static final String PREFS_FILE_NAME = "main.prefs";
 
 
 }
