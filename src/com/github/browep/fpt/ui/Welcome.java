@@ -93,8 +93,8 @@ public class Welcome extends DaoAwareActivity {
 //      if(getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)){
 
       if(true){
-        // open to
-
+        // show option page
+        self.startActivity(new Intent(self,ReportPaymentChooser.class));
       }
     }
   };

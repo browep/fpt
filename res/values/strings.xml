@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple Workout Tracker</string>
+    <string name="report_payment_chooser_top_text">Simple Workout Tracker allows you to view your progress pictures and
+    progress graphs online.  This allows you to enjoy your progress with richer, bigger graphs. <br /> It allows you to
+    view your progress pictures all together and it allows you to share this with your friends.<br/>
+
+    You have three options for getting these reports.  Buy, Tweet or Facebook Post.  Buy is just $0.99, but if you post
+      or tweet about us you will get it for free.  Any of the three options will give you unlimited reports for life.
+      What would you like to do?
+    </string>
 </resources>

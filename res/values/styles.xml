@@ -40,9 +40,14 @@
     <style name="SmallButton" parent="HomeButton">
         <item name="android:layout_width">72px</item>
         <item name="android:layout_height">36px</item>
-
-
     </style>
+    <style name="ChicletButton" parent="HomeButton">
+        <item name="android:layout_width">86px</item>
+        <item name="android:layout_height">86px</item>
+      <item name="android:textSize">14sp</item>
+      <item name="android:singleLine">false</item>
+    </style>
+
     <style name="TitleText" parent="BaseText">
         <item name="android:textSize">36sp</item>
         <item name="android:textStyle">bold</item>

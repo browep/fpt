@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    style="@style/BaseScreen"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <TextView android:id="@+id/report_payment_chooser_text_blurb"
+            style="@style/BaseText"
+            android:layout_height="wrap_content"
+            android:layout_margin="10px"
+            android:layout_width="fill_parent"
+      />
+
+  <LinearLayout android:orientation="horizontal"
+                android:gravity="center"
+                style="@style/BaseScreen"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+
+      >
+    <Button android:background="@drawable/layers"
+            style="@style/ChicletButton"
+            android:text="Buy 99c"
+        />
+    <Button android:background="@drawable/layers"
+            style="@style/ChicletButton"
+            android:text="Tweet Free"
+        />
+    <Button android:background="@drawable/layers"
+            style="@style/ChicletButton"
+            android:text="Facebook Post Free"
+        />
+  </LinearLayout>
+
+</LinearLayout>
