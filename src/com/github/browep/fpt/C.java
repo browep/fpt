@@ -33,6 +33,8 @@ public class C {
   public static final String URL = "url";
   public static final String UPLOADED = "uploaded";
   public static final String AUTHORIZED_FOR_REPORT = "authorized_for_report";
+  public static final String TWITTER_SECRET_TOKEN = "twitter_secret_token";
+  public static final String TWITTER_ACCESS_TOKEN = "twitter_access_token";
 
   private C() {
   } // should never be used

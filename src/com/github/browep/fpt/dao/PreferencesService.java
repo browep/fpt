@@ -64,4 +64,16 @@ public class PreferencesService {
         editor.putBoolean(prefName, value);
         editor.commit();
     }
+
+  public void setStringPreference(String prefName, String value){
+    Log.i("DAO: set STRING pref " + prefName + "->" + value);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putString(prefName, value);
+    editor.commit();
+
+  }
+
+  public String getStringPreference(String prefName, String value){
+    return  sharedPreferences.getString(prefName,null);
+  }
 }

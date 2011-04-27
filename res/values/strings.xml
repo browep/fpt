@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple Workout Tracker</string>
-    <string name="report_payment_chooser_top_text">Simple Workout Tracker allows you to view your progress pictures and
+    <string name="report_payment_chooser_top_text">Simple Workout Tracker <br/>allows you to view your progress pictures and
     progress graphs online.  This allows you to enjoy your progress with richer, bigger graphs. <br /> It allows you to
     view your progress pictures all together and it allows you to share this with your friends.<br/>
 

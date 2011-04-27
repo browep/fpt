@@ -78,6 +78,12 @@
 
                 >
 
+          <intent-filter>
+              <action android:name="android.intent.action.VIEW"></action>
+              <category android:name="android.intent.category.DEFAULT"></category>
+              <category android:name="android.intent.category.BROWSABLE"></category>
+              <data android:scheme="browep-swt"></data>
+          </intent-filter>
         </activity>
     </application>
 

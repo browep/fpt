@@ -26,6 +26,7 @@
         />
     <Button android:background="@drawable/layers"
             style="@style/ChicletButton"
+            android:id="@+id/tweet_button"
             android:text="Tweet Free"
         />
     <Button android:background="@drawable/layers"
