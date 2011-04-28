@@ -35,6 +35,9 @@ public class C {
   public static final String AUTHORIZED_FOR_REPORT = "authorized_for_report";
   public static final String TWITTER_SECRET_TOKEN = "twitter_secret_token";
   public static final String TWITTER_ACCESS_TOKEN = "twitter_access_token";
+  public static final String TWITTER_CONSUMER_KEY = "V1iOpvQgLdI7D1KpTGKk6A";
+  public static final String TWITTER_CONSUMER_SECRET = "sEADmoc96sQqfeS2qMk1L2cIYRX3ThP7Iv4NA15nM";
+  public static final String REPORT_EMAIL = "report_email";
 
   private C() {
   } // should never be used

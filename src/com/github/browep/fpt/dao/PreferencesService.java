@@ -73,7 +73,7 @@ public class PreferencesService {
 
   }
 
-  public String getStringPreference(String prefName, String value){
+  public String getStringPreference(String prefName){
     return  sharedPreferences.getString(prefName,null);
   }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    style="@style/BaseScreen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <TextView style="@style/BaseScreen"
+      android:text="Which email would you like to send the report to?"
+
+      />
+
+  <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            style="@style/HelperText"
+            android:id="@+id/send_report_email"
+          />
+  "
+
+</LinearLayout>

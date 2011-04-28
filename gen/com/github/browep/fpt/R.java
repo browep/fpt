@@ -31,7 +31,7 @@ public final class R {
         public static final int date_display=0x7f06000d;
         public static final int delete_data_button=0x7f060021;
         public static final int distance_count=0x7f06000c;
-        public static final int done_button=0x7f060031;
+        public static final int done_button=0x7f060032;
         public static final int edit_data_button=0x7f060020;
         public static final int edit_data_list=0x7f06001e;
         public static final int edit_data_subtitle=0x7f06001d;
@@ -45,7 +45,7 @@ public final class R {
         public static final int hours=0x7f060012;
         public static final int label_radio=0x7f06001b;
         public static final int minutes=0x7f060013;
-        public static final int mySimpleXYPlot=0x7f060032;
+        public static final int mySimpleXYPlot=0x7f060033;
         public static final int name_box=0x7f06001a;
         public static final int name_display=0x7f06000a;
         public static final int name_helper_text=0x7f060019;
@@ -61,7 +61,8 @@ public final class R {
         public static final int seconds=0x7f060014;
         public static final int see_progress=0x7f060024;
         public static final int send_report=0x7f060026;
-        public static final int submittable=0x7f060030;
+        public static final int send_report_email=0x7f060030;
+        public static final int submittable=0x7f060031;
         public static final int switcher=0x7f06002b;
         public static final int tweet_button=0x7f06002a;
         public static final int view_parent=0x7f060006;
@@ -95,8 +96,9 @@ public final class R {
         public static final int see_progress=0x7f030010;
         public static final int select_workout=0x7f030011;
         public static final int select_workout_button=0x7f030012;
-        public static final int submittable=0x7f030013;
-        public static final int view_progress=0x7f030014;
+        public static final int send_report=0x7f030013;
+        public static final int submittable=0x7f030014;
+        public static final int view_progress=0x7f030015;
     }
     public static final class raw {
         public static final int model=0x7f050000;

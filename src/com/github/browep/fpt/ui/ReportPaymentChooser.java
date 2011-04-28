@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
+import com.github.browep.fpt.connector.Tweeter;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
 import com.sugree.twitter.DialogError;
@@ -55,7 +56,7 @@ public class ReportPaymentChooser extends FptActivity {
   public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "http://twitter.com/oauth/access_token";
   public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "http://twitter.com/oauth/authorize";
   private CommonsHttpOAuthProvider commonsHttpOAuthProvider = new CommonsHttpOAuthProvider(TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT,TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT,TWITTER_OAUTH_AUTHORIZE_ENDPOINT);
-  private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer("V1iOpvQgLdI7D1KpTGKk6A","sEADmoc96sQqfeS2qMk1L2cIYRX3ThP7Iv4NA15nM");
+  private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(C.TWITTER_CONSUMER_KEY, C.TWITTER_CONSUMER_SECRET);
   private TwDialog dialog;
 
 
@@ -104,7 +105,10 @@ public class ReportPaymentChooser extends FptActivity {
 
           builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
+              Tweeter tweeter = new Tweeter(getFptApplication().getPreferencesService().getStringPreference(C.TWITTER_ACCESS_TOKEN),
+                  getFptApplication().getPreferencesService().getStringPreference(C.TWITTER_SECRET_TOKEN));
+              tweeter.tweet(tweetText);
+              startActivity(new Intent(self, SendReport.class));
             }
           });
 
