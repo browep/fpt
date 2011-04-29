@@ -18,9 +18,10 @@ public final class R {
     }
     public static final class drawable {
         public static final int button_256_72=0x7f020000;
-        public static final int icon=0x7f020001;
-        public static final int layers=0x7f020002;
-        public static final int swt_72_72=0x7f020003;
+        public static final int facebook_icon=0x7f020001;
+        public static final int icon=0x7f020002;
+        public static final int layers=0x7f020003;
+        public static final int swt_72_72=0x7f020004;
     }
     public static final class id {
         public static final int associated_class=0x7f060000;
