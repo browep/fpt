@@ -91,10 +91,10 @@ public class Welcome extends DaoAwareActivity {
   View.OnClickListener sendReportOnClickListenere = new View.OnClickListener() {
     public void onClick(View view) {
 //      if(getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)){
-
-      if(true){
-        // show option page
-        self.startActivity(new Intent(self,ReportPaymentChooser.class));
+      if(false){
+        startActivity(new Intent(self, SendReport.class));
+      } else {
+        self.startActivity(new Intent(self, ReportPaymentChooser.class));
       }
     }
   };

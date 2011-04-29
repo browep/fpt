@@ -35,6 +35,7 @@ public class FptApp extends Application{
   private Dao dao;
   GoogleAnalyticsTracker tracker;
   private PreferencesService preferencesService;
+  private static FptApp singleton;
 
   @Override
   public void onCreate() {
@@ -46,6 +47,7 @@ public class FptApp extends Application{
     ViewService viewService = new ViewService(modelService);
     dao = new Dao(getApplicationContext());
     preferencesService = new PreferencesService(getApplicationContext());
+    singleton = this;
 
   }
 
@@ -146,5 +148,9 @@ public class FptApp extends Application{
 
   public PreferencesService getPreferencesService() {
     return preferencesService;
+  }
+
+  public static FptApp getInstance() {
+    return singleton;
   }
 }

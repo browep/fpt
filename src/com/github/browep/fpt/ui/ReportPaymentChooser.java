@@ -9,6 +9,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
+import com.flurry.android.FlurryAgent;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.connector.Tweeter;
@@ -23,6 +24,8 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReportPaymentChooser extends FptActivity {
 
@@ -88,9 +91,11 @@ public class ReportPaymentChooser extends FptActivity {
 
 
   View.OnClickListener tweetOnClickListener = new View.OnClickListener() {
-
-
     public void onClick(View view) {
+
+      FlurryAgent.onEvent("TWEET_CLICKED");
+      getFptApplication().getTracker().trackEvent("Report","Tweet Clicked",null,0);
+
       commonsHttpOAuthProvider.setOAuth10a(true);
       dialog = new TwDialog(self,commonsHttpOAuthProvider,commonsHttpOAuthConsumer,dialogListener, R.drawable.swt_72_72);
       dialog.show();
@@ -105,15 +110,22 @@ public class ReportPaymentChooser extends FptActivity {
 
           builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+              FlurryAgent.onEvent("TWEET_OK");
+              getFptApplication().getTracker().trackEvent("Report","Tweet OK",null,0);
+
+
               Tweeter tweeter = new Tweeter(getFptApplication().getPreferencesService().getStringPreference(C.TWITTER_ACCESS_TOKEN),
                   getFptApplication().getPreferencesService().getStringPreference(C.TWITTER_SECRET_TOKEN));
               tweeter.tweet(tweetText);
-              startActivity(new Intent(self, SendReport.class));
+              getFptApplication().getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT,true);
+              startActivityForResult(new Intent(self, SendReport.class), 0);
+
             }
           });
 
           builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+              dialog.cancel();
             }
           });
           AlertDialog alert = builder.create();
@@ -124,4 +136,9 @@ public class ReportPaymentChooser extends FptActivity {
     }
   };
 
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    finish();
+  }
 }

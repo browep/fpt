@@ -85,6 +85,12 @@
               <data android:scheme="browep-swt"></data>
           </intent-filter>
         </activity>
+        <activity android:name=".ui.SendReport"
+                          android:label="@string/app_name"
+                          android:screenOrientation="portrait"
+
+                        ></activity>
+
     </application>
 
     <!-- Used for install referrer tracking -->
