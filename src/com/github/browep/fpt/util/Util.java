@@ -10,6 +10,7 @@ import com.github.browep.fpt.C;
 import com.github.browep.fpt.model.FptPicture;
 import com.github.browep.nosql.Dao;
 import com.github.browep.nosql.Storable;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.*;
 import java.util.*;
@@ -180,12 +181,24 @@ public static byte[] getBytesFromFile(File file) throws IOException {
     out.close();
     inputStream.close();
   }
-public static String slurp (InputStream in) throws IOException {
+
+  public static String slurp(InputStream in) throws IOException {
     StringBuffer out = new StringBuffer();
     byte[] b = new byte[4096];
     for (int n; (n = in.read(b)) != -1;) {
-        out.append(new String(b, 0, n));
+      out.append(new String(b, 0, n));
     }
     return out.toString();
-}
+  }
+
+  public static String toJson(Map map){
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+      (new ObjectMapper()).writeValue(baos,map);
+    } catch (IOException e) {
+      Log.e("", e);
+    }
+
+    return baos.toString();
+  }
 }

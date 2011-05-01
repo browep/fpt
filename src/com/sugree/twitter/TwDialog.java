@@ -150,32 +150,32 @@ public class TwDialog extends Dialog {
         mSpinner.show();
     	new Thread() {
     		@Override
-    		public void run() {
-    			Uri uri = Uri.parse(url);
-    			String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
-    			final Bundle values = new Bundle();
-    			try {
-					mProvider.retrieveAccessToken(mConsumer, verifier);
-					values.putString(Twitter.ACCESS_TOKEN, mConsumer.getToken());
-					values.putString(Twitter.SECRET_TOKEN, mConsumer.getTokenSecret());
-					mListener.onComplete(values);
-				} catch (OAuthMessageSignerException e) {
-					mListener.onError(new DialogError(e.getMessage(), -1, verifier));
-				} catch (OAuthNotAuthorizedException e) {
-					mListener.onTwitterError(new TwitterError(e.getMessage()));
-				} catch (OAuthExpectationFailedException e) {
-					mListener.onTwitterError(new TwitterError(e.getMessage()));
-				} catch (OAuthCommunicationException e) {
-					mListener.onError(new DialogError(e.getMessage(), -1, verifier));
-				}
-				mHandler.post(new Runnable() {
-					public void run() {
-						mSpinner.dismiss();
-						TwDialog.this.dismiss();
-					}					
-				});
-    		}
-    	}.start();
+        public void run() {
+          Uri uri = Uri.parse(url);
+          String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
+          final Bundle values = new Bundle();
+          try {
+            mProvider.retrieveAccessToken(mConsumer, verifier);
+            values.putString(Twitter.ACCESS_TOKEN, mConsumer.getToken());
+            values.putString(Twitter.SECRET_TOKEN, mConsumer.getTokenSecret());
+            mListener.onComplete(values);
+          } catch (OAuthMessageSignerException e) {
+            mListener.onError(new DialogError(e.getMessage(), -1, verifier));
+          } catch (OAuthNotAuthorizedException e) {
+            mListener.onTwitterError(new TwitterError(e.getMessage()));
+          } catch (OAuthExpectationFailedException e) {
+            mListener.onTwitterError(new TwitterError(e.getMessage()));
+          } catch (OAuthCommunicationException e) {
+            mListener.onError(new DialogError(e.getMessage(), -1, verifier));
+          }
+          mHandler.post(new Runnable() {
+            public void run() {
+              mSpinner.dismiss();
+              TwDialog.this.dismiss();
+            }
+          });
+        }
+      }.start();
     }
     
     private void setUpWebView() {

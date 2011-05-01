@@ -1,5 +1,6 @@
 package com.github.browep.fpt.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +24,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class FptActivity extends DaoAwareActivity{
-  protected Context self = this;
+  protected Activity self = this;
 
   protected void onLongCLickHandlerInner(final Integer definitionId, final String definitionName,final View toRemove) {
 

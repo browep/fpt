@@ -86,14 +86,19 @@ public class Dao {
   }
 
   private int getLastInsertedRowId() {
+    Cursor cursor = null;
 
     try {
       db = getOrOpen();
 
-      Cursor cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"last_insert_rowid()"}, null, null, null, null, null);
+      cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"last_insert_rowid()"}, null, null, null, null, null);
       cursor.moveToFirst();
-      return cursor.getInt(0);
+      int i = cursor.getInt(0);
+      cursor.close();
+      return i;
     } finally {
+      if(cursor!=null)
+        cursor.close();
       db.close();
     }
 
@@ -138,12 +143,13 @@ public class Dao {
   }
 
   public void dumpDbToLog() {
+    Cursor cursor = null;
 
     Log.i("dumping to log");
     try {
       db = getOrOpen();
 
-      Cursor cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, null, null, null, null, null,"10000");
+      cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, null, null, null, null, null,"10000");
       cursor.move(1);
       while (!cursor.isAfterLast()) {
         StringBuilder sb = new StringBuilder();
@@ -161,6 +167,8 @@ public class Dao {
         cursor.move(1);
       }
     } finally {
+      if(cursor!=null)
+        cursor.close();
       db.close();
 
     }
@@ -170,9 +178,11 @@ public class Dao {
 
   public Storable get(int id) {
     Storable storable = null;
+    Cursor cursor = null;
+
     try {
       db = getOrOpen();
-      Cursor cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, "ROWID = ?", new String[]{String.valueOf(id)}, null, null, null);
+      cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, "ROWID = ?", new String[]{String.valueOf(id)}, null, null, null);
       cursor.moveToFirst();
       if (cursor.isAfterLast()) {
         throw new NotFoundInDb();
@@ -186,6 +196,8 @@ public class Dao {
     } catch (Exception e) {
       Log.e("problem retrieving " + id, e);
     } finally {
+      if(cursor != null)
+        cursor.close();
       db.close();
 
     }
@@ -207,6 +219,7 @@ public class Dao {
 
 
   public List<Storable> where(Map<String, String> wheres) {
+    Cursor cursor = null;
 
     try {
       db = getOrOpen();
@@ -216,7 +229,7 @@ public class Dao {
       for (Map.Entry<String, String> where : wheres.entrySet()) {
         String combined = where.getKey() + "_" + where.getValue();
         Log.i("where: " + combined);
-        Cursor cursor = db.query(INDEXES_TABLE_NAME, new String[]{"instance_id"}, "path = ?", new String[]{combined}, null, null, null);
+        cursor = db.query(INDEXES_TABLE_NAME, new String[]{"instance_id"}, "path = ?", new String[]{combined}, null, null, null);
         List<Integer> found_this_where = new LinkedList<Integer>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -242,6 +255,8 @@ public class Dao {
         return resolveIds(found);
       }
     } finally {
+      if(cursor!=null)
+        cursor.close();
       db.close();
     }
   }
@@ -265,9 +280,11 @@ public class Dao {
 
   public List<Storable> getByType(int type, int limit) {
     List<Storable> storables = new LinkedList<Storable>();
+    Cursor cursor = null;
+
     try {
       db = getOrOpen();
-      Cursor cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, "type = ?", new String[]{String.valueOf(type)}, null, null, null, String.valueOf(limit));
+      cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, "type = ?", new String[]{String.valueOf(type)}, null, null, null, String.valueOf(limit));
       cursor.moveToFirst();
       while (!cursor.isAfterLast()) {
         try {
@@ -278,6 +295,7 @@ public class Dao {
         cursor.move(1);
       }
     } finally {
+      cursor.close();
       db.close();
     }
     return storables;
@@ -301,11 +319,13 @@ public class Dao {
   private String innerDataToJson(int type,boolean notType) throws IOException {
     List<Map> definitions = new LinkedList<Map>();
     ByteArrayOutputStream baos;
+    Cursor definitionCursor = null;
+
     try {
       db = getOrOpen();
       String whereStr = notType ? " type IS NOT ? " : " type IS ?";
 
-      Cursor definitionCursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, whereStr, new String[]{String.valueOf(type)}, null, null, null);
+      definitionCursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, whereStr, new String[]{String.valueOf(type)}, null, null, null);
       definitionCursor.move(1);
       while (!definitionCursor.isAfterLast()) {
         try {
@@ -329,6 +349,7 @@ public class Dao {
       baos = new ByteArrayOutputStream();
       (new ObjectMapper()).writeValue(baos, definitions);
     } finally {
+      definitionCursor.close();
       db.close();
     }
 

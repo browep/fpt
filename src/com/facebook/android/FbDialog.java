@@ -37,7 +37,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.Facebook.FacebookDialogListener;
+import com.github.browep.fpt.R;
 
 public class FbDialog extends Dialog {
 
@@ -53,16 +54,16 @@ public class FbDialog extends Dialog {
     static final String FB_ICON = "icon.png";
 
     private String mUrl;
-    private DialogListener mListener;
+    private FacebookDialogListener mListenerFacebook;
     private ProgressDialog mSpinner;
     private WebView mWebView;
     private LinearLayout mContent;
     private TextView mTitle;
 
-    public FbDialog(Context context, String url, DialogListener listener) {
+    public FbDialog(Context context, String url, FacebookDialogListener listenerFacebook) {
         super(context);
         mUrl = url;
-        mListener = listener;
+        mListenerFacebook = listenerFacebook;
     }
 
     @Override
@@ -130,18 +131,18 @@ public class FbDialog extends Dialog {
                 }
 
                 if (error == null) {
-                    mListener.onComplete(values);
+                    mListenerFacebook.onComplete(values);
                 } else if (error.equals("access_denied") ||
                            error.equals("OAuthAccessDeniedException")) {
-                    mListener.onCancel();
+                    mListenerFacebook.onCancel();
                 } else {
-                    mListener.onFacebookError(new FacebookError(error));
+                    mListenerFacebook.onFacebookError(new FacebookError(error));
                 }
 
                 FbDialog.this.dismiss();
                 return true;
             } else if (url.startsWith(Facebook.CANCEL_URI)) {
-                mListener.onCancel();
+                mListenerFacebook.onCancel();
                 FbDialog.this.dismiss();
                 return true;
             } else if (url.contains(DISPLAY_STRING)) {
@@ -157,7 +158,7 @@ public class FbDialog extends Dialog {
         public void onReceivedError(WebView view, int errorCode,
                 String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
-            mListener.onError(
+            mListenerFacebook.onError(
                     new DialogError(description, errorCode, failingUrl));
             FbDialog.this.dismiss();
         }

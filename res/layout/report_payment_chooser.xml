@@ -31,6 +31,8 @@
         />
     <Button android:background="@drawable/layers"
             style="@style/ChicletButton"
+            android:id="@+id/facebook_button"
+
             android:text="Facebook Post Free"
         />
   </LinearLayout>

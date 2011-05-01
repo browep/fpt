@@ -38,6 +38,9 @@ public class C {
   public static final String TWITTER_CONSUMER_KEY = "V1iOpvQgLdI7D1KpTGKk6A";
   public static final String TWITTER_CONSUMER_SECRET = "sEADmoc96sQqfeS2qMk1L2cIYRX3ThP7Iv4NA15nM";
   public static final String REPORT_EMAIL = "report_email";
+  public static final String FACEBOOK_APP_ID = "220215881324575";
+  public static final String FACEBOOK_AUTHORIZE_TOKEN = "facebook_authorize_token";
+  public static final String MARKET_LINK = "http://bit.ly/lelblj";
 
   private C() {
   } // should never be used

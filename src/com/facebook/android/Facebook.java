@@ -76,7 +76,7 @@ public class Facebook {
     private Activity mAuthActivity;
     private String[] mAuthPermissions;
     private int mAuthActivityCode;
-    private DialogListener mAuthDialogListener;
+    private FacebookDialogListener mAuthFacebookDialogListener;
 
     /**
      * Constructor for Facebook object.
@@ -99,9 +99,9 @@ public class Facebook {
      *
      * See authorize() below for @params.
      */
-    public void authorize(Activity activity, final DialogListener listener) {
+    public void authorize(Activity activity, final FacebookDialogListener listenerFacebook) {
         authorize(activity, new String[] {}, DEFAULT_AUTH_ACTIVITY_CODE,
-                listener);
+            listenerFacebook);
     }
 
     /**
@@ -110,8 +110,8 @@ public class Facebook {
      * See authorize() below for @params.
      */
     public void authorize(Activity activity, String[] permissions,
-            final DialogListener listener) {
-        authorize(activity, permissions, DEFAULT_AUTH_ACTIVITY_CODE, listener);
+            final FacebookDialogListener listenerFacebook) {
+        authorize(activity, permissions, DEFAULT_AUTH_ACTIVITY_CODE, listenerFacebook);
     }
 
     /**
@@ -173,17 +173,17 @@ public class Facebook {
      *            will use a suitable default. See
      *            http://developer.android.com/reference/android/
      *              app/Activity.html for more information.
-     * @param listener
+     * @param listenerFacebook
      *            Callback interface for notifying the calling application when
      *            the authentication dialog has completed, failed, or been
      *            canceled.
      */
     public void authorize(Activity activity, String[] permissions,
-            int activityCode, final DialogListener listener) {
+            int activityCode, final FacebookDialogListener listenerFacebook) {
 
         boolean singleSignOnStarted = false;
 
-        mAuthDialogListener = listener;
+        mAuthFacebookDialogListener = listenerFacebook;
 
         // Prefer single sign-on, where available.
         if (activityCode >= 0) {
@@ -294,7 +294,7 @@ public class Facebook {
             params.putString("scope", TextUtils.join(",", permissions));
         }
         CookieSyncManager.createInstance(activity);
-        dialog(activity, LOGIN, params, new DialogListener() {
+        dialog(activity, LOGIN, params, new FacebookDialogListener() {
 
             public void onComplete(Bundle values) {
                 // ensure any cookies set by the dialog are saved
@@ -305,26 +305,26 @@ public class Facebook {
                     Log.d("Facebook-authorize", "Login Success! access_token="
                             + getAccessToken() + " expires="
                             + getAccessExpires());
-                    mAuthDialogListener.onComplete(values);
+                    mAuthFacebookDialogListener.onComplete(values);
                 } else {
-                    mAuthDialogListener.onFacebookError(new FacebookError(
+                    mAuthFacebookDialogListener.onFacebookError(new FacebookError(
                                     "Failed to receive access token."));
                 }
             }
 
             public void onError(DialogError error) {
                 Log.d("Facebook-authorize", "Login failed: " + error);
-                mAuthDialogListener.onError(error);
+                mAuthFacebookDialogListener.onError(error);
             }
 
             public void onFacebookError(FacebookError error) {
                 Log.d("Facebook-authorize", "Login failed: " + error);
-                mAuthDialogListener.onFacebookError(error);
+                mAuthFacebookDialogListener.onFacebookError(error);
             }
 
             public void onCancel() {
                 Log.d("Facebook-authorize", "Login canceled");
-                mAuthDialogListener.onCancel();
+                mAuthFacebookDialogListener.onCancel();
             }
         });
     }
@@ -364,10 +364,10 @@ public class Facebook {
                     } else if (error.equals("access_denied")
                             || error.equals("OAuthAccessDeniedException")) {
                         Log.d("Facebook-authorize", "Login canceled by user.");
-                        mAuthDialogListener.onCancel();
+                        mAuthFacebookDialogListener.onCancel();
                     } else {
                         Log.d("Facebook-authorize", "Login failed: " + error);
-                        mAuthDialogListener.onFacebookError(
+                        mAuthFacebookDialogListener.onFacebookError(
                                 new FacebookError(error));
                     }
 
@@ -380,9 +380,9 @@ public class Facebook {
                                 "Login Success! access_token="
                                         + getAccessToken() + " expires="
                                         + getAccessExpires());
-                        mAuthDialogListener.onComplete(data.getExtras());
+                        mAuthFacebookDialogListener.onComplete(data.getExtras());
                     } else {
-                        mAuthDialogListener.onFacebookError(new FacebookError(
+                        mAuthFacebookDialogListener.onFacebookError(new FacebookError(
                                         "Failed to receive access token."));
                     }
                 }
@@ -394,7 +394,7 @@ public class Facebook {
                 if (data != null) {
                     Log.d("Facebook-authorize",
                             "Login failed: " + data.getStringExtra("error"));
-                    mAuthDialogListener.onError(
+                    mAuthFacebookDialogListener.onError(
                             new DialogError(
                                     data.getStringExtra("error"),
                                     data.getIntExtra("error_code", -1),
@@ -403,7 +403,7 @@ public class Facebook {
                 // User pressed the 'back' button.
                 } else {
                     Log.d("Facebook-authorize", "Login canceled by user.");
-                    mAuthDialogListener.onCancel();
+                    mAuthFacebookDialogListener.onCancel();
                 }
             }
         }
@@ -570,13 +570,13 @@ public class Facebook {
      * @param action
      *            String representation of the desired method: e.g. "login",
      *            "stream.publish", ...
-     * @param listener
+     * @param listenerFacebook
      *            Callback interface to notify the application when the dialog
      *            has completed.
      */
     public void dialog(Context context, String action,
-            DialogListener listener) {
-        dialog(context, action, new Bundle(), listener);
+            FacebookDialogListener listenerFacebook) {
+        dialog(context, action, new Bundle(), listenerFacebook);
     }
 
     /**
@@ -592,12 +592,12 @@ public class Facebook {
      *            String representation of the desired method: e.g. "feed" ...
      * @param parameters
      *            String key-value pairs to be passed as URL parameters.
-     * @param listener
+     * @param listenerFacebook
      *            Callback interface to notify the application when the dialog
      *            has completed.
      */
     public void dialog(Context context, String action, Bundle parameters,
-            final DialogListener listener) {
+            final FacebookDialogListener listenerFacebook) {
 
         String endpoint = DIALOG_BASE_URL + action;
         parameters.putString("display", "touch");
@@ -619,7 +619,7 @@ public class Facebook {
             Util.showAlert(context, "Error",
                     "Application requires permission to access the Internet");
         } else {
-            new FbDialog(context, url, listener).show();
+            new FbDialog(context, url, listenerFacebook).show();
         }
     }
 
@@ -698,7 +698,7 @@ public class Facebook {
      * Callback interface for dialog requests.
      *
      */
-    public static interface DialogListener {
+    public static interface FacebookDialogListener {
 
         /**
          * Called when a dialog completes.

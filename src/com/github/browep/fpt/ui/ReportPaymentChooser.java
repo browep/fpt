@@ -1,5 +1,6 @@
 package com.github.browep.fpt.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -9,11 +10,14 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
+import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
 import com.flurry.android.FlurryAgent;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.connector.Tweeter;
 import com.github.browep.fpt.util.Log;
+import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
 import com.sugree.twitter.DialogError;
 import com.sugree.twitter.TwDialog;
@@ -31,29 +35,7 @@ public class ReportPaymentChooser extends FptActivity {
 
   private String tweetText;
 
-
-  private Twitter.DialogListener dialogListener = new Twitter.DialogListener() {
-    public void onComplete(Bundle values) {
-
-      getFptApplication().getPreferencesService().setStringPreference(C.TWITTER_SECRET_TOKEN, values.getString("secret_token"));
-      getFptApplication().getPreferencesService().setStringPreference(C.TWITTER_ACCESS_TOKEN, values.getString("access_token"));
-
-    }
-
-    public void onTwitterError(TwitterError e) {
-
-      Log.e("onTwitterError called for TwitterDialog",new Exception(e));
-    }
-
-    public void onError(DialogError e) {
-      Log.e("onError called for TwitterDialog",new Exception(e));
-
-    }
-
-    public void onCancel() {
-      Log.e("onCancel");
-    }
-  };
+  Facebook facebook = new Facebook(C.FACEBOOK_APP_ID);
 
   public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "http://twitter.com/oauth/request_token";
   public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "http://twitter.com/oauth/access_token";
@@ -68,7 +50,7 @@ public class ReportPaymentChooser extends FptActivity {
     super.onCreate(savedInstanceState);
 
     try {
-      tweetText = Util.slurp(getFptApplication().getApplicationContext().getResources().openRawResource(R.raw.promo_tweet));
+      tweetText = Util.slurp(getFptApplication().getApplicationContext().getResources().openRawResource(R.raw.promo_tweet)) + C.MARKET_LINK;
     } catch (IOException e) {
       Log.e("issue trying to get the promo_tweet.txt", e);
     }
@@ -86,8 +68,18 @@ public class ReportPaymentChooser extends FptActivity {
     }
 
     findViewById(R.id.tweet_button).setOnClickListener(tweetOnClickListener);
+    findViewById(R.id.facebook_button).setOnClickListener(facebookOnClickListener);
 
   }
+
+  View.OnClickListener facebookOnClickListener = new View.OnClickListener(){
+    public void onClick(View view) {
+      FlurryAgent.onEvent("FB_CLICKED");
+      getFptApplication().getTracker().trackEvent("Report", "Facebook Clicked", null, 0);
+      doFacebookPost();
+    }
+  };
+
 
 
   View.OnClickListener tweetOnClickListener = new View.OnClickListener() {
@@ -139,6 +131,86 @@ public class ReportPaymentChooser extends FptActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    finish();
+    if (requestCode == R.id.facebook_result_id ) {
+      if (resultCode == R.id.facebook_result_success) {
+        // popup dialog for posting to wall
+        doFacebookPost();
+
+      } else if (resultCode == R.id.facebook_result_failure) {
+        Util.longToastMessage(self, "Facebook Authorization failed.  Please try again or try another option");
+      }
+
+    } else {
+      finish();
+    }
   }
+
+  private void doFacebookPost() {
+    Bundle parameters = new Bundle();
+
+    Map attachment = new HashMap();
+    attachment.put("description",tweetText);
+    attachment.put("href",C.MARKET_LINK);
+    attachment.put("name","Checkout Simple Workout Tracker for Android");
+
+    parameters.putString("attachment", Util.toJson(attachment));// the message to post to the wall
+    facebook.dialog(self, "stream.publish", parameters, new Facebook.FacebookDialogListener() {
+      public void onComplete(Bundle values) {
+
+        if (!StringUtils.isEmpty(values.getString("post_id"))) {
+          getFptApplication().getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT,true);
+          FlurryAgent.onEvent("FACEBOOK_POSTED");
+          getFptApplication().getTracker().trackEvent("Report", "Facebook Posted", null, 0);
+          startActivity(new Intent(self, SendReport.class));
+        }else{
+          FlurryAgent.onEvent("FACEBOOK_CANCELED");
+          getFptApplication().getTracker().trackEvent("Report", "Facebook Canceled", null, 0);
+          onFailure();
+        }
+      }
+
+      private void onFailure() {
+        Util.longToastMessage(self, "Message not sent, sorry.  Either try again or try another option.");
+      }
+
+      public void onFacebookError(FacebookError e) {
+        Log.e("onFacebookError", new Exception(e));
+        onFailure();
+      }
+
+      public void onError(com.facebook.android.DialogError e) {
+        Log.e("onError", new Exception(e));
+        onFailure();
+      }
+
+      public void onCancel() {
+        Log.i("onCancel");
+        onFailure();
+      }
+    });
+  }
+
+
+  private Twitter.DialogListener dialogListener = new Twitter.DialogListener() {
+    public void onComplete(Bundle values) {
+
+      getFptApplication().getPreferencesService().setStringPreference(C.TWITTER_SECRET_TOKEN, values.getString("secret_token"));
+      getFptApplication().getPreferencesService().setStringPreference(C.TWITTER_ACCESS_TOKEN, values.getString("access_token"));
+
+    }
+
+    public void onTwitterError(TwitterError e) {
+
+      Log.e("onTwitterError called for TwitterDialog",new Exception(e));
+    }
+
+    public void onError(DialogError e) {
+      Log.e("onError called for TwitterDialog",new Exception(e));
+
+    }
+
+    public void onCancel() {
+      Log.e("onCancel");
+    }
+  };
 }

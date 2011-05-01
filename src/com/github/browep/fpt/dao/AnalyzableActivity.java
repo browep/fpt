@@ -35,7 +35,7 @@ public abstract class AnalyzableActivity extends Activity {
   }
 
   public String getPageName(){
-    return this.getLocalClassName();
+    return this.getLocalClassName().replace("ui.","");
   }
 
   public FptApp getFptApplication(){
