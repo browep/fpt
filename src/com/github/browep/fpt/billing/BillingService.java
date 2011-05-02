@@ -18,6 +18,7 @@ package com.github.browep.fpt.billing;
 
 import com.android.vending.billing.IMarketBillingService;
 
+import com.github.browep.fpt.FptApp;
 import com.github.browep.fpt.billing.Consts.PurchaseState;
 import com.github.browep.fpt.billing.Consts.ResponseCode;
 import com.github.browep.fpt.billing.Security.VerifiedPurchase;
@@ -500,7 +501,7 @@ public class BillingService extends Service implements ServiceConnection {
             if (vp.notificationId != null) {
                 notifyList.add(vp.notificationId);
             }
-            ResponseHandler.purchaseResponse(this, vp.purchaseState, vp.productId,
+            ResponseHandler.purchaseResponse(this, (FptApp) getApplication(), vp.purchaseState, vp.productId,
                     vp.orderId, vp.purchaseTime, vp.developerPayload);
         }
         if (!notifyList.isEmpty()) {

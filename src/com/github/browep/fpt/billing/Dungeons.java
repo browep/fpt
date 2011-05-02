@@ -16,6 +16,7 @@
 
 package com.github.browep.fpt.billing;
 
+import com.github.browep.fpt.R;
 import com.github.browep.fpt.billing.BillingService.RequestPurchase;
 import com.github.browep.fpt.billing.BillingService.RestoreTransactions;
 import com.github.browep.fpt.billing.Consts.PurchaseState;
@@ -72,7 +73,7 @@ public class Dungeons extends Activity implements OnClickListener,
      */
     private static final String DB_INITIALIZED = "db_initialized";
 
-    private DungeonsPurchaseObserver mDungeonsPurchaseObserver;
+    private FptPurchaseObserver mFptPurchaseObserver;
     private Handler mHandler;
 
     private BillingService mBillingService;
@@ -82,7 +83,6 @@ public class Dungeons extends Activity implements OnClickListener,
     private Spinner mSelectItemSpinner;
     private ListView mOwnedItemsTable;
     private SimpleCursorAdapter mOwnedItemsAdapter;
-    private PurchaseDatabase mPurchaseDatabase;
     private Cursor mOwnedItemsCursor;
     private Set<String> mOwnedItems = new HashSet<String>();
 
@@ -104,95 +104,13 @@ public class Dungeons extends Activity implements OnClickListener,
      * purchased multiple times (such as poker chips). It is up to the
      * application to keep track of UNMANAGED products for the user.
      */
-    private enum Managed { MANAGED, UNMANAGED }
+    public enum Managed { MANAGED, UNMANAGED }
 
     /**
      * A {@link PurchaseObserver} is used to get callbacks when Android Market sends
      * messages to this application so that we can update the UI.
      */
-    private class DungeonsPurchaseObserver extends PurchaseObserver {
-        public DungeonsPurchaseObserver(Handler handler) {
-            super(Dungeons.this, handler);
-        }
 
-        @Override
-        public void onBillingSupported(boolean supported) {
-            if (Consts.DEBUG) {
-                Log.i(TAG, "supported: " + supported);
-            }
-            if (supported) {
-                restoreDatabase();
-                mBuyButton.setEnabled(true);
-                mEditPayloadButton.setEnabled(true);
-            } else {
-                showDialog(DIALOG_BILLING_NOT_SUPPORTED_ID);
-            }
-        }
-
-        @Override
-        public void onPurchaseStateChange(PurchaseState purchaseState, String itemId,
-                int quantity, long purchaseTime, String developerPayload) {
-            if (Consts.DEBUG) {
-                Log.i(TAG, "onPurchaseStateChange() itemId: " + itemId + " " + purchaseState);
-            }
-
-            if (developerPayload == null) {
-                logProductActivity(itemId, purchaseState.toString());
-            } else {
-                logProductActivity(itemId, purchaseState + "\n\t" + developerPayload);
-            }
-
-            if (purchaseState == PurchaseState.PURCHASED) {
-                mOwnedItems.add(itemId);
-            }
-            mCatalogAdapter.setOwnedItems(mOwnedItems);
-            mOwnedItemsCursor.requery();
-        }
-
-        @Override
-        public void onRequestPurchaseResponse(RequestPurchase request,
-                ResponseCode responseCode) {
-            if (Consts.DEBUG) {
-                Log.d(TAG, request.mProductId + ": " + responseCode);
-            }
-            if (responseCode == ResponseCode.RESULT_OK) {
-                if (Consts.DEBUG) {
-                    Log.i(TAG, "purchase was successfully sent to server");
-                }
-                logProductActivity(request.mProductId, "sending purchase request");
-            } else if (responseCode == ResponseCode.RESULT_USER_CANCELED) {
-                if (Consts.DEBUG) {
-                    Log.i(TAG, "user canceled purchase");
-                }
-                logProductActivity(request.mProductId, "dismissed purchase dialog");
-            } else {
-                if (Consts.DEBUG) {
-                    Log.i(TAG, "purchase failed");
-                }
-                logProductActivity(request.mProductId, "request purchase returned " + responseCode);
-            }
-        }
-
-        @Override
-        public void onRestoreTransactionsResponse(RestoreTransactions request,
-                ResponseCode responseCode) {
-            if (responseCode == ResponseCode.RESULT_OK) {
-                if (Consts.DEBUG) {
-                    Log.d(TAG, "completed RestoreTransactions request");
-                }
-                // Update the shared preferences so that we don't perform
-                // a RestoreTransactions again.
-                SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = prefs.edit();
-                edit.putBoolean(DB_INITIALIZED, true);
-                edit.commit();
-            } else {
-                if (Consts.DEBUG) {
-                    Log.d(TAG, "RestoreTransactions error: " + responseCode);
-                }
-            }
-        }
-    }
 
     private static class CatalogEntry {
         public String sku;
@@ -208,16 +126,16 @@ public class Dungeons extends Activity implements OnClickListener,
 
     /** An array of product list entries for the products that can be purchased. */
     private static final CatalogEntry[] CATALOG = new CatalogEntry[] {
-        new CatalogEntry("sword_001", R.string.two_handed_sword, Managed.MANAGED),
-        new CatalogEntry("potion_001", R.string.potions, Managed.UNMANAGED),
-        new CatalogEntry("android.test.purchased", R.string.android_test_purchased,
-                Managed.UNMANAGED),
-        new CatalogEntry("android.test.canceled", R.string.android_test_canceled,
-                Managed.UNMANAGED),
-        new CatalogEntry("android.test.refunded", R.string.android_test_refunded,
-                Managed.UNMANAGED),
-        new CatalogEntry("android.test.item_unavailable", R.string.android_test_item_unavailable,
-                Managed.UNMANAGED),
+        new CatalogEntry("send_report_01", R.string.two_handed_sword, Managed.UNMANAGED),
+//        new CatalogEntry("potion_001", R.string.potions, Managed.UNMANAGED),
+//        new CatalogEntry("android.test.purchased", R.string.android_test_purchased,
+//                Managed.UNMANAGED),
+//        new CatalogEntry("android.test.canceled", R.string.android_test_canceled,
+//                Managed.UNMANAGED),
+//        new CatalogEntry("android.test.refunded", R.string.android_test_refunded,
+//                Managed.UNMANAGED),
+//        new CatalogEntry("android.test.item_unavailable", R.string.android_test_item_unavailable,
+//                Managed.UNMANAGED),
     };
 
     private String mItemName;
@@ -228,18 +146,18 @@ public class Dungeons extends Activity implements OnClickListener,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+//        setContentView(R.layout.main);
 
         mHandler = new Handler();
-        mDungeonsPurchaseObserver = new DungeonsPurchaseObserver(mHandler);
+        mFptPurchaseObserver = new FptPurchaseObserver(mHandler);
         mBillingService = new BillingService();
         mBillingService.setContext(this);
 
-        mPurchaseDatabase = new PurchaseDatabase(this);
+//        mPurchaseDatabase = new PurchaseDatabase(this);
         setupWidgets();
 
         // Check if billing is supported.
-        ResponseHandler.register(mDungeonsPurchaseObserver);
+        ResponseHandler.register(mFptPurchaseObserver);
         if (!mBillingService.checkBillingSupported()) {
             showDialog(DIALOG_CANNOT_CONNECT_ID);
         }
@@ -251,8 +169,7 @@ public class Dungeons extends Activity implements OnClickListener,
     @Override
     protected void onStart() {
         super.onStart();
-        ResponseHandler.register(mDungeonsPurchaseObserver);
-        initializeOwnedItems();
+        ResponseHandler.register(mFptPurchaseObserver);
     }
 
     /**
@@ -261,13 +178,13 @@ public class Dungeons extends Activity implements OnClickListener,
     @Override
     protected void onStop() {
         super.onStop();
-        ResponseHandler.unregister(mDungeonsPurchaseObserver);
+        ResponseHandler.unregister(mFptPurchaseObserver);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPurchaseDatabase.close();
+//        mPurchaseDatabase.close();
         mBillingService.unbind();
     }
 
@@ -350,46 +267,33 @@ public class Dungeons extends Activity implements OnClickListener,
      * Sets up the UI.
      */
     private void setupWidgets() {
-        mLogTextView = (TextView) findViewById(R.id.log);
-
-        mBuyButton = (Button) findViewById(R.id.buy_button);
-        mBuyButton.setEnabled(false);
-        mBuyButton.setOnClickListener(this);
-
-        mEditPayloadButton = (Button) findViewById(R.id.payload_edit_button);
-        mEditPayloadButton.setEnabled(false);
-        mEditPayloadButton.setOnClickListener(this);
-
-        mSelectItemSpinner = (Spinner) findViewById(R.id.item_choices);
-        mCatalogAdapter = new CatalogAdapter(this, CATALOG);
-        mSelectItemSpinner.setAdapter(mCatalogAdapter);
-        mSelectItemSpinner.setOnItemSelectedListener(this);
-
-        mOwnedItemsCursor = mPurchaseDatabase.queryAllPurchasedItems();
-        startManagingCursor(mOwnedItemsCursor);
-        String[] from = new String[] { PurchaseDatabase.PURCHASED_PRODUCT_ID_COL,
-                PurchaseDatabase.PURCHASED_QUANTITY_COL
-        };
-        int[] to = new int[] { R.id.item_name, R.id.item_quantity };
-        mOwnedItemsAdapter = new SimpleCursorAdapter(this, R.layout.item_row,
-                mOwnedItemsCursor, from, to);
-        mOwnedItemsTable = (ListView) findViewById(R.id.owned_items);
-        mOwnedItemsTable.setAdapter(mOwnedItemsAdapter);
+//        mLogTextView = (TextView) findViewById(R.id.log);
+//
+//        mBuyButton = (Button) findViewById(R.id.buy_button);
+//        mBuyButton.setEnabled(false);
+//        mBuyButton.setOnClickListener(this);
+//
+//        mEditPayloadButton = (Button) findViewById(R.id.payload_edit_button);
+//        mEditPayloadButton.setEnabled(false);
+//        mEditPayloadButton.setOnClickListener(this);
+//
+//        mSelectItemSpinner = (Spinner) findViewById(R.id.item_choices);
+//        mCatalogAdapter = new CatalogAdapter(this, CATALOG);
+//        mSelectItemSpinner.setAdapter(mCatalogAdapter);
+//        mSelectItemSpinner.setOnItemSelectedListener(this);
+//
+//        mOwnedItemsCursor = mPurchaseDatabase.queryAllPurchasedItems();
+//        startManagingCursor(mOwnedItemsCursor);
+//        String[] from = new String[] { PurchaseDatabase.PURCHASED_PRODUCT_ID_COL,
+//                PurchaseDatabase.PURCHASED_QUANTITY_COL
+//        };
+//        int[] to = new int[] { R.id.item_name, R.id.item_quantity };
+//        mOwnedItemsAdapter = new SimpleCursorAdapter(this, R.layout.item_row,
+//                mOwnedItemsCursor, from, to);
+//        mOwnedItemsTable = (ListView) findViewById(R.id.owned_items);
+//        mOwnedItemsTable.setAdapter(mOwnedItemsAdapter);
     }
 
-    private void prependLogEntry(CharSequence cs) {
-        SpannableStringBuilder contents = new SpannableStringBuilder(cs);
-        contents.append('\n');
-        contents.append(mLogTextView.getText());
-        mLogTextView.setText(contents);
-    }
-
-    private void logProductActivity(String product, String activity) {
-        SpannableStringBuilder contents = new SpannableStringBuilder();
-        contents.append(Html.fromHtml("<b>" + product + "</b>: "));
-        contents.append(activity);
-        prependLogEntry(contents);
-    }
 
     /**
      * If the database has not been initialized, we send a
@@ -405,52 +309,6 @@ public class Dungeons extends Activity implements OnClickListener,
             mBillingService.restoreTransactions();
             Toast.makeText(this, R.string.restoring_transactions, Toast.LENGTH_LONG).show();
         }
-    }
-
-    /**
-     * Creates a background thread that reads the database and initializes the
-     * set of owned items.
-     */
-    private void initializeOwnedItems() {
-        new Thread(new Runnable() {
-            public void run() {
-                doInitializeOwnedItems();
-            }
-        }).start();
-    }
-
-    /**
-     * Reads the set of purchased items from the database in a background thread
-     * and then adds those items to the set of owned items in the main UI
-     * thread.
-     */
-    private void doInitializeOwnedItems() {
-        Cursor cursor = mPurchaseDatabase.queryAllPurchasedItems();
-        if (cursor == null) {
-            return;
-        }
-
-        final Set<String> ownedItems = new HashSet<String>();
-        try {
-            int productIdCol = cursor.getColumnIndexOrThrow(
-                    PurchaseDatabase.PURCHASED_PRODUCT_ID_COL);
-            while (cursor.moveToNext()) {
-                String productId = cursor.getString(productIdCol);
-                ownedItems.add(productId);
-            }
-        } finally {
-            cursor.close();
-        }
-
-        // We will add the set of owned items in a new Runnable that runs on
-        // the UI thread so that we don't need to synchronize access to
-        // mOwnedItems.
-        mHandler.post(new Runnable() {
-            public void run() {
-                mOwnedItems.addAll(ownedItems);
-                mCatalogAdapter.setOwnedItems(mOwnedItems);
-            }
-        });
     }
 
     /**
@@ -473,39 +331,39 @@ public class Dungeons extends Activity implements OnClickListener,
      * Displays the dialog used to edit the payload dialog.
      */
     private void showPayloadEditDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        final View view = View.inflate(this, R.layout.edit_payload, null);
-        final TextView payloadText = (TextView) view.findViewById(R.id.payload_text);
-        if (mPayloadContents != null) {
-            payloadText.setText(mPayloadContents);
-        }
-
-        dialog.setView(view);
-        dialog.setPositiveButton(
-                R.string.edit_payload_accept,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPayloadContents = payloadText.getText().toString();
-                    }
-                });
-        dialog.setNegativeButton(
-                R.string.edit_payload_clear,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (dialog != null) {
-                            mPayloadContents = null;
-                            dialog.cancel();
-                        }
-                    }
-                });
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-                if (dialog != null) {
-                    dialog.cancel();
-                }
-            }
-        });
-        dialog.show();
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//        final View view = View.inflate(this, R.layout.edit_payload, null);
+//        final TextView payloadText = (TextView) view.findViewById(R.id.payload_text);
+//        if (mPayloadContents != null) {
+//            payloadText.setText(mPayloadContents);
+//        }
+//
+//        dialog.setView(view);
+//        dialog.setPositiveButton(
+//                R.string.edit_payload_accept,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        mPayloadContents = payloadText.getText().toString();
+//                    }
+//                });
+//        dialog.setNegativeButton(
+//                R.string.edit_payload_clear,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if (dialog != null) {
+//                            mPayloadContents = null;
+//                            dialog.cancel();
+//                        }
+//                    }
+//                });
+//        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            public void onCancel(DialogInterface dialog) {
+//                if (dialog != null) {
+//                    dialog.cancel();
+//                }
+//            }
+//        });
+//        dialog.show();
     }
 
     /**

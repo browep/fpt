@@ -113,8 +113,32 @@ public final class R {
         public static final int report_payment_chooser_blurb=0x7f050002;
     }
     public static final class string {
+        /**  The following are reserved skus defined by Market for testing. 
+         */
+        public static final int android_test_canceled=0x7f070014;
+        public static final int android_test_item_unavailable=0x7f070016;
+        public static final int android_test_purchased=0x7f070015;
+        public static final int android_test_refunded=0x7f070017;
         public static final int app_name=0x7f070000;
+        public static final int billing_not_supported_message=0x7f070003;
+        public static final int billing_not_supported_title=0x7f070002;
+        public static final int buy=0x7f070009;
+        public static final int cannot_connect_message=0x7f070005;
+        public static final int cannot_connect_title=0x7f070004;
+        public static final int edit_payload=0x7f07000b;
+        public static final int edit_payload_accept=0x7f07000d;
+        public static final int edit_payload_clear=0x7f07000e;
+        public static final int edit_payload_title=0x7f07000c;
+        public static final int help_url=0x7f070008;
+        public static final int items_for_sale=0x7f07000f;
+        public static final int items_you_own=0x7f070010;
+        public static final int learn_more=0x7f070007;
+        public static final int potions=0x7f070013;
+        public static final int recent_transactions=0x7f070011;
         public static final int report_payment_chooser_top_text=0x7f070001;
+        public static final int restoring_transactions=0x7f070006;
+        public static final int select_item=0x7f07000a;
+        public static final int two_handed_sword=0x7f070012;
     }
     public static final class style {
         public static final int BaseObject=0x7f080005;

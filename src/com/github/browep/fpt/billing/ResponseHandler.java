@@ -2,6 +2,8 @@
 
 package com.github.browep.fpt.billing;
 
+import com.github.browep.fpt.C;
+import com.github.browep.fpt.FptApp;
 import com.github.browep.fpt.billing.BillingService.RequestPurchase;
 import com.github.browep.fpt.billing.BillingService.RestoreTransactions;
 import com.github.browep.fpt.billing.Consts.PurchaseState;
@@ -101,7 +103,7 @@ public class ResponseHandler {
      *     the order
      */
     public static void purchaseResponse(
-            final Context context, final PurchaseState purchaseState, final String productId,
+            final Context context, final FptApp application, final PurchaseState purchaseState, final String productId,
             final String orderId, final long purchaseTime, final String developerPayload) {
 
         // Update the database with the purchase state. We shouldn't do that
@@ -111,17 +113,14 @@ public class ResponseHandler {
         // first.
         new Thread(new Runnable() {
             public void run() {
-                PurchaseDatabase db = new PurchaseDatabase(context);
-                int quantity = db.updatePurchase(
-                        orderId, productId, purchaseState, purchaseTime, developerPayload);
-                db.close();
+              application.getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT,true);
 
                 // This needs to be synchronized because the UI thread can change the
                 // value of sPurchaseObserver.
                 synchronized(ResponseHandler.class) {
                     if (sPurchaseObserver != null) {
                         sPurchaseObserver.postPurchaseStateChange(
-                                purchaseState, productId, quantity, purchaseTime, developerPayload);
+                                purchaseState, productId, 1, purchaseTime, developerPayload);
                     }
                 }
             }
