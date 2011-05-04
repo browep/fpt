@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -15,6 +16,9 @@ import com.facebook.android.FacebookError;
 import com.flurry.android.FlurryAgent;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
+import com.github.browep.fpt.billing.BillingService;
+import com.github.browep.fpt.billing.FptPurchaseObserver;
+import com.github.browep.fpt.billing.ResponseHandler;
 import com.github.browep.fpt.connector.Tweeter;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.StringUtils;
@@ -35,14 +39,21 @@ public class ReportPaymentChooser extends FptActivity {
 
   private String tweetText;
 
+  private static final int DIALOG_CANNOT_CONNECT_ID = 1;
+  private static final int DIALOG_BILLING_NOT_SUPPORTED_ID = 2;
+
+
   Facebook facebook = new Facebook(C.FACEBOOK_APP_ID);
 
   public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "http://twitter.com/oauth/request_token";
   public static final String TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT = "http://twitter.com/oauth/access_token";
   public static final String TWITTER_OAUTH_AUTHORIZE_ENDPOINT = "http://twitter.com/oauth/authorize";
-  private CommonsHttpOAuthProvider commonsHttpOAuthProvider = new CommonsHttpOAuthProvider(TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT,TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT,TWITTER_OAUTH_AUTHORIZE_ENDPOINT);
+  private CommonsHttpOAuthProvider commonsHttpOAuthProvider = new CommonsHttpOAuthProvider(TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT, TWITTER_OAUTH_ACCESS_TOKEN_ENDPOINT, TWITTER_OAUTH_AUTHORIZE_ENDPOINT);
   private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(C.TWITTER_CONSUMER_KEY, C.TWITTER_CONSUMER_SECRET);
   private TwDialog dialog;
+  private Handler mHandler;
+  private FptPurchaseObserver mFptPurchaseObserver;
+  private BillingService mBillingService;
 
 
   @Override
@@ -69,10 +80,24 @@ public class ReportPaymentChooser extends FptActivity {
 
     findViewById(R.id.tweet_button).setOnClickListener(tweetOnClickListener);
     findViewById(R.id.facebook_button).setOnClickListener(facebookOnClickListener);
+    findViewById(R.id.buy_button).setOnClickListener(buyButtonOnClickListener);
 
+
+    mHandler = new Handler();
+    mFptPurchaseObserver = new FptPurchaseObserver(this, mHandler);
+    mBillingService = new BillingService();
+    mBillingService.setContext(this);
+
+    // Check if billing is supported.
+    ResponseHandler.register(mFptPurchaseObserver);
+    if (!mBillingService.checkBillingSupported()) {
+      Log.i("billing NOT supported");
+    } else {
+      Log.i("billing IS supported");
+    }
   }
 
-  View.OnClickListener facebookOnClickListener = new View.OnClickListener(){
+  View.OnClickListener facebookOnClickListener = new View.OnClickListener() {
     public void onClick(View view) {
       FlurryAgent.onEvent("FB_CLICKED");
       getFptApplication().getTracker().trackEvent("Report", "Facebook Clicked", null, 0);
@@ -80,19 +105,17 @@ public class ReportPaymentChooser extends FptActivity {
     }
   };
 
-
-
   View.OnClickListener tweetOnClickListener = new View.OnClickListener() {
     public void onClick(View view) {
 
       FlurryAgent.onEvent("TWEET_CLICKED");
-      getFptApplication().getTracker().trackEvent("Report","Tweet Clicked",null,0);
+      getFptApplication().getTracker().trackEvent("Report", "Tweet Clicked", null, 0);
 
       commonsHttpOAuthProvider.setOAuth10a(true);
-      dialog = new TwDialog(self,commonsHttpOAuthProvider,commonsHttpOAuthConsumer,dialogListener, R.drawable.swt_72_72);
+      dialog = new TwDialog(self, commonsHttpOAuthProvider, commonsHttpOAuthConsumer, dialogListener, R.drawable.swt_72_72);
       dialog.show();
 
-      dialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
+      dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
         public void onDismiss(DialogInterface dialogInterface) {
           AlertDialog.Builder builder = new AlertDialog.Builder(self);
           builder.setCancelable(true);
@@ -103,13 +126,13 @@ public class ReportPaymentChooser extends FptActivity {
           builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
               FlurryAgent.onEvent("TWEET_OK");
-              getFptApplication().getTracker().trackEvent("Report","Tweet OK",null,0);
+              getFptApplication().getTracker().trackEvent("Report", "Tweet OK", null, 0);
 
 
               Tweeter tweeter = new Tweeter(getFptApplication().getPreferencesService().getStringPreference(C.TWITTER_ACCESS_TOKEN),
                   getFptApplication().getPreferencesService().getStringPreference(C.TWITTER_SECRET_TOKEN));
               tweeter.tweet(tweetText);
-              getFptApplication().getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT,true);
+              getFptApplication().getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT, true);
               startActivityForResult(new Intent(self, SendReport.class), 0);
 
             }
@@ -131,7 +154,7 @@ public class ReportPaymentChooser extends FptActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == R.id.facebook_result_id ) {
+    if (requestCode == R.id.facebook_result_id) {
       if (resultCode == R.id.facebook_result_success) {
         // popup dialog for posting to wall
         doFacebookPost();
@@ -149,20 +172,20 @@ public class ReportPaymentChooser extends FptActivity {
     Bundle parameters = new Bundle();
 
     Map attachment = new HashMap();
-    attachment.put("description",tweetText);
-    attachment.put("href",C.MARKET_LINK);
-    attachment.put("name","Checkout Simple Workout Tracker for Android");
+    attachment.put("description", tweetText);
+    attachment.put("href", C.MARKET_LINK);
+    attachment.put("name", "Checkout Simple Workout Tracker for Android");
 
     parameters.putString("attachment", Util.toJson(attachment));// the message to post to the wall
     facebook.dialog(self, "stream.publish", parameters, new Facebook.FacebookDialogListener() {
       public void onComplete(Bundle values) {
 
         if (!StringUtils.isEmpty(values.getString("post_id"))) {
-          getFptApplication().getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT,true);
+          getFptApplication().getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT, true);
           FlurryAgent.onEvent("FACEBOOK_POSTED");
           getFptApplication().getTracker().trackEvent("Report", "Facebook Posted", null, 0);
           startActivity(new Intent(self, SendReport.class));
-        }else{
+        } else {
           FlurryAgent.onEvent("FACEBOOK_CANCELED");
           getFptApplication().getTracker().trackEvent("Report", "Facebook Canceled", null, 0);
           onFailure();
@@ -201,11 +224,11 @@ public class ReportPaymentChooser extends FptActivity {
 
     public void onTwitterError(TwitterError e) {
 
-      Log.e("onTwitterError called for TwitterDialog",new Exception(e));
+      Log.e("onTwitterError called for TwitterDialog", new Exception(e));
     }
 
     public void onError(DialogError e) {
-      Log.e("onError called for TwitterDialog",new Exception(e));
+      Log.e("onError called for TwitterDialog", new Exception(e));
 
     }
 
@@ -213,4 +236,58 @@ public class ReportPaymentChooser extends FptActivity {
       Log.e("onCancel");
     }
   };
+
+  View.OnClickListener buyButtonOnClickListener = new View.OnClickListener() {
+    public void onClick(View view) {
+      FlurryAgent.onEvent("BUY_CLICKED");
+      getFptApplication().getTracker().trackEvent("Report", "Buy Clicked", null, 0);
+      if (!mBillingService.requestPurchase("send_report_01", null)) {
+        showDialog(DIALOG_BILLING_NOT_SUPPORTED_ID);
+      }
+    }
+  };
+
+  /**
+   * Called when this activity becomes visible.
+   */
+  @Override
+  public void onStart() {
+    super.onStart();
+    ResponseHandler.register(mFptPurchaseObserver);
+  }
+
+  /**
+   * Called when this activity is no longer visible.
+   */
+  @Override
+  public void onStop() {
+    super.onStop();
+    ResponseHandler.unregister(mFptPurchaseObserver);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    mBillingService.unbind();
+  }
+
+  /**
+   * Save the context of the log so simple things like rotation will not
+   * result in the log being cleared.
+   */
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+  }
+
+  /**
+   * Restore the contents of the log if it has previously been saved.
+   */
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+  }
+
+
 }

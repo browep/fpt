@@ -22,6 +22,8 @@
       >
     <Button android:background="@drawable/layers"
             style="@style/ChicletButton"
+            android:id="@+id/buy_button"
+
             android:text="Buy 99c"
         />
     <Button android:background="@drawable/layers"
