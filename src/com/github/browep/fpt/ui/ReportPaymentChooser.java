@@ -1,14 +1,13 @@
 package com.github.browep.fpt.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
-import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 import com.facebook.android.Facebook;
@@ -42,7 +41,6 @@ public class ReportPaymentChooser extends FptActivity {
   private static final int DIALOG_CANNOT_CONNECT_ID = 1;
   private static final int DIALOG_BILLING_NOT_SUPPORTED_ID = 2;
 
-
   Facebook facebook = new Facebook(C.FACEBOOK_APP_ID);
 
   public static final String TWITTER_OAUTH_REQUEST_TOKEN_ENDPOINT = "http://twitter.com/oauth/request_token";
@@ -52,8 +50,10 @@ public class ReportPaymentChooser extends FptActivity {
   private CommonsHttpOAuthConsumer commonsHttpOAuthConsumer = new CommonsHttpOAuthConsumer(C.TWITTER_CONSUMER_KEY, C.TWITTER_CONSUMER_SECRET);
   private TwDialog dialog;
   private Handler mHandler;
+  private ProgressDialog mPurchaseProgressDialog;
   private FptPurchaseObserver mFptPurchaseObserver;
   private BillingService mBillingService;
+  private String facebookText;
 
 
   @Override
@@ -61,7 +61,9 @@ public class ReportPaymentChooser extends FptActivity {
     super.onCreate(savedInstanceState);
 
     try {
-      tweetText = Util.slurp(getFptApplication().getApplicationContext().getResources().openRawResource(R.raw.promo_tweet)) + C.MARKET_LINK;
+      String promotionalText = Util.slurp(getFptApplication().getApplicationContext().getResources().openRawResource(R.raw.promo_tweet));
+      tweetText = promotionalText + C.TWITTER_MARKET_LINK;
+      facebookText = promotionalText + C.FACEBOOK_MARKET_LINK;
     } catch (IOException e) {
       Log.e("issue trying to get the promo_tweet.txt", e);
     }
@@ -83,8 +85,9 @@ public class ReportPaymentChooser extends FptActivity {
     findViewById(R.id.buy_button).setOnClickListener(buyButtonOnClickListener);
 
 
-    mHandler = new Handler();
-    mFptPurchaseObserver = new FptPurchaseObserver(this, mHandler);
+    mHandler = new ReportPaymentChooserHandler();
+    mPurchaseProgressDialog = new ProgressDialog(self);
+    mFptPurchaseObserver = new FptPurchaseObserver(this, mHandler,mPurchaseProgressDialog);
     mBillingService = new BillingService();
     mBillingService.setContext(this);
 
@@ -164,6 +167,7 @@ public class ReportPaymentChooser extends FptActivity {
       }
 
     } else {
+      // this activity is done, go back to home screen
       finish();
     }
   }
@@ -172,8 +176,8 @@ public class ReportPaymentChooser extends FptActivity {
     Bundle parameters = new Bundle();
 
     Map attachment = new HashMap();
-    attachment.put("description", tweetText);
-    attachment.put("href", C.MARKET_LINK);
+    attachment.put("description", facebookText);
+    attachment.put("href", C.FACEBOOK_MARKET_LINK);
     attachment.put("name", "Checkout Simple Workout Tracker for Android");
 
     parameters.putString("attachment", Util.toJson(attachment));// the message to post to the wall
@@ -289,5 +293,21 @@ public class ReportPaymentChooser extends FptActivity {
 
   }
 
+  class ReportPaymentChooserHandler extends Handler {
+
+    @Override
+    public void handleMessage(Message msg) {
+      if(msg.what == R.id.purchase_successful){
+        try {
+          mPurchaseProgressDialog.dismiss();
+          self.startActivity(new Intent(self,SendReport.class));
+        } catch (Exception e) {
+          Log.e("error trying to dismiss progress dialog", e);
+        }
+      }else{
+        Log.wtf("unkown msg sent: " + msg.what);
+      }
+    }
+  }
 
 }

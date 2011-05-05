@@ -17,42 +17,19 @@
 package com.github.browep.fpt.billing;
 
 import com.github.browep.fpt.R;
-import com.github.browep.fpt.billing.BillingService.RequestPurchase;
-import com.github.browep.fpt.billing.BillingService.RestoreTransactions;
-import com.github.browep.fpt.billing.Consts.PurchaseState;
-import com.github.browep.fpt.billing.Consts.ResponseCode;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 /**
  * A sample application that demonstrates in-app billing.
@@ -90,7 +67,7 @@ public class Dungeons extends Activity
 //        setContentView(R.layout.main);
 
         mHandler = new Handler();
-        mFptPurchaseObserver = new FptPurchaseObserver(this,mHandler);
+        mFptPurchaseObserver = new FptPurchaseObserver(this,mHandler, null);
         mBillingService = new BillingService();
         mBillingService.setContext(this);
 

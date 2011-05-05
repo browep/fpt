@@ -104,6 +104,9 @@
                 <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED"/>
             </intent-filter>
         </receiver>
+        <service android:name="billing.BillingService" />
+        <service android:name=".billing.BillingService" />
+
 
     </application>
 

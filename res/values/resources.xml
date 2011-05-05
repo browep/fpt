@@ -12,6 +12,7 @@
     <item type="id" name="facebook_result_id" />
     <item type="id" name="facebook_result_success" />
     <item type="id" name="facebook_result_failure" />
+    <item type="id" name="purchase_successful" />
 
 
 </resources>

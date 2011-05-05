@@ -113,7 +113,6 @@ public class ResponseHandler {
         // first.
         new Thread(new Runnable() {
             public void run() {
-              application.getPreferencesService().setBooleanPreference(C.AUTHORIZED_FOR_REPORT,true);
 
                 // This needs to be synchronized because the UI thread can change the
                 // value of sPurchaseObserver.

@@ -27,8 +27,8 @@ import java.lang.reflect.Method;
  */
 public abstract class PurchaseObserver {
     private static final String TAG = "PurchaseObserver";
-    private final Activity mActivity;
-    private final Handler mHandler;
+    protected final Activity mActivity;
+    protected final Handler mHandler;
     private Method mStartIntentSender;
     private Object[] mStartIntentSenderArgs = new Object[5];
     private static final Class[] START_INTENT_SENDER_SIG = new Class[] {
