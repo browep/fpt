@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -113,9 +114,15 @@ public class SeeProgressChooser extends FptActivity {
 
   private View.OnClickListener seePicturesOnClickListener = new View.OnClickListener() {
     public void onClick(View view) {
-      Intent intent = new Intent();
-      intent.setClass(self, SeePictures.class);
-      startActivity(intent);
+      // check to see if the SD-card is mounted
+      String state = Environment.getExternalStorageState();
+      if (!Environment.MEDIA_MOUNTED.equals(state)) {
+        Util.longToastMessage(self, C.SD_CARD_NOT_MOUNTED_MESSAGE);
+      } else {
+        Intent intent = new Intent();
+        intent.setClass(self, SeePictures.class);
+        startActivity(intent);
+      }
 
     }
   };

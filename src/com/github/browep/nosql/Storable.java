@@ -34,7 +34,6 @@ public abstract class Storable implements Parcelable{
     public String serialize() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         (new ObjectMapper()).writeValue(baos,map);
-
         return baos.toString();
     }
 

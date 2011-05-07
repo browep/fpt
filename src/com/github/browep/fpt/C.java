@@ -29,7 +29,7 @@ public class C {
   public static final String FILE_NAME = "file_name";
   public static final String IMGUR_API_KEY = "7d30320d0311853f5a0e99fdd08c2001";
   public static final String UPLOAD_HOSTNAME = "fpt.heroku.com";
-//  public static final String UPLOAD_HOSTNAME = "192.168.0.196:3000";
+//  public static final String UPLOAD_HOSTNAME = "192.168.0.189:3000";
   public static final String URL = "url";
   public static final String UPLOADED = "uploaded";
   public static final String AUTHORIZED_FOR_REPORT = "authorized_for_report";
@@ -42,6 +42,8 @@ public class C {
   public static final String FACEBOOK_AUTHORIZE_TOKEN = "facebook_authorize_token";
   public static final String FACEBOOK_MARKET_LINK = "http://bit.ly/lelblj"; //http://saml.heroku.com/?id=com.github.browep.fpt&referrer=utm_source%3Dinapp%26utm_medium%3Dfacebook%26utm_term%3Dworkout%26utm_content%3Dmycontent%26utm_campaign%3Dinapp
   public static final String TWITTER_MARKET_LINK = "http://bit.ly/lyAggv"; //http://saml.heroku.com/?id=com.github.browep.fpt&referrer=utm_source%3Dinapp%26utm_medium%3Dtwitter%26utm_term%3Dworkout%26utm_content%3Dmycontent%26utm_campaign%3Dinapp
+  public static final String SD_CARD_NOT_MOUNTED_MESSAGE = "Your SD Card is currently unavailable.  Is it present or do you have your phone" +
+      " plugged in?";
 
   private C() {
   } // should never be used

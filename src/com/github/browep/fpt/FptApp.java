@@ -83,6 +83,8 @@ public class FptApp extends Application{
     List<FptPicture> createdFptPictures = new LinkedList<FptPicture>();
     // get all the thumbs in the dir
     File pictureDirectory = new File(Util.getThumbsDirectory());
+    if(!pictureDirectory.exists())
+      pictureDirectory.mkdirs();
     File[] pictures = pictureDirectory.listFiles();
     for(File pictureFile : pictures){
       // see if there is an entry for this file

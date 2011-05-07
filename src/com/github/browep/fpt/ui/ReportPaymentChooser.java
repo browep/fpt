@@ -62,8 +62,8 @@ public class ReportPaymentChooser extends FptActivity {
 
     try {
       String promotionalText = Util.slurp(getFptApplication().getApplicationContext().getResources().openRawResource(R.raw.promo_tweet));
-      tweetText = promotionalText + C.TWITTER_MARKET_LINK;
-      facebookText = promotionalText + C.FACEBOOK_MARKET_LINK;
+      tweetText = promotionalText.trim() + " " + C.TWITTER_MARKET_LINK;
+      facebookText = promotionalText;
     } catch (IOException e) {
       Log.e("issue trying to get the promo_tweet.txt", e);
     }

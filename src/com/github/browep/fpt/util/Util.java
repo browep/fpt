@@ -163,6 +163,18 @@ public static byte[] getBytesFromFile(File file) throws IOException {
     return Environment.getExternalStorageDirectory() + "/com.github.browep.fpt/thumbs";
   }
 
+  public static boolean createIfNotPresent(String dirPath){
+    File dir = new File(dirPath);
+    if(dir.exists()){
+      return false;
+    }
+    else{
+      dir.mkdirs();
+      return true;
+    }
+
+  }
+
   public static List<FptPicture> getAllNotYetUploadedPics(Dao dao){
     Map where = new HashMap();
     where.put(C.UPLOADED, "false");

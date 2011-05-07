@@ -32,9 +32,10 @@ public class Welcome extends DaoAwareActivity {
 
     getDao().dumpDbToLog();
 
-//    new UpdateImagesTask().execute(getFptApplication());
-
-//    getFptApplication().sendReport("brower.paul@gmail.com");
+    String state = Environment.getExternalStorageState();
+    if (Environment.MEDIA_MOUNTED.equals(state)) {
+      new UpdateImagesTask().execute(getFptApplication());
+    }
 
     setContentView(R.layout.main);
 
@@ -82,16 +83,23 @@ public class Welcome extends DaoAwareActivity {
 
   View.OnClickListener takeProgressPictureOnClickListener = new View.OnClickListener() {
     public void onClick(View view) {
-      Intent intent = new Intent();
-      intent.setClass(self, TakeProgressPicture.class);
-      self.startActivity(intent);
+
+    // check to see if the SD-card is mounted
+      String state = Environment.getExternalStorageState();
+      if (!Environment.MEDIA_MOUNTED.equals(state)) {
+        Util.longToastMessage(self, C.SD_CARD_NOT_MOUNTED_MESSAGE);
+      } else {
+        Intent intent = new Intent();
+        intent.setClass(self, TakeProgressPicture.class);
+        self.startActivity(intent);
+      }
     }
   };
 
   View.OnClickListener sendReportOnClickListenere = new View.OnClickListener() {
     public void onClick(View view) {
-//      if(getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)){
-      if(false){
+      if(getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)){
+//      if(false){
         startActivity(new Intent(self, SendReport.class));
       } else {
         self.startActivity(new Intent(self, ReportPaymentChooser.class));

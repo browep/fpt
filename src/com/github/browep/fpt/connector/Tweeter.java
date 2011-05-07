@@ -46,7 +46,7 @@ public class Tweeter {
       HttpClient httpClient = new DefaultHttpClient();
       Uri.Builder builder = new Uri.Builder();
       builder.appendPath("statuses").appendPath("update.json")
-          .appendQueryParameter("status", (new Date()).toString());
+          .appendQueryParameter("status", message);
       Uri man = builder.build();
       HttpPost post = new HttpPost("http://twitter.com" + man.toString());
       oAuthConsumer.sign(post);

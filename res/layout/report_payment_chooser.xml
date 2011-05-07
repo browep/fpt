@@ -8,6 +8,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
   <TextView android:id="@+id/report_payment_chooser_text_blurb"
             style="@style/BaseText"
+            android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_margin="10px"
             android:layout_width="fill_parent"
@@ -24,18 +25,18 @@
             style="@style/ChicletButton"
             android:id="@+id/buy_button"
 
-            android:text="Buy 99c"
+            android:text="Buy for 99c"
         />
     <Button android:background="@drawable/layers"
             style="@style/ChicletButton"
             android:id="@+id/tweet_button"
-            android:text="Tweet Free"
+            android:text="Tweet"
         />
     <Button android:background="@drawable/layers"
             style="@style/ChicletButton"
             android:id="@+id/facebook_button"
 
-            android:text="Facebook Post Free"
+            android:text="Facebook Post"
         />
   </LinearLayout>
 

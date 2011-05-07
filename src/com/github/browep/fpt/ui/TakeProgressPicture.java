@@ -3,13 +3,16 @@ package com.github.browep.fpt.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import com.flurry.android.FlurryAgent;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.UploadImageTask;
 import com.github.browep.fpt.dao.DaoAwareActivity;
@@ -27,63 +30,84 @@ import java.util.Date;
  * Time: 1:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TakeProgressPicture extends DaoAwareActivity {
+public class TakeProgressPicture extends FptActivity {
   private int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 123;
   String fileName = "current.jpg";
   Uri imageUri;
+  Handler mHandler;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    ContentValues values = new ContentValues();
-    values.put(MediaStore.Images.Media.TITLE, fileName);
-    values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
 
-    imageUri = getContentResolver().insert(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+    mHandler = new Handler();
 
-    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+    final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(this)));
     startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
-        ProgressDialog dialog = ProgressDialog.show(this, "",
+        final ProgressDialog dialog = ProgressDialog.show(this, "",
             "Saving Picture...", true);
 
         //use imageUri here to access the image
-        File imageFile = convertImageUriToFile(imageUri, this);
-        Log.i("image file: " + imageFile.toString());
 
-        Bitmap thumbBitmap = Util.decodeFile(imageFile);
-        String fileName = ((Long) (new Date()).getTime()).toString() + ".jpg";
 
-        File thumbFile = new File(Util.getThumbsDirectory() + "/" + fileName);
+        new Thread() {
+          @Override
+          public void run() {
+            try {
+              final File tempFile = getTempFile(self);
 
-        try {
-          thumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(thumbFile));
-        } catch (FileNotFoundException e) {
-          Log.e("trying to save thumb", e);
-        }
-        dialog.dismiss();
-        Util.longToastMessage(this, "Picture saved successfully");
+              Bitmap captureBmp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(tempFile));
+              File outFile = File.createTempFile("bitmap", "tmp");
+              FileOutputStream out = new FileOutputStream(outFile);
+              captureBmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
-        finish();
+              Bitmap thumbBitmap = Util.decodeFile(outFile);
 
-        // try to upload
-        FptPicture fptPicture = FptPicture.fptPictureFromFile(thumbFile, getDao());
-        getDao().save(fptPicture);
-        new UploadImageTask().execute(new UploadImageTask.UploadImageTaskPackage(getFptApplication(), new FptPicture[]{fptPicture}));
+              String fileName = ((Long) (new Date()).getTime()).toString() + ".jpg";
 
-        getFptApplication().getTracker().trackEvent(
-            "Picture",  // Category
-            "Taken",  // Action
-            null, // Label
-            0);
+              String thumbsDirectory = Util.getThumbsDirectory();
+              Util.createIfNotPresent(thumbsDirectory);
+              File thumbFile = new File(thumbsDirectory + "/" + fileName);
+
+              try {
+                thumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(thumbFile));
+              } catch (FileNotFoundException e) {
+                Log.e("trying to save thumb", e);
+              }
+
+              // try to upload
+              final FptPicture fptPicture = FptPicture.fptPictureFromFile(thumbFile, getDao());
+              getDao().save(fptPicture);
+
+              getFptApplication().getTracker().trackEvent(
+                  "Picture",  // Category
+                  "Taken",  // Action
+                  null, // Label
+                  0);
+              FlurryAgent.onEvent("PICTURE_TAKEN");
+
+              mHandler.post(new Runnable() {
+                public void run() {
+                  new UploadImageTask().execute(new UploadImageTask.UploadImageTaskPackage(getFptApplication(), new FptPicture[]{fptPicture}));
+                  dialog.dismiss();
+                  Util.longToastMessage(self, "Picture saved successfully");
+                  finish();
+                }
+              });
+            } catch (IOException e) {
+              Log.e("error getting image", e);
+              throw new RuntimeException(e);
+            }
+
+          }
+        }.start();
 
       } else {
         Util.longToastMessage(this, "Picture was not taken");
@@ -115,6 +139,15 @@ public class TakeProgressPicture extends DaoAwareActivity {
     }
   }
 
+
+private File getTempFile(Context context){
+
+  final File path = new File( Environment.getExternalStorageDirectory(), context.getPackageName() );
+  if(!path.exists()){
+    path.mkdir();
+  }
+  return new File(path, "image.tmp");
+}
 
   @Override
   public String getPageName() {

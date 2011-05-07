@@ -145,7 +145,7 @@ public class Dao {
   public void dumpDbToLog() {
     Cursor cursor = null;
 
-    Log.i("dumping to log");
+    Log.d("dumping to log");
     try {
       db = getOrOpen();
 
@@ -154,7 +154,7 @@ public class Dao {
       while (!cursor.isAfterLast()) {
         StringBuilder sb = new StringBuilder();
         sb.append("INSTANCE: ").append(cursor.getInt(0)).append(",").append(cursor.getString(1)).append(",").append(cursor.getString(2)).append(",").append(cursor.getString(3)).append(",").append(cursor.getString(4));
-        Log.i(sb.toString());
+        Log.d(sb.toString());
         cursor.move(1);
       }
 
@@ -163,7 +163,7 @@ public class Dao {
       while (!cursor.isAfterLast()) {
         StringBuilder sb = new StringBuilder();
         sb.append("INDEX   : ").append(cursor.getInt(0)).append(",").append(cursor.getInt(1)).append(",").append(cursor.getString(2));
-        Log.i(sb.toString());
+        Log.d(sb.toString());
         cursor.move(1);
       }
     } finally {
@@ -228,7 +228,7 @@ public class Dao {
 
       for (Map.Entry<String, String> where : wheres.entrySet()) {
         String combined = where.getKey() + "_" + where.getValue();
-        Log.i("where: " + combined);
+        Log.d("where: " + combined);
         cursor = db.query(INDEXES_TABLE_NAME, new String[]{"instance_id"}, "path = ?", new String[]{combined}, null, null, null);
         List<Integer> found_this_where = new LinkedList<Integer>();
         cursor.moveToFirst();
