@@ -39,73 +39,48 @@ public class Welcome extends DaoAwareActivity {
 
     setContentView(R.layout.main);
 
-    Button createWorkoutButton = (Button) findViewById(R.id.create_workout_button);
-    createWorkoutButton.setOnClickListener(createWorkoutButtonOnClickListener);
-
-    Button enterDataButton = (Button) findViewById(R.id.enter_workout_entry_button);
-    enterDataButton.setOnClickListener(enterDataOnClickListener);
-
-    Button seeProgressButton = (Button) findViewById(R.id.see_progress);
-    seeProgressButton.setOnClickListener(seeProgressOnClickListener);
-
-    Button takeProgressPicture = (Button) findViewById(R.id.progress_picture);
-    takeProgressPicture.setOnClickListener(takeProgressPictureOnClickListener);
-
-    Button sendReportButton = (Button) findViewById(R.id.send_report);
-    sendReportButton.setOnClickListener(sendReportOnClickListenere);
-
   }
 
 
-  View.OnClickListener createWorkoutButtonOnClickListener = new View.OnClickListener() {
-    public void onClick(View view) {
-      Intent intent = new Intent();
-      intent.setClass(self, CreateWorkout.class);
-      self.startActivity(intent);
-    }
-  };
+  public void createWorkoutButtonOnClickListener(View view) {
+    Intent intent = new Intent();
+    intent.setClass(self, CreateWorkout.class);
+    self.startActivity(intent);
+  }
 
-  View.OnClickListener enterDataOnClickListener = new View.OnClickListener() {
-    public void onClick(View view) {
-      Intent intent = new Intent();
-      intent.setClass(self, EnterDataChooser.class);
-      self.startActivity(intent);
-    }
-  };
+  public void enterDataOnClickListener(View view) {
+    Intent intent = new Intent();
+    intent.setClass(self, EnterDataChooser.class);
+    self.startActivity(intent);
+  }
 
-  View.OnClickListener seeProgressOnClickListener = new View.OnClickListener() {
-    public void onClick(View view) {
-      Intent intent = new Intent();
-      intent.setClass(self, SeeProgressChooser.class);
-      self.startActivity(intent);
-    }
-  };
+  public void seeProgressOnClickListener(View view) {
+    Intent intent = new Intent();
+    intent.setClass(self, SeeProgressChooser.class);
+    self.startActivity(intent);
+  }
 
-  View.OnClickListener takeProgressPictureOnClickListener = new View.OnClickListener() {
-    public void onClick(View view) {
+  public void takeProgressPictureOnClickListener(View view) {
 
     // check to see if the SD-card is mounted
-      String state = Environment.getExternalStorageState();
-      if (!Environment.MEDIA_MOUNTED.equals(state)) {
-        Util.longToastMessage(self, C.SD_CARD_NOT_MOUNTED_MESSAGE);
-      } else {
-        Intent intent = new Intent();
-        intent.setClass(self, TakeProgressPicture.class);
-        self.startActivity(intent);
-      }
+    String state = Environment.getExternalStorageState();
+    if (!Environment.MEDIA_MOUNTED.equals(state)) {
+      Util.longToastMessage(self, C.SD_CARD_NOT_MOUNTED_MESSAGE);
+    } else {
+      Intent intent = new Intent();
+      intent.setClass(self, TakeProgressPicture.class);
+      self.startActivity(intent);
     }
-  };
+  }
 
-  View.OnClickListener sendReportOnClickListenere = new View.OnClickListener() {
-    public void onClick(View view) {
-      if(getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)){
+  public void sendReportOnClickListener(View view) {
+    if (getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)) {
 //      if(false){
-        startActivity(new Intent(self, SendReport.class));
-      } else {
-        self.startActivity(new Intent(self, ReportPaymentChooser.class));
-      }
+      startActivity(new Intent(self, SendReport.class));
+    } else {
+      self.startActivity(new Intent(self, ReportPaymentChooser.class));
     }
-  };
+  }
 
 
   @Override

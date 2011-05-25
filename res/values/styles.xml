@@ -10,6 +10,17 @@
         <item name="android:gravity">left|center_vertical</item>
     </style>
 
+    <style name="BaseChiclet">
+        <item name="android:layout_width">128px</item>
+        <item name="android:layout_height">128px</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:layout_margin">10px</item>
+        <item name="android:layout_weight">50</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
     <style name="BaseScreen">
         <item name="android:background">#FFFFFF</item>
     </style>
@@ -82,6 +93,11 @@
         <!--<item name="android:layout_marginBottom">0px</item>-->
         <!--<item name="android:layout_marginTop">3px</item>-->
         <item name="android:layout_margin">1px</item>
+    </style>
+    <style name="HomeRow">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
 </resources>

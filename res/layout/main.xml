@@ -1,53 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    style="@style/BaseScreen"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
 
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Welcome to your Simple Workout Tracker"
-    style="@style/BaseText"
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:orientation="vertical"
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 style="@style/BaseScreen"
 
-    />
-
-    <Button
-            android:id="@+id/enter_workout_entry_button"
-            android:text="Enter Data For A Workout"
-            style="@style/HomeButton"
-            android:background="@drawable/layers"
-            />
-
-    <Button
-            android:id="@+id/create_workout_button"
-            android:text="Define a New Workout"
-            style="@style/HomeButton"
-            android:background="@drawable/layers"
-            />
+            >
+        <TableRow style="@style/HomeRow">
+            <Button
+                    android:text="Enter Workout Data"
+                    android:onClick="enterDataOnClickListener"
+                    style="@style/BaseChiclet"
+                    android:background="@drawable/layers"
+                    />
+        </TableRow>
 
 
-    <Button
-            android:id="@+id/see_progress"
-            android:text="See Your Progress"
-            style="@style/HomeButton"
-            android:background="@drawable/layers"
-            />
+        <TableRow style="@style/HomeRow">
+            <Button
+                    android:onClick="seeProgressOnClickListener"
+                    android:text="See Your Progress"
+                    style="@style/BaseChiclet"
+                    android:background="@drawable/layers"
+                    />
 
-    <Button
-            android:id="@+id/progress_picture"
-            android:text="Add a Progress Picture"
-            style="@style/HomeButton"
-            android:background="@drawable/layers"
-            />
+            <Button
 
-    <Button
-            android:id="@+id/send_report"
-            android:text="Email me My Report"
-            style="@style/HomeButton"
-            android:background="@drawable/layers"
-            />
-</LinearLayout>
+                    android:onClick="takeProgressPictureOnClickListener"
+                    android:text="Add a Progress Picture"
+                    style="@style/BaseChiclet"
+                    android:background="@drawable/layers"
+                    />
+        </TableRow>
+        <TableRow style="@style/HomeRow">
 
+
+            <Button
+                    android:text="Define a New Workout"
+                    style="@style/BaseChiclet"
+                    android:onClick="createWorkoutButtonOnClickListener"
+                    android:background="@drawable/layers"
+                    />
+            <Button
+                    android:onClick="sendReportOnClickListener"
+                    android:text="Get Report by Email"
+                    style="@style/BaseChiclet"
+                    android:background="@drawable/layers"
+                    />
+
+        </TableRow>
+
+    </TableLayout>
+
+</ScrollView>
