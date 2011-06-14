@@ -82,7 +82,7 @@ public class ReportPaymentChooser extends FptActivity {
 
     findViewById(R.id.tweet_button).setOnClickListener(tweetOnClickListener);
     findViewById(R.id.facebook_button).setOnClickListener(facebookOnClickListener);
-    findViewById(R.id.buy_button).setOnClickListener(buyButtonOnClickListener);
+//    findViewById(R.id.buy_button).setOnClickListener(buyButtonOnClickListener);
 
 
     mHandler = new ReportPaymentChooserHandler();

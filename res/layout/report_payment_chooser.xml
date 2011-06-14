@@ -16,17 +16,12 @@
 
   <LinearLayout android:orientation="horizontal"
                 android:gravity="center"
+                android:layout_gravity="center"
                 style="@style/BaseScreen"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
 
       >
-    <Button android:background="@drawable/layers"
-            style="@style/ChicletButton"
-            android:id="@+id/buy_button"
-
-            android:text="Buy for 99c"
-        />
     <Button android:background="@drawable/layers"
             style="@style/ChicletButton"
             android:id="@+id/tweet_button"
