@@ -1,12 +1,11 @@
 package com.github.browep.fpt.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.dao.DaoAwareActivity;
 
@@ -18,6 +17,8 @@ import com.github.browep.fpt.dao.DaoAwareActivity;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class SubmittableActivity extends DaoAwareActivity {
+  protected Activity self = this;
+
   protected View.OnKeyListener hideKeyBoardListener = new View.OnKeyListener() {
     /**
      * This listens for the user to press the enter button on

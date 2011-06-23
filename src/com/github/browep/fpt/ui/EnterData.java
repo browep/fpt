@@ -3,10 +3,12 @@ package com.github.browep.fpt.ui;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import com.github.browep.fpt.AppRater;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.model.Workout;
@@ -151,7 +153,17 @@ public class EnterData extends SubmittableActivity {
       workout.put(C.COMMENT, comment);
     getDao().save(workout);
     Util.longToastMessage(this, "Entry saved for \"" + definition.get(C.WORKOUT_NAME) + "\"");
-    finish();
+    Dialog dialog = AppRater.app_launched(this);
+    if(dialog == null)
+      finish();
+    else{
+      dialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
+
+        public void onDismiss(DialogInterface dialogInterface) {
+          self.finish();
+        }
+      });
+    }
 
     getFptApplication().getTracker().trackEvent(
            "Workout",  // Category
