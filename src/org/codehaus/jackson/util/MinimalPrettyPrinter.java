@@ -49,7 +49,7 @@ public class MinimalPrettyPrinter
     /**********************************************************
      */
 
-    @Override
+    
     public void writeRootValueSeparator(JsonGenerator jg) throws IOException, JsonGenerationException
     {
         if (_rootValueSeparator != null) {

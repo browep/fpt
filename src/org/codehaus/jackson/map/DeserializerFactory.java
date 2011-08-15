@@ -62,19 +62,58 @@ public abstract class DeserializerFactory
 
         /**
          * Fluent/factory method used to construct a configuration object that
+         * has same key deserializer providers as this instance, plus one specified
+         * as argument. Additional provider will be added before existing ones,
+         * meaning it has priority over existing definitions.
+         */
+        public abstract Config withAdditionalKeyDeserializers(KeyDeserializers additional);
+        
+        /**
+         * Fluent/factory method used to construct a configuration object that
          * has same configuration as this instance plus one additional
-         * deserialiazer modifier. Added modified has highest priority (that is, it
+         * deserialiazer modifier. Added modifier has the highest priority (that is, it
          * gets called before any already registered modifier).
          */
         public abstract Config withDeserializerModifier(BeanDeserializerModifier modifier);
+
+        /**
+         * Fluent/factory method used to construct a configuration object that
+         * has same configuration as this instance plus one additional
+         * abstract type resolver.
+         * Added resolver has the highest priority (that is, it
+         * gets called before any already registered resolver).
+         * 
+         * @since 1.8
+         */
+        public abstract Config withAbstractTypeResolver(AbstractTypeResolver resolver);
         
         public abstract Iterable<Deserializers> deserializers();
 
+        /**
+         * @since 1.8
+         */
+        public abstract Iterable<KeyDeserializers> keyDeserializers();
+        
         public abstract Iterable<BeanDeserializerModifier> deserializerModifiers();
 
+        /**
+         * @since 1.8
+         */
+        public abstract Iterable<AbstractTypeResolver> abstractTypeResolvers();
+        
         public abstract boolean hasDeserializers();
 
+        /**
+         * @since 1.8
+         */
+        public abstract boolean hasKeyDeserializers();
+        
         public abstract boolean hasDeserializerModifiers();
+
+        /**
+         * @since 1.8
+         */
+        public abstract boolean hasAbstractTypeResolvers();
     }
 
     /*
@@ -114,12 +153,32 @@ public abstract class DeserializerFactory
 
     /**
      * Convenience method for creating a new factory instance with additional
+     * {@link KeyDeserializers}.
+     * 
+     * @since 1.8
+     */
+    public final DeserializerFactory withAdditionalKeyDeserializers(KeyDeserializers additional) {
+        return withConfig(getConfig().withAdditionalKeyDeserializers(additional));
+    }
+    
+    /**
+     * Convenience method for creating a new factory instance with additional
      * {@link BeanDeserializerModifier}.
      * 
      * @since 1.7
      */
     public final DeserializerFactory withDeserializerModifier(BeanDeserializerModifier modifier) {
         return withConfig(getConfig().withDeserializerModifier(modifier));
+    }
+
+    /**
+     * Convenience method for creating a new factory instance with additional
+     * {@link AbstractTypeResolver}.
+     * 
+     * @since 1.7
+     */
+    public final DeserializerFactory withAbstractTypeResolver(AbstractTypeResolver resolver) {
+        return withConfig(getConfig().withAbstractTypeResolver(resolver));
     }
     
     /*
@@ -159,16 +218,30 @@ public abstract class DeserializerFactory
             ArrayType type, BeanProperty property)
         throws JsonMappingException;
 
-    public abstract JsonDeserializer<?> createCollectionDeserializer(DeserializationConfig config, DeserializerProvider p,
-            CollectionType type, BeanProperty property)
+    public abstract JsonDeserializer<?> createCollectionDeserializer(DeserializationConfig config,
+            DeserializerProvider p, CollectionType type, BeanProperty property)
         throws JsonMappingException;
 
-    public abstract JsonDeserializer<?> createEnumDeserializer(DeserializationConfig config,DeserializerProvider p,
-            JavaType type, BeanProperty property)
+    /**
+     * @since 1.8
+     */
+    public abstract JsonDeserializer<?> createCollectionLikeDeserializer(DeserializationConfig config,
+            DeserializerProvider p, CollectionLikeType type, BeanProperty property)
+        throws JsonMappingException;
+    
+    public abstract JsonDeserializer<?> createEnumDeserializer(DeserializationConfig config,
+            DeserializerProvider p, JavaType type, BeanProperty property)
         throws JsonMappingException;
 
-    public abstract JsonDeserializer<?> createMapDeserializer(DeserializationConfig config, DeserializerProvider p,
-            MapType type, BeanProperty property)
+    public abstract JsonDeserializer<?> createMapDeserializer(DeserializationConfig config,
+            DeserializerProvider p, MapType type, BeanProperty property)
+        throws JsonMappingException;
+
+    /**
+     * @since 1.8
+     */
+    public abstract JsonDeserializer<?> createMapLikeDeserializer(DeserializationConfig config,
+            DeserializerProvider p, MapLikeType type, BeanProperty property)
         throws JsonMappingException;
 
     /**
@@ -179,6 +252,24 @@ public abstract class DeserializerFactory
             JavaType type, BeanProperty property)
         throws JsonMappingException;
 
+    /**
+     * Method called to find if factory knows how to create a key deserializer
+     * for specified type; currently this means checking if a module has registered
+     * possible deserializers.
+     * 
+     * @return Key deserializer to use for specified type, if one found; null if not
+     *   (and default key deserializer should be used)
+     * 
+     * @since 1.8
+     */
+    public KeyDeserializer createKeyDeserializer(DeserializationConfig config, JavaType type,
+            BeanProperty property)
+        throws JsonMappingException
+    {
+        // Default implementation returns null for backwards compatibility reasons
+        return null;
+    }
+    
     /**
      * Method called to find and create a type information deserializer for given base type,
      * if one is needed. If not needed (no polymorphic handling configured for type),
@@ -200,7 +291,7 @@ public abstract class DeserializerFactory
         // Default implementation returns null for backwards compatibility reasons
         return null;
     }
-
+    
     /*
     /********************************************************
     /* Older deprecated versions of creator methods

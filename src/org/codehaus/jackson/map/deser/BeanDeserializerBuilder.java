@@ -1,5 +1,6 @@
 package org.codehaus.jackson.map.deser;
 
+import java.util.Iterator;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -16,6 +17,7 @@ import org.codehaus.jackson.map.introspect.BasicBeanDescription;
  */
 public class BeanDeserializerBuilder
 {
+    
     /*
     /**********************************************************
     /* General information about POJO
@@ -119,6 +121,16 @@ public class BeanDeserializerBuilder
             _ignorableProps = new HashSet<String>();
         }
         _ignorableProps.add(propName);
+    }
+
+    /**
+     * Method that allows accessing all properties that this
+     * builder currently contains.
+     * 
+     * @since 1.8.3
+     */
+    public Iterator<SettableBeanProperty> getProperties() {
+        return _properties.values().iterator();
     }
     
     public boolean hasProperty(String propertyName) {

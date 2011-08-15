@@ -6,15 +6,16 @@ import java.util.*;
 import org.codehaus.jackson.Base64Variant;
 import org.codehaus.jackson.Base64Variants;
 import org.codehaus.jackson.annotate.*;
+import org.codehaus.jackson.map.introspect.Annotated;
 import org.codehaus.jackson.map.introspect.AnnotatedClass;
 import org.codehaus.jackson.map.introspect.NopAnnotationIntrospector;
 import org.codehaus.jackson.map.introspect.VisibilityChecker;
 import org.codehaus.jackson.map.jsontype.SubtypeResolver;
 import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
-import org.codehaus.jackson.map.jsontype.impl.StdSubtypeResolver;
 import org.codehaus.jackson.map.type.ClassKey;
+import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.map.util.ClassUtil;
 import org.codehaus.jackson.map.util.LinkedNode;
-import org.codehaus.jackson.map.util.StdDateFormat;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.type.JavaType;
 
@@ -31,7 +32,7 @@ import org.codehaus.jackson.type.JavaType;
  * cached first time they are needed.
  */
 public class DeserializationConfig
-    implements MapperConfig<DeserializationConfig>
+    extends MapperConfig<DeserializationConfig>
 {
     /**
      * Enumeration that defines togglable features that guide
@@ -277,16 +278,47 @@ public class DeserializationConfig
          * Feature that was planned to be enabled to handle "wrapped" values
          * (see {@link SerializationConfig.Feature#WRAP_ROOT_VALUE}
          * for details).
-         * <b>NOTE</b>: Not yet implemented (unliked its counterpart for serialization
+         * <b>NOTE</b>: Not implemented (unlike its counterpart for serialization
          * which was implemented in 1.7)
-         *
-         * @since 1.3
          * 
-         * @deprecated Still not implemented; plus, incorrectly named: should be
-         *    "UNWRAP_ROOT_VALUE" to be of use. May be added with that name.
+         * @deprecated Never implemented; plus, incorrectly named: should be
+         *    "UNWRAP_ROOT_VALUE" to be of use. Feature such named may be added in future.
          */
         @Deprecated
-        WRAP_ROOT_VALUE(false)
+        WRAP_ROOT_VALUE(false),
+        
+        /**
+         * Feature that can be enabled to allow JSON empty String
+         * value ("") to be bound to POJOs as null.
+         * If disabled, standard POJOs can only be bound from JSON null or
+         * JSON Object (standard meaning that no custom deserializers or
+         * constructors are defined; both of which can add support for other
+         * kinds of JSON values); if enable, empty JSON String can be taken
+         * to be equivalent of JSON null.
+         * 
+         * @since 1.8
+         */
+        ACCEPT_EMPTY_STRING_AS_NULL_OBJECT(false),
+
+        /**
+         * Feature that determines whether it is acceptable to coerce non-array
+         * (in JSON) values to work with Java collection (arrays, java.util.Collection)
+         * types. If enabled, collection deserializers will try to handle non-array
+         * values as if they had "implicit" surrounding JSON array.
+         * This feature is meant to be used for compatibility/interoperability reasons,
+         * to work with packages (such as XML-to-JSON converters) that leave out JSON
+         * array in cases where there is just a single element in array.
+         * 
+         * @since 1.8
+         */
+        ACCEPT_SINGLE_VALUE_AS_ARRAY(false)
+        
+        /*
+        /******************************************************
+         *  Other features
+        /******************************************************
+         */
+        
         ;
 
         final boolean _defaultState;
@@ -321,25 +353,11 @@ public class DeserializationConfig
      */
     protected final static int DEFAULT_FEATURE_FLAGS = Feature.collectDefaults();
 
-    protected final static DateFormat DEFAULT_DATE_FORMAT = StdDateFormat.instance;
-
     /*
     /**********************************************************
-    /* Configuration settings
+    /* Configuration settings for deserialization
     /**********************************************************
      */
-
-    /**
-     * Introspector used to figure out Bean properties needed for bean serialization
-     * and deserialization. Overridable so that it is possible to change low-level
-     * details of introspection, like adding new annotation types.
-     */
-    protected ClassIntrospector<? extends BeanDescription> _classIntrospector;
-
-    /**
-     * Introspector used for accessing annotation value based configuration.
-     */
-    protected AnnotationIntrospector _annotationIntrospector;
 
     /**
      * Bit set that contains all enabled features
@@ -354,71 +372,10 @@ public class DeserializationConfig
     protected LinkedNode<DeserializationProblemHandler> _problemHandlers;
 
     /**
-     * Custom date format to use for de-serialization. If specified, will be
-     * used instead of {@link org.codehaus.jackson.map.util.StdDateFormat}.
-     *<p>
-     * Note that the configured format object will be cloned once per
-     * deserialization process (first time it is needed)
-     */
-    protected DateFormat _dateFormat = DEFAULT_DATE_FORMAT;
-
-    /**
-     * Mapping that defines how to apply mix-in annotations: key is
-     * the type to received additional annotations, and value is the
-     * type that has annotations to "mix in".
-     *<p>
-     * Annotations associated with the value classes will be used to
-     * override annotations of the key class, associated with the
-     * same field or method. They can be further masked by sub-classes:
-     * you can think of it as injecting annotations between the target
-     * class and its sub-classes (or interfaces)
-     *
-     * @since 1.2
-     */
-    protected HashMap<ClassKey,Class<?>> _mixInAnnotations;
-
-
-    /**
-     * Flag used to detect when a copy if mix-in annotations is
-     * needed: set when current copy is shared, cleared when a
-     * fresh copy is made
-     *
-     * @since 1.2
-     */
-    protected boolean _mixInAnnotationsShared;
-
-    /**
-     * Type information handler used for "untyped" values (ones declared
-     * to have type <code>Object.class</code>)
-     * 
-     * @since 1.5
-     */
-    protected final TypeResolverBuilder<?> _typer;
-
-    /**
-     * Object used for determining whether specific property elements
-     * (method, constructors, fields) can be auto-detected based on
-     * their visibility (access modifiers). Can be changed to allow
-     * different minimum visibility levels for auto-detection. Note
-     * that this is the global handler; individual types (classes)
-     * can further override active checker used (using
-     * {@link JsonAutoDetect} annotation)
-     * 
-     * @since 1.5
-     */
-    protected VisibilityChecker<?> _visibilityChecker;
-
-    /**
-     * Registered concrete subtypes that can be used instead of (or
-     * in addition to) ones declared using annotations.
-     * 
-     * @since 1.6
-     */
-    protected SubtypeResolver _subtypeResolver;
-
-    /**
      * To support on-the-fly class generation for interface and abstract classes
      * it is possible to register "abstract type resolver".
+     *<p>
+     * Non-final to support deprecated legacy methods; should be made final for 2.0
      * 
      * @since 1.6
      */
@@ -426,6 +383,8 @@ public class DeserializationConfig
     
     /**
      * Factory used for constructing {@link org.codehaus.jackson.JsonNode} instances.
+     *<p>
+     * Non-final to support deprecated legacy methods; should be made final for 2.0
      * 
      * @since 1.6
      */
@@ -433,41 +392,134 @@ public class DeserializationConfig
     
     /*
     /**********************************************************
-    /* Life-cycle
+    /* Life-cycle, constructors
     /**********************************************************
      */
 
+    /**
+     * Constructor used by ObjectMapper to create default configuration object instance.
+     */
     public DeserializationConfig(ClassIntrospector<? extends BeanDescription> intr,
-                               AnnotationIntrospector annIntr, VisibilityChecker<?> vc,
-                               SubtypeResolver subtypeResolver)
+            AnnotationIntrospector annIntr, VisibilityChecker<?> vc,
+            SubtypeResolver subtypeResolver, PropertyNamingStrategy propertyNamingStrategy,
+            TypeFactory typeFactory, HandlerInstantiator handlerInstantiator)
     {
-        _classIntrospector = intr;
-        _annotationIntrospector = annIntr;
-        _typer = null;
-        _visibilityChecker = vc;
-        _subtypeResolver = subtypeResolver;
+        super(intr, annIntr, vc, subtypeResolver, propertyNamingStrategy, typeFactory, handlerInstantiator);
         _nodeFactory = JsonNodeFactory.instance;
     }
 
-    protected DeserializationConfig(DeserializationConfig src,
-                                    HashMap<ClassKey,Class<?>> mixins,
-                                    TypeResolverBuilder<?> typer,
-                                    VisibilityChecker<?> vc,
-                                    SubtypeResolver subtypeResolver)
-    {
-        _classIntrospector = src._classIntrospector;
-        _annotationIntrospector = src._annotationIntrospector;
-        _abstractTypeResolver = src._abstractTypeResolver;
-        _featureFlags = src._featureFlags;
-        _problemHandlers = src._problemHandlers;
-        _dateFormat = src._dateFormat;
-        _nodeFactory = src._nodeFactory;
-        _mixInAnnotations = mixins;
-        _typer = typer;
-        _visibilityChecker = vc;
-        _subtypeResolver = subtypeResolver;
+    /**
+     * @since 1.8
+     */
+    protected DeserializationConfig(DeserializationConfig src) {
+        this(src, src._base);
     }
 
+    /**
+     * Copy constructor used to create a non-shared instance with given mix-in
+     * annotation definitions and subtype resolver.
+     * 
+     * @since 1.8
+     */
+    private DeserializationConfig(DeserializationConfig src,
+            HashMap<ClassKey,Class<?>> mixins, SubtypeResolver str)
+    {
+        this(src, src._base);
+        _mixInAnnotations = mixins;
+        _subtypeResolver = str;
+    }
+    
+    /**
+     * @since 1.8
+     */
+    protected DeserializationConfig(DeserializationConfig src, MapperConfig.Base base)
+    {
+        super(src, base, src._subtypeResolver);
+        _featureFlags = src._featureFlags;
+        _abstractTypeResolver = src._abstractTypeResolver;
+        _problemHandlers = src._problemHandlers;
+        _nodeFactory = src._nodeFactory;
+    }
+    
+    /**
+     * @since 1.8
+     */
+    protected DeserializationConfig(DeserializationConfig src, JsonNodeFactory f)
+    {
+        super(src);
+        _featureFlags = src._featureFlags;
+        _abstractTypeResolver = src._abstractTypeResolver;
+        _problemHandlers = src._problemHandlers;
+        _nodeFactory = f;
+    }
+    
+    /*
+    /**********************************************************
+    /* Life-cycle, factory methods from MapperConfig
+    /**********************************************************
+     */
+
+    @Override
+    public DeserializationConfig withClassIntrospector(ClassIntrospector<? extends BeanDescription> ci) {
+        return new DeserializationConfig(this, _base.withClassIntrospector(ci));
+    }
+
+    @Override
+    public DeserializationConfig withAnnotationIntrospector(AnnotationIntrospector ai) {
+        return new DeserializationConfig(this, _base.withAnnotationIntrospector(ai));
+    }
+
+    @Override
+    public DeserializationConfig withVisibilityChecker(VisibilityChecker<?> vc) {
+        return new DeserializationConfig(this, _base.withVisibilityChecker(vc));
+    }
+
+    @Override
+    public DeserializationConfig withTypeResolverBuilder(TypeResolverBuilder<?> trb) {
+        return new DeserializationConfig(this, _base.withTypeResolverBuilder(trb));
+    }
+
+    @Override
+    public DeserializationConfig withSubtypeResolver(SubtypeResolver str)
+    {
+        DeserializationConfig cfg = new DeserializationConfig(this);
+        cfg._subtypeResolver = str;
+        return cfg;
+    }
+    
+    @Override
+    public DeserializationConfig withPropertyNamingStrategy(PropertyNamingStrategy pns) {
+        return new DeserializationConfig(this, _base.withPropertyNamingStrategy(pns));
+    }
+    
+    @Override
+    public DeserializationConfig withTypeFactory(TypeFactory tf) {
+        return (tf == _base.getTypeFactory()) ? this : new DeserializationConfig(this, _base.withTypeFactory(tf));
+    }
+
+    @Override
+    public DeserializationConfig withDateFormat(DateFormat df) {
+        return (df == _base.getDateFormat()) ? this : new DeserializationConfig(this, _base.withDateFormat(df));
+    }
+    
+    @Override
+    public DeserializationConfig withHandlerInstantiator(HandlerInstantiator hi) {
+        return (hi == _base.getHandlerInstantiator()) ? this : new DeserializationConfig(this, _base.withHandlerInstantiator(hi));
+    }
+    
+    /*
+    /**********************************************************
+    /* Life-cycle, deserialization-specific factory methods
+    /**********************************************************
+     */
+
+    /**
+     * @since 1.8
+     */
+    public DeserializationConfig withNodeFactory(JsonNodeFactory f) {
+        return new DeserializationConfig(this, f);
+    }
+    
     /*
     /**********************************************************
     /* Configuration: on/off features
@@ -531,7 +583,7 @@ public class DeserializationConfig
      * @param cls Class of which class annotations to use
      *   for changing configuration settings
      */
-    //@Override
+    @Override
     public void fromAnnotations(Class<?> cls)
     {
     	/* no class annotation for:
@@ -545,9 +597,11 @@ public class DeserializationConfig
         /* 10-Jul-2009, tatu: Should be able to just pass null as
          *    'MixInResolver'; no mix-ins set at this point
          */
-        AnnotatedClass ac = AnnotatedClass.construct(cls, _annotationIntrospector, null);
+        AnnotationIntrospector ai = getAnnotationIntrospector();
+        AnnotatedClass ac = AnnotatedClass.construct(cls, ai, null);
         // visibility checks handled via separate checker object...
-        _visibilityChecker = _annotationIntrospector.findAutoDetectVisibility(ac, _visibilityChecker);
+        VisibilityChecker<?> prevVc = getDefaultVisibilityChecker();
+        _base = _base.withVisibilityChecker(ai.findAutoDetectVisibility(ac, prevVc));
     }
 
     /**
@@ -558,164 +612,41 @@ public class DeserializationConfig
      * this method <b>must</b> be overridden to produce proper sub-class
      * instance.
      */
-    //@Override
-    public DeserializationConfig createUnshared(TypeResolverBuilder<?> typer,
-    		VisibilityChecker<?> vc, SubtypeResolver subtypeResolver)
+    @Override
+    public DeserializationConfig createUnshared(SubtypeResolver subtypeResolver)
     {
         HashMap<ClassKey,Class<?>> mixins = _mixInAnnotations;
+        // ensure that we assume sharing at this point:
         _mixInAnnotationsShared = true;
-    	return new DeserializationConfig(this, mixins, typer, vc, subtypeResolver);
-    }
-
-    /**
-     * Alternative "copy factory" that creates an unshared copy that uses
-     * different node factory than this instance.
-     * 
-     * @since 1.6
-     */
-    public DeserializationConfig createUnshared(JsonNodeFactory nf)
-    {
-        DeserializationConfig config = createUnshared(_typer, _visibilityChecker, _subtypeResolver);
-        config.setNodeFactory(nf);
-        return config;
-    }
-
-    //@Override
-    public void setIntrospector(ClassIntrospector<? extends BeanDescription> i) {
-        _classIntrospector = i;
+        return new DeserializationConfig(this, mixins, subtypeResolver);
     }
 
     /**
      * Method for getting {@link AnnotationIntrospector} configured
      * to introspect annotation values used for configuration.
      */
-    //@Override
+    @Override
     public AnnotationIntrospector getAnnotationIntrospector()
     {
         /* 29-Jul-2009, tatu: it's now possible to disable use of
          *   annotations; can be done using "no-op" introspector
          */
         if (isEnabled(Feature.USE_ANNOTATIONS)) {
-            return _annotationIntrospector;
+            return super.getAnnotationIntrospector();
         }
         return NopAnnotationIntrospector.instance;
     }
-
-    //@Override
-    public void setAnnotationIntrospector(AnnotationIntrospector introspector)
-    {
-        _annotationIntrospector = introspector;
-    }
-
-    //@Override
-    public void insertAnnotationIntrospector(AnnotationIntrospector introspector)
-    {
-        _annotationIntrospector = AnnotationIntrospector.Pair.create(introspector, _annotationIntrospector);
-    }
-
-    //@Override
-    public void appendAnnotationIntrospector(AnnotationIntrospector introspector)
-    {
-        _annotationIntrospector = AnnotationIntrospector.Pair.create(_annotationIntrospector, introspector);
-    }
     
-    /**
-     * Method to use for defining mix-in annotations to use for augmenting
-     * annotations that deserializable classes have.
-     * Mixing in is done when introspecting class annotations and properties.
-     * Map passed contains keys that are target classes (ones to augment
-     * with new annotation overrides), and values that are source classes
-     * (have annotations to use for augmentation).
-     * Annotations from source classes (and their supertypes)
-     * will <b>override</b>
-     * annotations that target classes (and their super-types) have.
-     *<p>
-     * Note: a copy of argument Map is created; the original Map is
-     * not modified or retained by this config object.
-     *
-     * @since 1.2
-     */
-    //@Override
-    public void setMixInAnnotations(Map<Class<?>, Class<?>> sourceMixins)
-    {
-        HashMap<ClassKey,Class<?>> mixins = null;
-        if (sourceMixins != null && sourceMixins.size() > 0) {
-            mixins = new HashMap<ClassKey,Class<?>>(sourceMixins.size());
-            for (Map.Entry<Class<?>,Class<?>> en : sourceMixins.entrySet()) {
-                mixins.put(new ClassKey(en.getKey()), en.getValue());
-            }
-        }
-        _mixInAnnotationsShared = false;
-        _mixInAnnotations = mixins;
-    }
-
-    //@Override
-    public void addMixInAnnotations(Class<?> target, Class<?> mixinSource)
-    {
-        if (_mixInAnnotations == null || _mixInAnnotationsShared) {
-            _mixInAnnotationsShared = false;
-            _mixInAnnotations = new HashMap<ClassKey,Class<?>>();
-        }
-        _mixInAnnotations.put(new ClassKey(target), mixinSource);
-    }
-
-    /**
-     * @since 1.2
-     */
-    //@Override
-    public Class<?> findMixInClassFor(Class<?> cls) {
-        return (_mixInAnnotations == null) ? null : _mixInAnnotations.get(new ClassKey(cls));
-    }
-
-    //@Override
-    public DateFormat getDateFormat() { return _dateFormat; }
-
-    /**
-     * Method that will set the textual deserialization to use for
-     * deserializing Dates (and Calendars). If null is passed, will
-     * use {@link StdDateFormat}.
-     */
-    //@Override
-    public void setDateFormat(DateFormat df) {
-        _dateFormat = (df == null) ? StdDateFormat.instance : df;
-    }
-
-    //@Override
-    public VisibilityChecker<?> getDefaultVisibilityChecker() {
-        return _visibilityChecker;
-    }
-
-    //@Override
-    public TypeResolverBuilder<?> getDefaultTyper(JavaType baseType) {
-        return _typer;
-    }
-
-    /**
-     * @since 1.6
-     */
-    public SubtypeResolver getSubtypeResolver() {
-        if (_subtypeResolver == null) {
-            _subtypeResolver = new StdSubtypeResolver();
-        }
-        return _subtypeResolver;
-    }
-
-    /**
-     * @since 1.6
-     */
-    public void setSubtypeResolver(SubtypeResolver r) {
-        _subtypeResolver = r;
-    }
-
     /**
      * Accessor for getting bean description that only contains class
      * annotations: useful if no getter/setter/creator information is needed.
      *<p>
      * Note: part of {@link MapperConfig} since 1.7
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T extends BeanDescription> T introspectClassAnnotations(Class<?> cls) {
-        return (T) _classIntrospector.forClassAnnotations(this, cls, this);
+        return (T) getClassIntrospector().forClassAnnotations(this, cls, this);
     }
 
     /**
@@ -725,9 +656,20 @@ public class DeserializationConfig
      *<p>
      * Note: part of {@link MapperConfig} since 1.7
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T extends BeanDescription> T introspectDirectClassAnnotations(Class<?> cls) {
-        return (T) _classIntrospector.forDirectClassAnnotations(this, cls, this);
+        return (T) getClassIntrospector().forDirectClassAnnotations(this, cls, this);
+    }
+
+    @Override
+    public boolean isAnnotationProcessingEnabled() {
+        return isEnabled(Feature.USE_ANNOTATIONS);
+    }
+
+    @Override
+    public boolean canOverrideAccessModifiers() {
+        return isEnabled(Feature.CAN_OVERRIDE_ACCESS_MODIFIERS);
     }
     
     /*
@@ -772,6 +714,29 @@ public class DeserializationConfig
 
     /*
     /**********************************************************
+    /* Other configuration
+    /**********************************************************
+     */
+
+    /**
+     * Method called during deserialization if Base64 encoded content
+     * needs to be decoded. Default version just returns default Jackson
+     * uses, which is modified-mime which does not add linefeeds (because
+     * those would have to be escaped in JSON strings).
+     */
+    public Base64Variant getBase64Variant() {
+        return Base64Variants.getDefaultVariant();
+    }
+
+    /**
+     * @since 1.6
+     */
+    public final JsonNodeFactory getNodeFactory() {
+        return _nodeFactory;
+    }
+    
+    /*
+    /**********************************************************
     /* Introspection methods
     /**********************************************************
      */
@@ -784,7 +749,7 @@ public class DeserializationConfig
      */
     @SuppressWarnings("unchecked")
     public <T extends BeanDescription> T introspect(JavaType type) {
-        return (T) _classIntrospector.forDeserialization(this, type, this);
+        return (T) getClassIntrospector().forDeserialization(this, type, this);
     }
 
     /**
@@ -793,60 +758,99 @@ public class DeserializationConfig
      */
     @SuppressWarnings("unchecked")
     public <T extends BeanDescription> T introspectForCreation(JavaType type) {
-        return (T) _classIntrospector.forCreation(this, type, this);
+        return (T) getClassIntrospector().forCreation(this, type, this);
     }
     
     /*
     /**********************************************************
-    /* Polymorphic type handling configuration
+    /* Extended API: handler instantiation
     /**********************************************************
      */
+
+    @SuppressWarnings("unchecked")
+    public JsonDeserializer<Object> deserializerInstance(Annotated annotated,
+            Class<? extends JsonDeserializer<?>> deserClass)
+    {
+        HandlerInstantiator hi = getHandlerInstantiator();
+        if (hi != null) {
+            JsonDeserializer<?> deser = hi.deserializerInstance(this, annotated, deserClass);
+            if (deser != null) {
+                return (JsonDeserializer<Object>) deser;
+            }
+        }
+        return (JsonDeserializer<Object>) ClassUtil.createInstance(deserClass, canOverrideAccessModifiers());
+    }
+
+    public KeyDeserializer keyDeserializerInstance(Annotated annotated,
+            Class<? extends KeyDeserializer> keyDeserClass)
+    {
+        HandlerInstantiator hi = getHandlerInstantiator();
+        if (hi != null) {
+            KeyDeserializer keyDeser = hi.keyDeserializerInstance(this, annotated, keyDeserClass);
+            if (keyDeser != null) {
+                return (KeyDeserializer) keyDeser;
+            }
+        }
+        return (KeyDeserializer) ClassUtil.createInstance(keyDeserClass, canOverrideAccessModifiers());
+    }
+    
+    /*
+    /**********************************************************
+    /* Deprecated methods
+    /**********************************************************
+     */
+
+    /**
+     * @deprecated Since 1.8 should use variant without arguments
+     */
+    @Deprecated
+    @Override
+    public DeserializationConfig createUnshared(TypeResolverBuilder<?> typer,
+            VisibilityChecker<?> vc, SubtypeResolver str)
+    {
+        return createUnshared(str)
+            .withTypeResolverBuilder(typer)
+            .withVisibilityChecker(vc);
+    }
+    
+    /**
+     * @since 1.6
+     * 
+     * @deprecated Since 1.8 should use {@link #withNodeFactory} instead
+     */
+    @Deprecated
+    public void setNodeFactory(JsonNodeFactory nf) {
+        _nodeFactory = nf;
+    }
+
 
     /**
      * Method for accessing {@link AbstractTypeResolver} configured, if any
      * (no default) used for resolving abstract types into concrete
      * types (either by mapping or materializing new classes).
      * 
+     * @deprecated Since 1.8 resolvers should be registered using Module interface
+     *    Will be removed from Jackson 2.0
+     * 
      * @since 1.6
      */
+    @Deprecated
     public AbstractTypeResolver getAbstractTypeResolver() {
         return _abstractTypeResolver;
     }
     
     /**
+     * Method for specifying {@link AbstractTypeResolver} to use for resolving
+     * references to abstract types into concrete types (if possible).
+     * 
      * @since 1.6
+     * 
+     * @deprecated Since 1.8 resolvers should be registered using Module interface.
+     *    Will be removed from Jackson 2.0
      */
+    @Deprecated
     public void setAbstractTypeResolver(AbstractTypeResolver atr) {
         _abstractTypeResolver = atr;
     }
     
-    /*
-    /**********************************************************
-    /* Other configuration
-    /**********************************************************
-     */
-
-    /**
-     * Method called during deserialization if Base64 encoded content
-     * needs to be decoded. Default version just returns default Jackson
-     * uses, which is modified-mime which does not add linefeeds (because
-     * those would have to be escaped in Json strings).
-     */
-    public Base64Variant getBase64Variant() {
-        return Base64Variants.getDefaultVariant();
-    }
-    
-    /**
-     * @since 1.6
-     */
-    public void setNodeFactory(JsonNodeFactory nf) {
-        _nodeFactory = nf;
-    }
-
-    /**
-     * @since 1.6
-     */
-    public final JsonNodeFactory getNodeFactory() {
-        return _nodeFactory;
-    }
 }

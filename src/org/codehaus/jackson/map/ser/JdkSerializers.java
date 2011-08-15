@@ -187,7 +187,6 @@ public class JdkSerializers
 
         @Override
         public JsonNode getSchema(SerializerProvider provider, Type typeHint)
-            throws JsonMappingException
         {
             return createSchemaNode("string", true);
         }
@@ -198,7 +197,7 @@ public class JdkSerializers
     /* Other serializers
     /**********************************************************
      */
-
+    
     /*
     public final static class LocaleSerializer
         extends ScalarSerializerBase<Locale>

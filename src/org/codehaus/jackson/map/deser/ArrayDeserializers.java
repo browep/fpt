@@ -52,10 +52,14 @@ public class ArrayDeserializers
     }
 
     @SuppressWarnings("unchecked")
-	private void add(Class<?> cls, JsonDeserializer<?> deser)
+    private void add(Class<?> cls, JsonDeserializer<?> deser)
     {
-        _allDeserializers.put(TypeFactory.type(cls),
-                              (JsonDeserializer<Object>) deser);
+        /* Not super clean to use default TypeFactory in general, but
+         * since primitive array types can't be modified for anything
+         * useful, this should be ok:
+         */
+        _allDeserializers.put(TypeFactory.defaultInstance().constructType(cls),
+                (JsonDeserializer<Object>) deser);
     }
 
     public Object deserializeWithType(JsonParser jp, DeserializationContext ctxt,
@@ -108,7 +112,7 @@ public class ArrayDeserializers
         {
             // Ok: must point to START_ARRAY (or equivalent)
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             final ObjectBuffer buffer = ctxt.leaseObjectBuffer();
             Object[] chunk = buffer.resetAndStart();
@@ -128,8 +132,18 @@ public class ArrayDeserializers
             ctxt.returnObjectBuffer(buffer);
             return result;
         }
+    
+        private final String[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            // [JACKSON-526]: implicit arrays from single values?
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            return new String[] { (jp.getCurrentToken() == JsonToken.VALUE_NULL) ? null : jp.getText() };
+        }
     }
-
+    
     @JacksonStdImpl
     final static class CharDeser
         extends ArrayDeser<char[]>
@@ -207,7 +221,7 @@ public class ArrayDeserializers
             throws IOException, JsonProcessingException
         {
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             ArrayBuilders.BooleanBuilder builder = ctxt.getArrayBuilders().getBooleanBuilder();
             boolean[] chunk = builder.resetAndStart();
@@ -223,6 +237,15 @@ public class ArrayDeserializers
                 chunk[ix++] = value;
             }
             return builder.completeAndClearBuffer(chunk, ix);
+        }
+
+        private final boolean[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            return new boolean[] { _parseBooleanPrimitive(jp, ctxt) };
         }
     }
 
@@ -255,7 +278,7 @@ public class ArrayDeserializers
                 }
             }
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             ArrayBuilders.ByteBuilder builder = ctxt.getArrayBuilders().getByteBuilder();
             byte[] chunk = builder.resetAndStart();
@@ -282,6 +305,27 @@ public class ArrayDeserializers
             }
             return builder.completeAndClearBuffer(chunk, ix);
         }
+
+        private final byte[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            byte value;
+            JsonToken t = jp.getCurrentToken();
+            if (t == JsonToken.VALUE_NUMBER_INT || t == JsonToken.VALUE_NUMBER_FLOAT) {
+                // should we catch overflow exceptions?
+                value = jp.getByteValue();
+            } else {
+                // [JACKSON-79]: should probably accept nulls as 'false'
+                if (t != JsonToken.VALUE_NULL) {
+                    throw ctxt.mappingException(_valueClass.getComponentType());
+                }
+                value = (byte) 0;
+            }
+            return new byte[] { value };
+        }
     }
 
     @JacksonStdImpl
@@ -295,7 +339,7 @@ public class ArrayDeserializers
             throws IOException, JsonProcessingException
         {
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             ArrayBuilders.ShortBuilder builder = ctxt.getArrayBuilders().getShortBuilder();
             short[] chunk = builder.resetAndStart();
@@ -311,6 +355,15 @@ public class ArrayDeserializers
             }
             return builder.completeAndClearBuffer(chunk, ix);
         }
+
+        private final short[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            return new short[] { _parseShortPrimitive(jp, ctxt) };
+        }
     }
 
     @JacksonStdImpl
@@ -324,7 +377,7 @@ public class ArrayDeserializers
             throws IOException, JsonProcessingException
         {
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             ArrayBuilders.IntBuilder builder = ctxt.getArrayBuilders().getIntBuilder();
             int[] chunk = builder.resetAndStart();
@@ -341,6 +394,15 @@ public class ArrayDeserializers
             }
             return builder.completeAndClearBuffer(chunk, ix);
         }
+
+        private final int[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            return new int[] { _parseIntPrimitive(jp, ctxt) };
+        }
     }
 
     @JacksonStdImpl
@@ -354,7 +416,7 @@ public class ArrayDeserializers
             throws IOException, JsonProcessingException
         {
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             ArrayBuilders.LongBuilder builder = ctxt.getArrayBuilders().getLongBuilder();
             long[] chunk = builder.resetAndStart();
@@ -370,6 +432,15 @@ public class ArrayDeserializers
             }
             return builder.completeAndClearBuffer(chunk, ix);
         }
+
+        private final long[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            return new long[] { _parseLongPrimitive(jp, ctxt) };
+        }
     }
 
     @JacksonStdImpl
@@ -383,7 +454,7 @@ public class ArrayDeserializers
             throws IOException, JsonProcessingException
         {
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             ArrayBuilders.FloatBuilder builder = ctxt.getArrayBuilders().getFloatBuilder();
             float[] chunk = builder.resetAndStart();
@@ -400,6 +471,15 @@ public class ArrayDeserializers
             }
             return builder.completeAndClearBuffer(chunk, ix);
         }
+
+        private final float[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            return new float[] { _parseFloatPrimitive(jp, ctxt) };
+        }
     }
 
     @JacksonStdImpl
@@ -413,7 +493,7 @@ public class ArrayDeserializers
             throws IOException, JsonProcessingException
         {
             if (!jp.isExpectedStartArrayToken()) {
-                throw ctxt.mappingException(_valueClass);
+                return handleNonArray(jp, ctxt);
             }
             ArrayBuilders.DoubleBuilder builder = ctxt.getArrayBuilders().getDoubleBuilder();
             double[] chunk = builder.resetAndStart();
@@ -428,6 +508,15 @@ public class ArrayDeserializers
                 chunk[ix++] = value;
             }
             return builder.completeAndClearBuffer(chunk, ix);
+        }
+
+        private final double[] handleNonArray(JsonParser jp, DeserializationContext ctxt)
+            throws IOException, JsonProcessingException
+        {
+            if (!ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)) {
+                throw ctxt.mappingException(_valueClass);
+            }
+            return new double[] { _parseDoublePrimitive(jp, ctxt) };
         }
     }
 }

@@ -2,15 +2,16 @@ package com.github.browep.fpt.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import com.github.browep.fpt.C;
+import com.github.browep.fpt.FptApp;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.dao.DaoAwareActivity;
-import com.github.browep.nosql.Storable;
+import com.github.browep.fpt.dao.PreferencesService;
 import com.github.browep.fpt.util.Util;
+import com.github.browep.nosql.Storable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -99,5 +100,24 @@ public abstract class FptActivity extends DaoAwareActivity{
     getDao().delete(workoutDefintionId);
   }
 
+  protected void tutorialDialog(String message, String title, final String dialogName, final Activity context) {
+
+    final PreferencesService prefsService = FptApp.getInstance().getPreferencesService();
+
+//    prefsService.setBooleanPreference(dialogName, false); // for debug purposes, remove for prod
+
+    if(!prefsService.getBooleanPreference(dialogName)){
+    	final AlertDialog dialog = new AlertDialog.Builder(context).create();
+      dialog.setTitle(title);
+      dialog.setMessage(message);
+    	dialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+        prefsService.setBooleanPreference(dialogName, true);
+			}
+		});
+    	dialog.show();
+    }
+  }
 
 }

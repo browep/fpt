@@ -1,6 +1,7 @@
 package org.codehaus.jackson.map.deser;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
 import java.util.*;
@@ -12,7 +13,7 @@ import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.DeserializationContext;
 
 /**
- * Base class for simple deserializer which only accept Json String
+ * Base class for simple deserializer which only accept JSON String
  * values as the source.
  */
 public abstract class FromStringDeserializer<T>
@@ -32,7 +33,10 @@ public abstract class FromStringDeserializer<T>
         all.add(new CurrencyDeserializer());
         all.add(new PatternDeserializer());
         // since 1.7:
-        all.add(new FromStringDeserializer.LocaleDeserializer());
+        all.add(new LocaleDeserializer());
+        // 1.8:
+        all.add(new InetAddressDeserializer());
+        all.add(new TimeZoneDeserializer());
 
         return all;
     }
@@ -204,4 +208,39 @@ public abstract class FromStringDeserializer<T>
         }
     }
 
+    /**
+     * As per [JACKSON-484], also need special handling for InetAddress...
+     * 
+     * @since 1.7.4
+     */
+    protected static class InetAddressDeserializer
+        extends FromStringDeserializer<InetAddress>
+    {
+        public InetAddressDeserializer() { super(InetAddress.class); }
+
+        @Override
+        protected InetAddress _deserialize(String value, DeserializationContext ctxt)
+            throws IOException
+        {
+            return InetAddress.getByName(value);
+        }
+    }
+
+    /**
+     * As per [JACKSON-522], also need special handling for InetAddress...
+     * 
+     * @since 1.7.4
+     */
+    protected static class TimeZoneDeserializer
+        extends FromStringDeserializer<TimeZone>
+    {
+        public TimeZoneDeserializer() { super(TimeZone.class); }
+
+        @Override
+        protected TimeZone _deserialize(String value, DeserializationContext ctxt)
+            throws IOException
+        {
+            return TimeZone.getTimeZone(value);
+        }
+    }
 }

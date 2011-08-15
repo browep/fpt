@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/fpt.iml" filepath="$PROJECT_DIR$/fpt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimpleWorkoutTracker.iml" filepath="$PROJECT_DIR$/SimpleWorkoutTracker.iml" />
     </modules>
   </component>
 </project>

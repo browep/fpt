@@ -1,36 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               style="@style/BaseScreen"
-              android:layout_height="wrap_content" android:orientation="horizontal">
+              android:layout_height="wrap_content" android:orientation="vertical">
 
-    <TextView android:id="@+id/edit_text"
-              android:layout_width="wrap_content"
-              android:textColor="#000000"
-              android:layout_height="wrap_content"
-              android:layout_gravity="left|center_vertical"
-            />
-    <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            >
-        <Button android:id="@+id/edit_data_button"
-                android:text="Edit"
-                style="@style/Button_96"
-                android:background="@drawable/layers"
-                ></Button>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  style="@style/BaseScreen"
+                  android:layout_height="wrap_content" android:orientation="horizontal">
 
-        <Button android:id="@+id/delete_data_button"
-                android:text="Delete"
-                style="@style/Button_96"
-                android:background="@drawable/layers"
-                >
-        </Button>
+        <TextView android:id="@+id/content"
+                  android:layout_width="wrap_content"
+                  android:textColor="#000000"
+                  android:layout_height="wrap_content"
+                  android:textSize="24sp"
+                  android:layout_gravity="left|center_vertical"
+
+                />
+
 
     </LinearLayout>
-
-
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content"
+              android:id="@+id/comment" style="@style/HelperText"/>
 </LinearLayout>

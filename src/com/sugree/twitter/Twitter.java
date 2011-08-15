@@ -57,7 +57,7 @@ public class Twitter {
 		CookieSyncManager.createInstance(ctx);
 		dialog(ctx, handler, new DialogListener() {
 
-			@Override
+//			@Override
 			public void onComplete(Bundle values) {
 				CookieSyncManager.getInstance().sync();
 				setAccessToken(values.getString(ACCESS_TOKEN));
@@ -70,19 +70,19 @@ public class Twitter {
 				}
 			}
 
-			@Override
+//			@Override
 			public void onTwitterError(TwitterError e) {
 				Log.d(TAG, "Login failed: "+e);
 				listener.onTwitterError(e);
 			}
 
-			@Override
+//			@Override
 			public void onError(DialogError e) {
 				Log.d(TAG, "Login failed: "+e);
 				listener.onError(e);
 			}
 
-			@Override
+//			@Override
 			public void onCancel() {
 				Log.d(TAG, "Login cancelled");
 				listener.onCancel();

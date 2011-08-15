@@ -34,12 +34,12 @@ public final class IndexedStringListSerializer
         super(List.class, property);
     }
 
-    @Override protected JsonNode contentSchema() {
+     protected JsonNode contentSchema() {
         return createSchemaNode("string", true);
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+    
     public void resolve(SerializerProvider provider) throws JsonMappingException
     {
         JsonSerializer<?> ser = provider.findValueSerializer(String.class, _property);
@@ -48,7 +48,7 @@ public final class IndexedStringListSerializer
         }
     }
 
-    @Override
+    
     public void serialize(List<String> value, JsonGenerator jgen, SerializerProvider provider)
         throws IOException, JsonGenerationException
     {
@@ -61,7 +61,7 @@ public final class IndexedStringListSerializer
         jgen.writeEndArray();
     }
     
-    @Override
+    
     public void serializeWithType(List<String> value, JsonGenerator jgen, SerializerProvider provider,
             TypeSerializer typeSer)
         throws IOException, JsonGenerationException

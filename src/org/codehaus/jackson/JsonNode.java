@@ -14,7 +14,9 @@ import java.util.*;
  * As a general design rule, most accessors ("getters") are included
  * in this base class, to allow for traversing structure without
  * type casts. Most mutators, however, need to be accessed through
- * specific sub-classes. This seems sensible because proper type
+ * specific sub-classes (such as <code>org.codehaus.jackson.node.ObjectNode</code>
+ * and <code>org.codehaus.jackson.node.ArrayNode</code>).
+ * This seems sensible because proper type
  * information is generally available when building or modifying
  * trees, but less often when reading a tree (newly built from
  * parsed JSON content).
@@ -22,7 +24,7 @@ import java.util.*;
  * Actual concrete sub-classes can be found from package
  * {@link org.codehaus.jackson.node}, which is in 'mapper' jar
  * (whereas this class is in 'core' jar, since it is declared as
- * nominal type for operations in {@link ObjectCodec}
+ * nominal type for operations in {@link ObjectCodec})
  */
 public abstract class JsonNode
     implements Iterable<JsonNode>
@@ -333,7 +335,7 @@ public abstract class JsonNode
      * @since 1.6
      */
     public long getValueAsLong() {
-        return getValueAsInt(0);
+        return getValueAsLong(0);
     }
     
     /**
@@ -630,6 +632,17 @@ public abstract class JsonNode
      */
     public Iterator<String> getFieldNames() { return NO_STRINGS.iterator(); }
 
+    /**
+     * @return Iterator that can be used to traverse all key/value pairs for
+     *   object nodes; empty iterator (no contents) for other types
+     * 
+     * @since 1.8 (although existed in ObjectNode since 1.0 or so)
+     */
+    public Iterator<Map.Entry<String, JsonNode>> getFields() {
+        Collection<Map.Entry<String, JsonNode>> coll = Collections.emptyList();
+        return coll.iterator();
+    }
+    
     /*
     /**********************************************************
     /* Public API, path handling
@@ -673,6 +686,21 @@ public abstract class JsonNode
     @Deprecated
     public final JsonNode getPath(int index) { return path(index); }
 
+    /**
+     * Method that can be called on object nodes, to access a property
+     * that has object value; or if no such property exists, to create and
+     * return such object node.
+     * If node method is called on is not Object node,
+     * or if property exists and has value that is not object node,
+     * {@link UnsupportedOperationException} is thrown
+     * 
+     * @since 1.8
+     */
+    public JsonNode with(String propertyName) {
+        throw new UnsupportedOperationException("JsonNode not of type ObjectNode (but "
+                +getClass().getName()+"), can not call with() on it");
+    }
+    
     /*
     /**********************************************************
     /* Public API, serialization
@@ -696,7 +724,6 @@ public abstract class JsonNode
     /* Public API: converting to/from Streaming API
     /**********************************************************
      */
-
 
     /**
      * Method for constructing a {@link JsonParser} instance for

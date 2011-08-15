@@ -198,12 +198,12 @@ public final class BeanPropertyMap
             _nextBucketIndex = i;
         }
 
-        @Override
+        
         public boolean hasNext() {
             return _currentBucket != null;
         }
 
-        @Override
+        
         public SettableBeanProperty next()
         {
             Bucket curr = _currentBucket;
@@ -219,7 +219,7 @@ public final class BeanPropertyMap
             return curr.value;
         }
 
-        @Override
+        
         public void remove() {
             throw new UnsupportedOperationException();
         }

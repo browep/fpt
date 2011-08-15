@@ -80,5 +80,9 @@ public class C {
 
   public static final String PREFS_FILE_NAME = "main.prefs";
 
+  public static final String WELCOME_DIALOG = "welcome_dialog";
+  public static final String CREATE_WORKOUT_DIALOG = "create_workout_dialog";
+  public static final String VIEW_PROGRESS_DIALOG = "view_progress_dialog";
+  public static final String EDIT_DATA_DIALOG = "edit_data_dialog";
 
 }

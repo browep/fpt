@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.ClassIntrospector;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.MapperConfig;
 import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.map.util.ClassUtil;
 import org.codehaus.jackson.type.JavaType;
 
@@ -24,8 +23,6 @@ public class BasicClassIntrospector
     public static class GetterMethodFilter
         implements MethodFilter
     {
-        public final static GetterMethodFilter instance = new GetterMethodFilter();
-
         private GetterMethodFilter() { }
     
         public boolean includeMethod(Method m)
@@ -46,8 +43,6 @@ public class BasicClassIntrospector
     public static class SetterMethodFilter
         implements MethodFilter
     {
-        public final static SetterMethodFilter instance = new SetterMethodFilter();
-
         public boolean includeMethod(Method m)
         {
             // First: we can't use static methods
@@ -82,8 +77,6 @@ public class BasicClassIntrospector
     public final static class SetterAndGetterMethodFilter
         extends SetterMethodFilter
     {
-        public final static SetterAndGetterMethodFilter instance = new SetterAndGetterMethodFilter();
-
         @Override
         public boolean includeMethod(Method m)
         {
@@ -103,6 +96,21 @@ public class BasicClassIntrospector
         }
     }
 
+    /**
+     * @since 1.8
+     */
+    public final static GetterMethodFilter DEFAULT_GETTER_FILTER = new GetterMethodFilter();
+
+    /**
+     * @since 1.8
+     */
+    public final static SetterMethodFilter DEFAULT_SETTER_FILTER = new SetterMethodFilter();
+
+    /**
+     * @since 1.8
+     */
+    public final static SetterAndGetterMethodFilter DEFAULT_SETTER_AND_GETTER_FILTER = new SetterAndGetterMethodFilter();
+    
     /*
     /**********************************************************
     /* Life cycle
@@ -137,51 +145,55 @@ public class BasicClassIntrospector
         ac.resolveCreators(true);
         // False -> no need to collect ignorable field list
         ac.resolveFields(false);
-        return new BasicBeanDescription(type, ac, ai);
+        return new BasicBeanDescription(cfg, type, ac);
     }
 
     @Override
     public BasicBeanDescription forDeserialization(DeserializationConfig cfg,
-                                                   JavaType type,
-                                                   MixInResolver r)
+            JavaType type, MixInResolver r)
     {
-        AnnotationIntrospector ai = cfg.getAnnotationIntrospector();
-        AnnotatedClass ac = AnnotatedClass.construct(type.getRawClass(), ai, r);
+        boolean useAnnotations = cfg.isAnnotationProcessingEnabled();
+        AnnotationIntrospector ai =  cfg.getAnnotationIntrospector();
+        AnnotatedClass ac = AnnotatedClass.construct(type.getRawClass(), (useAnnotations ? ai : null), r);
         // everything needed for deserialization, including ignored methods
         ac.resolveMemberMethods(getDeserializationMethodFilter(cfg), true);
         // include all kinds of creator methods:
         ac.resolveCreators(true);
         // yes, we need info on ignored fields as well
         ac.resolveFields(true);
-        return new BasicBeanDescription(type, ac, ai);
+        // Note: can't pass null AnnotationIntrospector for this...
+        return new BasicBeanDescription(cfg, type, ac);
     }
 
     @Override
     public BasicBeanDescription forCreation(DeserializationConfig cfg,
             JavaType type, MixInResolver r)
     {
-        AnnotationIntrospector ai = cfg.getAnnotationIntrospector();
-        AnnotatedClass ac = AnnotatedClass.construct(type.getRawClass(), ai, r);
+        boolean useAnnotations = cfg.isAnnotationProcessingEnabled();
+        AnnotationIntrospector ai =  cfg.getAnnotationIntrospector();
+        AnnotatedClass ac = AnnotatedClass.construct(type.getRawClass(), (useAnnotations ? ai : null), r);
         ac.resolveCreators(true);
-        return new BasicBeanDescription(type, ac, ai);
+        return new BasicBeanDescription(cfg, type, ac);
     }
 
     @Override
     public BasicBeanDescription forClassAnnotations(MapperConfig<?> cfg,
             Class<?> c, MixInResolver r)
     {
-        AnnotationIntrospector ai = cfg.getAnnotationIntrospector();
-        AnnotatedClass ac = AnnotatedClass.construct(c, ai, r);
-        return new BasicBeanDescription(TypeFactory.type(c), ac, ai);
+        boolean useAnnotations = cfg.isAnnotationProcessingEnabled();
+        AnnotationIntrospector ai =  cfg.getAnnotationIntrospector();
+        AnnotatedClass ac = AnnotatedClass.construct(c, (useAnnotations ? ai : null), r);
+        return new BasicBeanDescription(cfg, cfg.constructType(c), ac);
     }
 
     @Override
     public BasicBeanDescription forDirectClassAnnotations(MapperConfig<?> cfg,
             Class<?> c, MixInResolver r)
     {
-        AnnotationIntrospector ai = cfg.getAnnotationIntrospector();
-        AnnotatedClass ac = AnnotatedClass.constructWithoutSuperTypes(c, ai, r);
-        return new BasicBeanDescription(TypeFactory.type(c), ac, ai);
+        boolean useAnnotations = cfg.isAnnotationProcessingEnabled();
+        AnnotationIntrospector ai =  cfg.getAnnotationIntrospector();
+        AnnotatedClass ac = AnnotatedClass.constructWithoutSuperTypes(c, (useAnnotations ? ai : null), r);
+        return new BasicBeanDescription(cfg, cfg.constructType(c), ac);
     }
     
     /*
@@ -196,7 +208,7 @@ public class BasicClassIntrospector
      */
     protected MethodFilter getSerializationMethodFilter(SerializationConfig cfg)
     {
-    	return GetterMethodFilter.instance;
+    	return DEFAULT_GETTER_FILTER;
     }
 
     /**
@@ -209,9 +221,9 @@ public class BasicClassIntrospector
          * Collection and Map types)
          */
         if (cfg.isEnabled(DeserializationConfig.Feature.USE_GETTERS_AS_SETTERS)) {
-            return SetterAndGetterMethodFilter.instance;
+            return DEFAULT_SETTER_AND_GETTER_FILTER;
             
         }
-    	return SetterMethodFilter.instance;
+    	return DEFAULT_SETTER_FILTER;
     }
 }

@@ -17,7 +17,6 @@ import org.codehaus.jackson.map.annotate.JacksonStdImpl;
 import org.codehaus.jackson.map.ser.ArraySerializers;
 import org.codehaus.jackson.map.ser.ContainerSerializerBase;
 import org.codehaus.jackson.map.type.ArrayType;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.schema.JsonSchema;
 import org.codehaus.jackson.schema.SchemaAware;
@@ -57,19 +56,30 @@ public class ObjectArraySerializer
      */
     protected PropertySerializerMap _dynamicSerializers;
     
+    /**
+     * @deprecated since 1.8
+     */
+    @Deprecated
     public ObjectArraySerializer(JavaType elemType, boolean staticTyping,
             TypeSerializer vts, BeanProperty property)
+    {
+        this(elemType, staticTyping, vts, property, null);
+    }
+    
+    public ObjectArraySerializer(JavaType elemType, boolean staticTyping,
+            TypeSerializer vts, BeanProperty property, JsonSerializer<Object> elementSerializer)
     {
         super(Object[].class, vts, property);
         _elementType = elemType;
         _staticTyping = staticTyping;
         _dynamicSerializers = PropertySerializerMap.emptyMap();
+        _elementSerializer = elementSerializer;
     }
 
     @Override
     public ContainerSerializerBase<?> _withValueTypeSerializer(TypeSerializer vts)
     {
-        return new ObjectArraySerializer(_elementType, _staticTyping, vts, _property);
+        return new ObjectArraySerializer(_elementType, _staticTyping, vts, _property, _elementSerializer);
     }
     
     @Override
@@ -101,7 +111,12 @@ public class ObjectArraySerializer
                 Class<?> cc = elem.getClass();
                 JsonSerializer<Object> serializer = serializers.serializerFor(cc);
                 if (serializer == null) {
-                    serializer = _findAndAddDynamic(serializers, cc, provider);
+                    // To fix [JACKSON-508]
+                    if (_elementType.hasGenericTypes()) {
+                        serializer = _findAndAddDynamic(serializers, _elementType.forcedNarrowBy(cc), provider);
+                    } else {
+                        serializer = _findAndAddDynamic(serializers, cc, provider);
+                    }
                 }
                 serializer.serialize(elem, jgen, provider);
             }
@@ -202,7 +217,7 @@ public class ObjectArraySerializer
     {
         ObjectNode o = createSchemaNode("array", true);
         if (typeHint != null) {
-            JavaType javaType = TypeFactory.type(typeHint);
+            JavaType javaType = provider.constructType(typeHint);
             if (javaType.isArrayType()) {
                 Class<?> componentType = ((ArrayType) javaType).getContentType().getRawClass();
                 // 15-Oct-2010, tatu: We can't serialize plain Object.class; but what should it produce here? Untyped?
@@ -227,7 +242,7 @@ public class ObjectArraySerializer
     public void resolve(SerializerProvider provider)
         throws JsonMappingException
     {
-        if (_staticTyping) {
+        if (_staticTyping && _elementSerializer == null) {
             _elementSerializer = provider.findValueSerializer(_elementType, _property);
         }
     }        
@@ -245,4 +260,19 @@ public class ObjectArraySerializer
         }
         return result.serializer;
     }
+
+    /**
+     * @since 1.8
+     */
+    protected final JsonSerializer<Object> _findAndAddDynamic(PropertySerializerMap map,
+            JavaType type, SerializerProvider provider) throws JsonMappingException
+    {
+        PropertySerializerMap.SerializerAndMapResult result = map.findAndAddSerializer(type, provider, _property);
+        // did we get a new map of serializers? If so, start using it
+        if (map != result.map) {
+            _dynamicSerializers = result.map;
+        }
+        return result.serializer;
+    }
+
 }

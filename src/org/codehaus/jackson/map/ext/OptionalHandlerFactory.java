@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.*;
 import org.codehaus.jackson.map.deser.StdDeserializer;
-import org.codehaus.jackson.map.introspect.BasicBeanDescription;
 import org.codehaus.jackson.map.util.Provider;
 import org.codehaus.jackson.type.JavaType;
 
@@ -49,8 +48,8 @@ public class OptionalHandlerFactory
     /**********************************************************
      */
     
-    public JsonSerializer<?> findSerializer(SerializationConfig config, JavaType type,
-            BasicBeanDescription beanInfo, BeanProperty property)
+    public JsonSerializer<?> findSerializer(SerializationConfig config, JavaType type)
+//            BasicBeanDescription beanInfo, BeanProperty property)
     {
         Class<?> rawType = type.getRawClass();
         String className = rawType.getName();

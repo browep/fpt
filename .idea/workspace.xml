@@ -14,16 +14,187 @@
     <option name="historyRevisionsNumber" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c52d76a5-a625-4006-9a82-82ad4df3b15c" name="Default" comment="">
+    <list default="true" id="40a6b345-3b8a-411f-943b-c690c7082147" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/paul.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Unnamed.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.properties" afterPath="$PROJECT_DIR$/build.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fpt.iml" afterPath="$PROJECT_DIR$/fpt.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/android/vending/billing/IMarketBillingService.java" afterPath="$PROJECT_DIR$/gen/com/android/vending/billing/IMarketBillingService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/github/browep/fpt/R.java" afterPath="$PROJECT_DIR$/gen/com/github/browep/fpt/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/main.xml" afterPath="$PROJECT_DIR$/res/layout/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/edit_data.xml" afterPath="$PROJECT_DIR$/res/layout/edit_data.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/edit_data_entry.xml" afterPath="$PROJECT_DIR$/res/layout/edit_data_entry.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/C.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/C.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/FptApp.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/FptApp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/connector/Tweeter.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/connector/Tweeter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/dao/AnalyzableActivity.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/dao/AnalyzableActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/CreateWorkout.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/CreateWorkout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/EditData.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/EditData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/FptActivity.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/FptActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeeProgressChooser.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeeProgressChooser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java" afterPath="$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sugree/twitter/Twitter.java" afterPath="$PROJECT_DIR$/src/com/sugree/twitter/Twitter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/Base64Variant.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/Base64Variant.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonEncoding.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonEncoding.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonGenerator.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonGenerator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonParser.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/JsonParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/SerializableString.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/SerializableString.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/Version.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/Version.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/annotate/JsonSubTypes.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/annotate/JsonSubTypes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ByteSourceBootstrapper.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ByteSourceBootstrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonGeneratorBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonGeneratorBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonNumericParserBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonNumericParserBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonParserMinimalBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonParserMinimalBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonReadContext.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonReadContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonWriteContext.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/JsonWriteContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ReaderBasedNumericParser.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ReaderBasedNumericParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ReaderBasedParser.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ReaderBasedParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ReaderBasedParserBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/ReaderBasedParserBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/StreamBasedParserBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/StreamBasedParserBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/Utf8Generator.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/Utf8Generator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/Utf8StreamParser.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/Utf8StreamParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/WriterBasedGenerator.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/impl/WriterBasedGenerator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/io/JsonStringEncoder.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/io/JsonStringEncoder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/io/MergedStream.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/io/MergedStream.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/io/NumberInput.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/io/NumberInput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/io/SerializedString.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/io/SerializedString.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/io/UTF8Writer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/io/UTF8Writer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/AbstractTypeResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/AbstractTypeResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/AnnotationIntrospector.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/AnnotationIntrospector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializationConfig.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializationConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializationContext.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializationContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializerProvider.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/DeserializerProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/Deserializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/Deserializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/MapperConfig.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/MapperConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/MappingJsonFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/MappingJsonFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/Module.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/Module.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ObjectMapper.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ObjectMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ObjectReader.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ObjectReader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ObjectWriter.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ObjectWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/SerializationConfig.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/SerializationConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/SerializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/SerializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/SerializerProvider.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/SerializerProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/Serializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/Serializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/TreeMapper.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/TreeMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/TypeSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/TypeSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonDeserialize.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonDeserialize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonSerialize.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonSerialize.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonTypeIdResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonTypeIdResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonTypeResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/annotate/JsonTypeResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/AbstractDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/AbstractDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/ArrayDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/ArrayDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/ArrayDeserializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/ArrayDeserializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BasicDeserializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BasicDeserializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BeanDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BeanDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BeanDeserializerBuilder.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BeanDeserializerBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BeanDeserializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/BeanDeserializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/CollectionDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/CollectionDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/Creator.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/Creator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/CreatorContainer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/CreatorContainer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/CustomDeserializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/CustomDeserializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/FromStringDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/FromStringDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/SettableBeanProperty.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/SettableBeanProperty.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializationContext.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializationContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializerProvider.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializerProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdDeserializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdKeyDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdKeyDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdKeyDeserializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/StdKeyDeserializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/impl/BeanPropertyMap.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/impl/BeanPropertyMap.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/impl/StringCollectionDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/deser/impl/StringCollectionDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ext/DOMSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ext/DOMSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ext/JodaDeserializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ext/JodaDeserializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ext/OptionalHandlerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ext/OptionalHandlerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/Annotated.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/Annotated.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedClass.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedClass.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedConstructor.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedConstructor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedMethod.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedMethod.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedParameter.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedParameter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedWithParams.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/AnnotatedWithParams.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/BasicBeanDescription.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/BasicBeanDescription.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/BasicClassIntrospector.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/BasicClassIntrospector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/JacksonAnnotationIntrospector.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/JacksonAnnotationIntrospector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/NopAnnotationIntrospector.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/introspect/NopAnnotationIntrospector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/SubtypeResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/SubtypeResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/TypeIdResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/TypeIdResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/TypeResolverBuilder.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/TypeResolverBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsArrayTypeSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsArrayTypeSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsPropertyTypeDeserializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsPropertyTypeDeserializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsPropertyTypeSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsPropertyTypeSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsWrapperTypeSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/AsWrapperTypeSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/ClassNameIdResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/ClassNameIdResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/MinimalClassNameIdResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/MinimalClassNameIdResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/StdSubtypeResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/StdSubtypeResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/StdTypeResolverBuilder.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/StdTypeResolverBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/TypeIdResolverBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/TypeIdResolverBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/TypeNameIdResolver.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/jsontype/impl/TypeNameIdResolver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/module/SimpleDeserializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/module/SimpleDeserializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/module/SimpleModule.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/module/SimpleModule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/module/SimpleSerializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/module/SimpleSerializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BasicSerializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BasicSerializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BeanPropertyWriter.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BeanPropertyWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BeanSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BeanSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BeanSerializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/BeanSerializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/ContainerSerializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/ContainerSerializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/CustomSerializerFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/CustomSerializerFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/EnumMapSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/EnumMapSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/EnumSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/EnumSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/FilteredBeanPropertyWriter.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/FilteredBeanPropertyWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/JdkSerializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/JdkSerializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/JsonValueSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/JsonValueSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/MapSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/MapSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/PropertyBuilder.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/PropertyBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/ScalarSerializerBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/ScalarSerializerBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/SerializerBase.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/SerializerBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/SerializerCache.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/SerializerCache.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/StdKeySerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/StdKeySerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/StdSerializerProvider.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/StdSerializerProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/StdSerializers.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/StdSerializers.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/ToStringSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/ToStringSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/IndexedStringListSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/IndexedStringListSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/ObjectArraySerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/ObjectArraySerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/SimpleBeanPropertyFilter.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/SimpleBeanPropertyFilter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/StringCollectionSerializer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/ser/impl/StringCollectionSerializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/ArrayType.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/ArrayType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/CollectionType.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/CollectionType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/MapType.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/MapType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/SimpleType.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/SimpleType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/TypeBindings.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/TypeBindings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/TypeFactory.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/type/TypeFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/util/ArrayBuilders.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/util/ArrayBuilders.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/util/JSONPObject.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/util/JSONPObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/map/util/JSONWrappedObject.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/map/util/JSONWrappedObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ArrayNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ArrayNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/node/BaseJsonNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/node/BaseJsonNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ContainerNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ContainerNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/node/MissingNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/node/MissingNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ObjectNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ObjectNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/node/TextNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/node/TextNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ValueNode.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/node/ValueNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/schema/JsonSchema.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/schema/JsonSchema.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/sym/BytesToNameCanonicalizer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/sym/BytesToNameCanonicalizer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/type/JavaType.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/type/JavaType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/util/CharTypes.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/util/CharTypes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/util/JsonGeneratorDelegate.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/util/JsonGeneratorDelegate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/util/JsonParserDelegate.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/util/JsonParserDelegate.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/util/MinimalPrettyPrinter.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/util/MinimalPrettyPrinter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/util/TextBuffer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/util/TextBuffer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/codehaus/jackson/util/TokenBuffer.java" afterPath="$PROJECT_DIR$/src/org/codehaus/jackson/util/TokenBuffer.java" />
     </list>
-    <list id="d38dac7f-9dbc-46c3-a07a-5127f21e89cb" name="dont check in" comment="" />
-    <ignored path="fpt.iws" />
+    <ignored path="SimpleWorkoutTracker.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +203,6 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
-  <component name="CoverageDataManager" choice="3" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
     <option name="REVERSE_PATCH" value="false" />
@@ -41,34 +211,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/github/browep/fpt/FptApp.java" line="88" class="com.github.browep.fpt.FptApp" package="com.github.browep.fpt">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/Util.java" line="162" class="com.github.browep.fpt.util.Util" package="com.github.browep.fpt.util">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -102,61 +244,44 @@
       </breakpoint>
     </breakpoint_any>
     <breakpoint_rules />
-    <ui_properties>
-      <property name="line_breakpoints_groupByMethods" value="false" />
-      <property name="line_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_flattenPackages" value="true" />
-      <property name="method_breakpoints_flattenPackages" value="true" />
-      <property name="field_breakpoints_flattenPackages" value="true" />
-      <property name="exception_breakpoints_groupByMethods" value="false" />
-      <property name="line_breakpoints_groupByClasses" value="true" />
-      <property name="method_breakpoints_viewId" value="TABLE" />
-      <property name="field_breakpoints_groupByMethods" value="false" />
-      <property name="line_breakpoints_flattenPackages" value="true" />
-      <property name="field_breakpoints_groupByClasses" value="true" />
-      <property name="method_breakpoints_groupByClasses" value="true" />
-      <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
-      <property name="field_breakpoints_viewId" value="TABLE" />
-      <property name="method_breakpoints_groupByMethods" value="false" />
-    </ui_properties>
+    <ui_properties />
   </component>
   <component name="FavoritesManager">
-    <favorites_list name="fpt" />
+    <favorites_list name="SimpleWorkoutTracker" />
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="EditData.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/EditData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="95" column="23" selection-start="3336" selection-end="3336" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Welcome.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="39" selection-start="2148" selection-end="2173" vertical-scroll-proportion="0.0">
+            <state line="79" column="78" selection-start="2242" selection-end="2242" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+      <file leaf-file-name="WorkoutDefinitionForm.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/WorkoutDefinitionForm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="156" selection-start="1377" selection-end="1377" vertical-scroll-proportion="0.75874126">
+            <state line="46" column="17" selection-start="1564" selection-end="1564" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="33" selection-start="183" selection-end="183" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="C.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/C.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="91" selection-start="1163" selection-end="1163" vertical-scroll-proportion="0.0">
+            <state line="4" column="34" selection-start="218" selection-end="218" vertical-scroll-proportion="0.10830325">
               <folding />
             </state>
           </provider>
@@ -165,43 +290,16 @@
       <file leaf-file-name="Dao.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/github/browep/nosql/Dao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="226" column="63" selection-start="6716" selection-end="6743" vertical-scroll-proportion="0.0">
+            <state line="304" column="14" selection-start="9116" selection-end="9116" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Log.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/nosql/Log.java">
+      <file leaf-file-name="edit_data.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/edit_data.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="0" selection-start="1806" selection-end="1806" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Log.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/Log.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="2" selection-start="1401" selection-end="1601" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Security.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/billing/Security.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="80" selection-start="6355" selection-end="6355" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SeeProgressChooser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeeProgressChooser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="57" selection-start="780" selection-end="780" vertical-scroll-proportion="0.0">
+            <state line="29" column="0" selection-start="1151" selection-end="1151" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -210,7 +308,34 @@
       <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="99" column="61" selection-start="3992" selection-end="3992" vertical-scroll-proportion="0.0">
+            <state line="38" column="41" selection-start="1447" selection-end="1447" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FptActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/FptActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="111" column="39" selection-start="3921" selection-end="3921" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PreferencesService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/PreferencesService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="31" selection-start="1539" selection-end="1539" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="edit_data_entry.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/edit_data_entry.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="53" selection-start="592" selection-end="592" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -230,22 +355,18 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/util/Log.java" />
-        <option value="$PROJECT_DIR$/res/layout/send_report.xml" />
-        <option value="$PROJECT_DIR$/build.properties" />
-        <option value="$PROJECT_DIR$/build.xml" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/util/Util.java" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/FptApp.java" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/UploadImageTask.java" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeePictures.java" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ui/TakeProgressPicture.java" />
+        <option value="$PROJECT_DIR$/monkeyrunner/simple.py" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ui/CreateWorkout.java" />
         <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeeProgressChooser.java" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/nosql/Log.java" />
-        <option value="$PROJECT_DIR$/src/com/github/browep/nosql/Dao.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/C.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/dao/AnalyzableActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ui/FptActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/edit_data.xml" />
+        <option value="$PROJECT_DIR$/res/layout/edit_data_entry.xml" />
+        <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ui/EditData.java" />
         <option value="$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java" />
-        <option value="$PROJECT_DIR$/res/layout/main.xml" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -260,7 +381,7 @@
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -288,94 +409,173 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fpt" />
+              <option name="myItemId" value="SimpleWorkoutTracker" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fpt" />
+              <option name="myItemId" value="SimpleWorkoutTracker" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browep" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browep" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browep" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleWorkoutTracker" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="monkeyrunner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Favorites" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="OverrideImplement.combined" value="true" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="ExportedApkPath" value="$PROJECT_DIR$/fpt.apk" />
+    <property name="ExportedApkPath" value="$PROJECT_DIR$/SimpleWorkoutTracker.apk" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="preferences.sourceCode.General" />
-    <property name="ExportedModule" value="fpt" />
-    <property name="DefaultHtmlFileTemplate" value="Html" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="ExportedModule" value="SimpleWorkoutTracker" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
-  <component name="RecentsManager">
-    <key name="MoveMembersDialog.RECENTS_KEY">
-      <recent name="com.github.browep.fpt.util.Util" />
-      <recent name="com.github.browep.fpt.C" />
-      <recent name="C" />
-    </key>
-    <key name="IntroduceConstantDialog.RECENTS_KEY">
-      <recent name="com.github.browep.fpt.C" />
-      <recent name="com.github.browep.fpt.ui.SendReport" />
-      <recent name="com.github.browep.fpt.ViewProgress" />
-      <recent name="com.github.browep.fpt.SeePictures" />
-      <recent name="com.github.browep.fpt.dao.Dao" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.github.browep.fpt" />
-      <recent name="com.github.browep.fpt.dao" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Android Application.fpt">
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="CHOOSE_DEVICE_MANUALLY" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Android Application.Welcome">
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -386,14 +586,16 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" adl_options="" air_descriptor_path="" air_program_params="" air_publisher_id="" air_root_dir_path="" air_run_mode="AppDescriptor" browser_family="FIREFOX" class_name="" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" method_name="" module_name="" output_log_level="" package_name="" player_path="/usr/bin/flashplayer" port="0" run_mode="HtmlOrSwfFile" run_trusted="false" scope="Class" socket_policy_port="0" url_to_launch="http://">
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" adl_options="" air_descriptor_path="" air_program_params="" air_publisher_id="" air_root_dir_path="" air_run_mode="AppDescriptor" browser_family="FIREFOX" class_name="" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" method_name="" module_name="" output_log_level="" package_name="" player_path="/usr/bin/flashplayerdebugger" port="0" run_mode="HtmlOrSwfFile" run_trusted="false" scope="Class" socket_policy_port="0" url_to_launch="http://">
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -412,39 +614,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
-      <extension name="coverage" enabled="false" merge="false" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
-      <envs />
-      <properties />
-      <listeners />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -465,6 +635,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -491,6 +662,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -511,12 +683,13 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
-    <configuration default="false" name="fpt" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="fpt" />
-      <option name="ACTIVITY_CLASS" value="com.github.browep.fpt.ui.Welcome" />
-      <option name="MODE" value="specific_activity" />
+    <configuration default="false" name="Welcome" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="SimpleWorkoutTracker" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="CHOOSE_DEVICE_MANUALLY" value="false" />
       <option name="PREFERRED_AVD" value="" />
@@ -533,7 +706,7 @@
       <method />
     </configuration>
     <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Android Application.fpt" />
+      <item index="0" class="java.lang.String" itemvalue="Android Application.Welcome" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -544,6 +717,8 @@
   <component name="SvnConfiguration" maxAnnotateRevisions="500">
     <option name="USER" value="" />
     <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
     <option name="LAST_MERGED_REVISION" />
     <option name="MERGE_DRY_RUN" value="false" />
     <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
@@ -559,68 +734,52 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c52d76a5-a625-4006-9a82-82ad4df3b15c" name="Default" comment="" />
-      <changelist id="d38dac7f-9dbc-46c3-a07a-5127f21e89cb" name="dont check in" comment="" />
-      <created>1298846734227</created>
-      <updated>1299724353640</updated>
+      <changelist id="40a6b345-3b8a-411f-943b-c690c7082147" name="Default" comment="" />
+      <created>1313366383302</created>
+      <updated>1313366383302</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="TodoView" selected-index="0">
-    <todo-panel id="selected-file">
-      <are-packages-shown value="false" />
-      <are-modules-shown value="false" />
-      <flatten-packages value="false" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <are-modules-shown value="false" />
-      <flatten-packages value="false" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="default-changelist">
-      <are-packages-shown value="false" />
-      <are-modules-shown value="false" />
-      <flatten-packages value="false" />
-      <is-autoscroll-to-source value="false" />
-    </todo-panel>
-  </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1922" height="1033" extended-state="6" />
+    <frame x="232" y="24" width="1446" height="1018" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34210527" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45504385" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32456142" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24158204" sideWeight="0.5010965" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22630993" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24158204" sideWeight="0.14802632" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3234649" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4627193" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2344086" sideWeight="0.67001116" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32636657" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46945336" sideWeight="0.9327195" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3234649" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="JSON Formatter" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3299435" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="myTodoPanelSettings">
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
+    </option>
     <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
@@ -632,8 +791,9 @@
     <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="picture taking bug, some UI improvements" />
+    <option name="LAST_COMMIT_MESSAGE" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -646,27 +806,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="save data entry (for reps)" />
-    <MESSAGE value="taking pictures, gallery" />
-    <MESSAGE value="picture taking in good state" />
-    <MESSAGE value="picture taking fixed!" />
-    <MESSAGE value="this should be versioned" />
-    <MESSAGE value="workout editing" />
-    <MESSAGE value="edit data, graph labels" />
-    <MESSAGE value="delete, edit, definitions and entries" />
-    <MESSAGE value="edge cases, bug with dates created" />
-    <MESSAGE value="pretty close on imgur upload" />
-    <MESSAGE value="imgur upload before dao refactor" />
-    <MESSAGE value="dao refactor imgur upload" />
-    <MESSAGE value="google analytics" />
-    <MESSAGE value="refactor and db file upload" />
-    <MESSAGE value="tweet button" />
-    <MESSAGE value="tweet logging" />
-    <MESSAGE value="facebook sdk&#10;" />
-    <MESSAGE value="in app billing" />
-    <MESSAGE value="in app billing progress" />
-    <MESSAGE value="market purchase working" />
-    <MESSAGE value="picture taking bug, some UI improvements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -676,94 +815,104 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/ViewProgress.java">
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/AnalyzableActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="13" selection-start="920" selection-end="920" vertical-scroll-proportion="0.0" />
+        <state line="41" column="54" selection-start="959" selection-end="959" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/Util.java">
+    <entry file="jar://$USER_HOME$/android-sdk-linux_x86/platforms/android-8/android.jar!/android/widget/Adapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="78" selection-start="4872" selection-end="4872" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/FptApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="61" selection-start="2814" selection-end="2814" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/UploadImageTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="56" selection-start="1382" selection-end="1382" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/TakeProgressPicture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1183" selection-end="1183" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeePictures.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="61" selection-start="2077" selection-end="2077" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="33" selection-start="183" selection-end="183" vertical-scroll-proportion="0.0">
+        <state line="15" column="19" selection-start="424" selection-end="424" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/nosql/Dao.java">
+    <entry file="jar://$USER_HOME$/android-sdk-linux_x86/platforms/android-8/android.jar!/android/widget/BaseAdapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="226" column="63" selection-start="6716" selection-end="6743" vertical-scroll-proportion="0.0" />
+        <state line="5" column="94" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/nosql/Log.java">
+    <entry file="jar://$USER_HOME$/android-sdk-linux_x86/platforms/android-8/android.jar!/android/widget/SpinnerAdapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="0" selection-start="1806" selection-end="1806" vertical-scroll-proportion="0.0" />
+        <state line="5" column="17" selection-start="156" selection-end="156" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/util/Log.java">
+    <entry file="jar://$USER_HOME$/android-sdk-linux_x86/platforms/android-8/android.jar!/android/widget/ListAdapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="2" selection-start="1401" selection-end="1601" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/billing/Security.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="80" selection-start="6355" selection-end="6355" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/C.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="91" selection-start="1163" selection-end="1163" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="5" column="17" selection-start="156" selection-end="156" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeeProgressChooser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="57" selection-start="780" selection-end="780" vertical-scroll-proportion="0.0">
+        <state line="48" column="58" selection-start="1522" selection-end="1522" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/nosql/Dao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="304" column="14" selection-start="9116" selection-end="9116" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="61" selection-start="3992" selection-end="3992" vertical-scroll-proportion="0.0">
+        <state line="38" column="41" selection-start="1447" selection-end="1447" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/edit_data.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="1151" selection-end="1151" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/edit_data_entry.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="53" selection-start="592" selection-end="592" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/EditData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="95" column="23" selection-start="3336" selection-end="3336" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/dao/PreferencesService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="31" selection-start="1539" selection-end="1539" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/FptActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="111" column="39" selection-start="3921" selection-end="3921" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="39" selection-start="2148" selection-end="2173" vertical-scroll-proportion="0.0">
+        <state line="79" column="78" selection-start="2242" selection-end="2242" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/WorkoutDefinitionForm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="156" selection-start="1377" selection-end="1377" vertical-scroll-proportion="0.75874126">
+        <state line="46" column="17" selection-start="1564" selection-end="1564" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="34" selection-start="218" selection-end="218" vertical-scroll-proportion="0.10830325">
           <folding />
         </state>
       </provider>
@@ -797,7 +946,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Android 2.2 Platform</last-edited>
+          <last-edited>Android 1.6 Platform</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -821,7 +970,19 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>fpt</last-edited>
+          <last-edited>SimpleWorkoutTracker</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -833,7 +994,6 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Unnamed</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -75,7 +75,6 @@ public class Version
             && (other._patchLevel == _patchLevel);
     }
 
-    @Override
     public int compareTo(Version other)
     {
         int diff = _majorVersion - other._majorVersion;

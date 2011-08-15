@@ -10,8 +10,8 @@ import org.codehaus.jackson.map.util.ClassUtil;
 public class ClassNameIdResolver
     extends TypeIdResolverBase
 {
-    public ClassNameIdResolver(JavaType baseType) {
-        super(baseType);
+    public ClassNameIdResolver(JavaType baseType, TypeFactory typeFactory) {
+        super(baseType, typeFactory);
     }
 
     public JsonTypeInfo.Id getMechanism() { return JsonTypeInfo.Id.CLASS; }
@@ -20,48 +20,16 @@ public class ClassNameIdResolver
         // not used with class name - based resolvers
     }
     
+    
     public String idFromValue(Object value)
     {
-        Class<?> cls = value.getClass();
+        return _idFrom(value, value.getClass());
+    }
 
-        // [JACKSON-380] Need to ensure that "enum subtypes" work too
-        if (Enum.class.isAssignableFrom(cls)) {
-            if (!cls.isEnum()) { // means that it's sub-class of base enum, so:
-                cls = cls.getSuperclass();
-            }
-        }
-        String str = cls.getName();
-        if (str.startsWith("java.util")) {
-            /* 25-Jan-2009, tatus: There are some internal classes that
-             *   we can not access as is. We need better mechanism; for
-             *   now this has to do...
-             */
-            /* Enum sets and maps are problematic since we MUST know
-             * type of contained enums, to be able to deserialize.
-             * In addition, EnumSet is not a concrete type either
-             */
-            if (value instanceof EnumSet<?>) { // Regular- and JumboEnumSet...
-                Class<?> enumClass = ClassUtil.findEnumType((EnumSet<?>) value);
-                str = TypeFactory.collectionType(EnumSet.class, enumClass).toCanonical();
-            } else if (value instanceof EnumMap<?,?>) {
-                Class<?> enumClass = ClassUtil.findEnumType((EnumMap<?,?>) value);
-                Class<?> valueClass = Object.class;
-                str = TypeFactory.mapType(EnumMap.class, enumClass, valueClass).toCanonical();
-            } else {
-                String end = str.substring(9);
-                if ((end.startsWith(".Arrays$") || end.startsWith(".Collections$"))
-                       && str.indexOf("List") >= 0) {
-                    /* 17-Feb-2010, tatus: Another such case: result of
-                     *    Arrays.asList() is named like so in Sun JDK...
-                     *   Let's just plain old ArrayList in its place
-                     * NOTE: chances are there are plenty of similar cases
-                     * for other wrappers... (immutable, singleton, synced etc)
-                     */
-                    str = "java.util.ArrayList";
-                }
-            }
-        }
-        return str;
+    
+    public String idFromValueAndType(Object value, Class<?> type)
+    {
+        return _idFrom(value, type);
     }
 
     public JavaType typeFromId(String id)
@@ -82,11 +50,61 @@ public class ClassNameIdResolver
 //          Class<?> cls = Class.forName(id);
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             Class<?> cls = Class.forName(id, true, loader);
-            return TypeFactory.specialize(_baseType, cls);
+            return _typeFactory.constructSpecializedType(_baseType, cls);
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Invalid type id '"+id+"' (for id type 'Id.class'): no such class found");
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid type id '"+id+"' (for id type 'Id.class'): "+e.getMessage(), e);
         }
+    }
+
+    /*
+    /**********************************************************
+    /* Internal methods
+    /**********************************************************
+     */
+    
+    protected final String _idFrom(Object value, Class<?> cls)
+    {
+        // [JACKSON-380] Need to ensure that "enum subtypes" work too
+        if (Enum.class.isAssignableFrom(cls)) {
+            if (!cls.isEnum()) { // means that it's sub-class of base enum, so:
+                cls = cls.getSuperclass();
+            }
+        }
+        String str = cls.getName();
+        if (str.startsWith("java.util")) {
+            /* 25-Jan-2009, tatu: There are some internal classes that
+             *   we can not access as is. We need better mechanism; for
+             *   now this has to do...
+             */
+            /* Enum sets and maps are problematic since we MUST know
+             * type of contained enums, to be able to deserialize.
+             * In addition, EnumSet is not a concrete type either
+             */
+            if (value instanceof EnumSet<?>) { // Regular- and JumboEnumSet...
+                Class<?> enumClass = ClassUtil.findEnumType((EnumSet<?>) value);
+                // not optimal: but EnumSet is not a customizable type so this is sort of ok
+                str = TypeFactory.defaultInstance().constructCollectionType(EnumSet.class, enumClass).toCanonical();
+            } else if (value instanceof EnumMap<?,?>) {
+                Class<?> enumClass = ClassUtil.findEnumType((EnumMap<?,?>) value);
+                Class<?> valueClass = Object.class;
+                // not optimal: but EnumMap is not a customizable type so this is sort of ok
+                str = TypeFactory.defaultInstance().constructMapType(EnumMap.class, enumClass, valueClass).toCanonical();
+            } else {
+                String end = str.substring(9);
+                if ((end.startsWith(".Arrays$") || end.startsWith(".Collections$"))
+                       && str.indexOf("List") >= 0) {
+                    /* 17-Feb-2010, tatus: Another such case: result of
+                     *    Arrays.asList() is named like so in Sun JDK...
+                     *   Let's just plain old ArrayList in its place
+                     * NOTE: chances are there are plenty of similar cases
+                     * for other wrappers... (immutable, singleton, synced etc)
+                     */
+                    str = "java.util.ArrayList";
+                }
+            }
+        }
+        return str;
     }
 }

@@ -40,8 +40,8 @@ public final class SimpleType
         this(cls, null, null);
     }
 
-    protected SimpleType(Class<?> cls,
-                         String[] typeNames, JavaType[] typeParams) {
+    protected SimpleType(Class<?> cls, String[] typeNames, JavaType[] typeParams)
+    {
         super(cls, 0);
         if (typeNames == null || typeNames.length == 0) {
             _typeNames = null;
@@ -50,6 +50,16 @@ public final class SimpleType
             _typeNames = typeNames;
             _typeParameters = typeParams;
         }
+    }
+
+    /**
+     * Method used by core Jackson classes: NOT to be used by application code.
+     *<p>
+     * NOTE: public only because it is called by <code>ObjectMapper</code> which is
+     * not in same package
+     */
+    public static SimpleType constructUnsafe(Class<?> raw) {
+        return new SimpleType(raw, null, null);
     }
     
     @Override
@@ -66,6 +76,13 @@ public final class SimpleType
         throw new IllegalArgumentException("Internal error: SimpleType.narrowContentsBy() should never be called");
     }
 
+    @Override
+    public JavaType widenContentsBy(Class<?> subclass)
+    {
+        // should never get called
+        throw new IllegalArgumentException("Internal error: SimpleType.widenContentsBy() should never be called");
+    }
+    
     public static SimpleType construct(Class<?> cls)
     {
         /* Let's add sanity checks, just to ensure no

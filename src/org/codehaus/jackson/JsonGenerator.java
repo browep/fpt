@@ -18,6 +18,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.codehaus.jackson.io.CharacterEscapes;
 import org.codehaus.jackson.io.SerializedString;
 
 /**
@@ -116,7 +117,18 @@ public abstract class JsonGenerator
          * 
          * @since 1.7
          */
-        FLUSH_PASSED_TO_STREAM(true)
+        FLUSH_PASSED_TO_STREAM(true),
+        
+        /**
+         * Feature that specifies that all characters beyond 7-bit ASCII
+         * range (i.e. code points of 128 and above) need to be output
+         * using format-specific escapes (for JSON, backslash escapes),
+         * if format uses escaping mechanisms (which is generally true
+         * for textual formats but not for binary formats).
+         * 
+         * @since 1.8
+         */
+        ESCAPE_NON_ASCII(false)
         
             ;
 
@@ -149,7 +161,11 @@ public abstract class JsonGenerator
         public int getMask() { return _mask; }
     }
 
-    // // // Configuration:
+    /*
+    /**********************************************************
+    /* Configuration
+    /**********************************************************
+     */
 
     /**
      * Object that handles pretty-printing (usually additional
@@ -158,14 +174,77 @@ public abstract class JsonGenerator
      */
     protected PrettyPrinter _cfgPrettyPrinter;
 
-    protected JsonGenerator() {
-    }
+    /*
+    /**********************************************************
+    /* Construction, configuration, initialization
+    /**********************************************************
+     */
+    
+    protected JsonGenerator() { }
 
+    /**
+     * Method to call to make this generator use specified schema.
+     * Method must be called before generating any content, right after instance
+     * has been created.
+     * Note that not all generators support schemas; and those that do usually only
+     * accept specific types of schemas: ones defined for data format this generator
+     * produces.
+     *<p>
+     * If generator does not support specified schema, {@link UnsupportedOperationException}
+     * is thrown.
+     * 
+     * @param schema Schema to use
+     * 
+     * @throws UnsupportedOperationException if generator does not support schema
+     * 
+     * @since 1.8
+     */
+    public void setSchema(FormatSchema schema)
+    {
+        throw new UnsupportedOperationException("Generator of type "+getClass().getName()+" does not support schema of type '"
+                +schema.getSchemaType()+"'");
+    }
+    
+    /**
+     * Method that can be used to verify that given schema can be used with
+     * this generator (using {@link #setSchema}).
+     * 
+     * @param schema Schema to check
+     * 
+     * @return True if this generator can use given schema; false if not
+     * 
+     * @since 1.8
+     */
+    public boolean canUseSchema(FormatSchema schema) {
+        return false;
+    }
+    
     /**
      * @since 1.6
      */
     public Version version() {
         return Version.unknownVersion();
+    }
+
+    /**
+     * Method that can be used to get access to object that is used
+     * as target for generated output; this is usually either
+     * {@link OutputStream} or {@link Writer}, depending on what
+     * generator was constructed with.
+     * Note that returned value may be null in some cases; including
+     * case where implementation does not want to exposed raw
+     * source to caller.
+     * In cases where output has been decorated, object returned here
+     * is the decorated version; this allows some level of interaction
+     * between users of generator and decorator object.
+     *<p>
+     * In general use of this accessor should be considered as
+     * "last effort", i.e. only used if no other mechanism is applicable.
+     * 
+     * @since 1.8
+     */
+    public Object getOutputTarget() {
+        return null;
     }
     
     /*
@@ -240,22 +319,22 @@ public abstract class JsonGenerator
 
     /** @deprecated Use {@link #enable} instead
      */
-    @SuppressWarnings("dep-ann")
+    @Deprecated
     public void enableFeature(Feature f) { enable(f); }
 
     /** @deprecated Use {@link #disable} instead
      */
-    @SuppressWarnings("dep-ann")
+    @Deprecated
     public void disableFeature(Feature f) { disable(f); }
 
     /** @deprecated Use {@link #configure} instead
      */
-    @SuppressWarnings("dep-ann")
+    @Deprecated
     public void setFeature(Feature f, boolean state) { configure(f, state); }
 
     /** @deprecated Use {@link #isEnabled} instead
      */
-    @SuppressWarnings("dep-ann")
+    @Deprecated
     public boolean isFeatureEnabled(Feature f) { return isEnabled(f); }
 
     /*
@@ -288,6 +367,68 @@ public abstract class JsonGenerator
      * @return Generator itself (this), to allow chaining
      */
     public abstract JsonGenerator useDefaultPrettyPrinter();
+
+    /**
+     * Method that can be called to request that generator escapes
+     * all character codes above specified code point (if positive value);
+     * or, to not escape any characters except for ones that must be
+     * escaped for the data format (if -1).
+     * To force escaping of all non-ASCII characters, for example,
+     * this method would be called with value of 127.
+     *<p>
+     * Note that generators are NOT required to support setting of value
+     * higher than 127, because there are other ways to affect quoting
+     * (or lack thereof) of character codes between 0 and 127.
+     * Not all generators support concept of escaping, either; if so,
+     * calling this method will have no effect.
+     *<p>
+     * Default implementation does nothing; sub-classes need to redefine
+     * it according to rules of supported data format.
+     * 
+     * @param charCode Either -1 to indicate that no additional escaping
+     *   is to be done; or highest code point not to escape (meaning higher
+     *   ones will be), if positive value.
+     * 
+     * @since 1.8
+     */
+    public JsonGenerator setHighestNonEscapedChar(int charCode) {
+        return this;
+    }
+
+    /**
+     * Accessor method for testing what is the highest unescaped character
+     * configured for this generator. This may be either positive value
+     * (when escaping configuration has been set and is in effect), or
+     * 0 to indicate that no additional escaping is in effect.
+     * Some generators may not support additional escaping: for example,
+     * generators for binary formats that do not use escaping should
+     * simply return 0.
+     * 
+     * @return Currently active limitation for highest non-escaped character,
+     *   if defined; or -1 to indicate no additional escaping is performed.
+     */
+    public int getHighestEscapedChar() {
+        return 0;
+    }
+    /**
+     * Method for accessing custom escapes factory uses for {@link JsonGenerator}s
+     * it creates.
+     * 
+     * @since 1.8
+     */
+    public CharacterEscapes getCharacterEscapes() {
+        return null;
+    }
+
+    /**
+     * Method for defining custom escapes factory uses for {@link JsonGenerator}s
+     * it creates.
+     * 
+     * @since 1.8
+     */
+    public JsonGenerator setCharacterEscapes(CharacterEscapes esc) {
+        return this;
+    }
 
     /*
     /**********************************************************

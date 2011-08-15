@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.flurry.android.FlurryAgent;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.FptApp;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 /**
  * Created by IntelliJ IDEA.

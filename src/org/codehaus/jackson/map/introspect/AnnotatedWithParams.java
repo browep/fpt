@@ -2,6 +2,11 @@ package org.codehaus.jackson.map.introspect;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+
+import org.codehaus.jackson.map.type.TypeBindings;
+import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.type.JavaType;
 
 /**
  * Intermediate base class that encapsulates features that
@@ -71,6 +76,31 @@ public abstract class AnnotatedWithParams
 
     /*
     /**********************************************************
+    /* Helper methods for subclasses
+    /**********************************************************
+     */
+
+    protected  JavaType getType(TypeBindings bindings, TypeVariable<?>[] typeParams)
+    {
+        // [JACKSON-468] Need to consider local type binding declarations too...
+        if (typeParams != null && typeParams.length > 0) {
+            bindings = bindings.childInstance();
+            for (TypeVariable<?> var : typeParams) {
+                String name = var.getName();
+                // to prevent infinite loops, need to first add placeholder ("<T extends Enum<T>>" etc)
+                bindings._addPlaceholder(name);
+                // About only useful piece of information is the lower bound (which is at least Object.class)
+                Type lowerBound = var.getBounds()[0];
+                JavaType type = (lowerBound == null) ? TypeFactory.unknownType()
+                        : bindings.resolveType(lowerBound);
+                bindings.addBinding(var.getName(), type);
+            }
+        }
+        return bindings.resolveType(getGenericType());
+    }
+
+    /*
+    /**********************************************************
     /* Partial Annotated impl
     /**********************************************************
      */
@@ -105,5 +135,15 @@ public abstract class AnnotatedWithParams
 
     public abstract Type getParameterType(int index);
 
+    /**
+     * Method called to fully resolve type of one of parameters, given
+     * specified type variable bindings.
+     * 
+     * @since 1.8
+     */
+    public final JavaType resolveParameterType(int index, TypeBindings bindings) {
+        return bindings.resolveType(getParameterType(index));
+    }
+    
     public final int getAnnotationCount() { return _annotations.size(); }
 }

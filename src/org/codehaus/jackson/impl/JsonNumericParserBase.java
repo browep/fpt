@@ -2,7 +2,6 @@ package org.codehaus.jackson.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import java.io.*;
 
 import org.codehaus.jackson.*;
@@ -169,6 +168,14 @@ public abstract class JsonNumericParserBase
         _fractLength = fractLen;
         _expLength = expLen;
         _numTypesValid = NR_UNKNOWN; // to force parsing
+        return JsonToken.VALUE_NUMBER_FLOAT;
+    }
+
+    protected final JsonToken resetAsNaN(String valueStr, double value)
+    {
+        _textBuffer.resetWithString(valueStr);
+        _numberDouble = value;
+        _numTypesValid = NR_DOUBLE;
         return JsonToken.VALUE_NUMBER_FLOAT;
     }
     
@@ -606,6 +613,5 @@ public abstract class JsonNumericParserBase
         throws IOException, JsonParseException
     {
         _reportError("Numeric value ("+getText()+") out of range of long ("+Long.MIN_VALUE+" - "+Long.MAX_VALUE+")");
-    }
-
+    }    
 }

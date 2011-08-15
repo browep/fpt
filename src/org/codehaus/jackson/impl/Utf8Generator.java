@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.codehaus.jackson.*;
+import org.codehaus.jackson.io.CharacterEscapes;
 import org.codehaus.jackson.io.IOContext;
 import org.codehaus.jackson.io.NumberOutput;
 import org.codehaus.jackson.io.SerializedString;
@@ -42,17 +43,58 @@ public class Utf8Generator
     private final static byte[] TRUE_BYTES = { 't', 'r', 'u', 'e' };
     private final static byte[] FALSE_BYTES = { 'f', 'a', 'l', 's', 'e' };
 
-    private final static int[] sOutputEscapes = CharTypes.getOutputEscapes();
+    /**
+     * This is the default set of escape codes, over 7-bit ASCII range
+     * (first 128 character codes), used for single-byte UTF-8 characters.
+     */
+    protected final static int[] sOutputEscapes = CharTypes.get7BitOutputEscapes();
     
     /*
     /**********************************************************
-    /* Configuration
+    /* Configuration, basic I/O
     /**********************************************************
      */
 
     final protected IOContext _ioContext;
 
+    /**
+     * Underlying output stream used for writing JSON content.
+     */
     final protected OutputStream _outputStream;
+
+    /*
+    /**********************************************************
+    /* Configuration, output escaping
+    /**********************************************************
+     */
+
+    /**
+     * Currently active set of output escape code definitions (whether
+     * and how to escape or not) for 7-bit ASCII range (first 128
+     * character codes). Defined separately to make potentially
+     * customizable
+     */
+    protected int[] _outputEscapes = sOutputEscapes;
+
+    /**
+     * Value between 128 (0x80) and 65535 (0xFFFF) that indicates highest
+     * Unicode code point that will not need escaping; or 0 to indicate
+     * that all characters can be represented without escaping.
+     * Typically used to force escaping of some portion of character set;
+     * for example to always escape non-ASCII characters (if value was 127).
+     *<p>
+     * NOTE: not all sub-classes make use of this setting.
+     */
+    protected int _maximumNonEscapedChar;
+
+    /**
+     * Definition of custom character escapes to use for generators created
+     * by this factory, if any. If null, standard data format specific
+     * escapes are used.
+     * 
+     * @since 1.8
+     */
+    protected CharacterEscapes _characterEscapes;
     
     /*
     /**********************************************************
@@ -106,7 +148,7 @@ public class Utf8Generator
      * needs to be returned to recycler once we are done) or not.
      */
     protected boolean _bufferRecyclable;
-
+    
     /*
     /**********************************************************
     /* Life-cycle
@@ -130,6 +172,11 @@ public class Utf8Generator
         _outputMaxContiguous = _outputEnd >> 3;
         _charBuffer = ctxt.allocConcatBuffer();
         _charBufferLength = _charBuffer.length;
+
+        // By default we use this feature to determine additional quoting
+        if (isEnabled(Feature.ESCAPE_NON_ASCII)) {
+            setHighestNonEscapedChar(127);
+        }
     }
 
     public Utf8Generator(IOContext ctxt, int features, ObjectCodec codec,
@@ -147,8 +194,57 @@ public class Utf8Generator
         _outputMaxContiguous = _outputEnd >> 3;
         _charBuffer = ctxt.allocConcatBuffer();
         _charBufferLength = _charBuffer.length;
+
+        if (isEnabled(Feature.ESCAPE_NON_ASCII)) {
+            setHighestNonEscapedChar(127);
+        }
     }
 
+    /*
+    /**********************************************************
+    /* Overridden configuration methods
+    /**********************************************************
+     */
+    
+    @Override
+    public JsonGenerator setHighestNonEscapedChar(int charCode) {
+        _maximumNonEscapedChar = (charCode < 0) ? 0 : charCode;
+        return this;
+    }
+
+    @Override
+    public int getHighestEscapedChar() {
+        return _maximumNonEscapedChar;
+    }
+
+    @Override
+    public JsonGenerator setCharacterEscapes(CharacterEscapes esc)
+    {
+        _characterEscapes = esc;
+        if (esc == null) { // revert to standard escapes
+            _outputEscapes = sOutputEscapes;
+        } else {
+            _outputEscapes = esc.getEscapeCodesForAscii();
+        }
+        return this;
+    }
+
+    /**
+     * Method for accessing custom escapes factory uses for {@link JsonGenerator}s
+     * it creates.
+     * 
+     * @since 1.8
+     */
+    @Override
+    public CharacterEscapes getCharacterEscapes() {
+        return _characterEscapes;
+    }
+
+    @Override
+    public Object getOutputTarget() {
+        return _outputStream;
+    }
+    
     /*
     /**********************************************************
     /* Overridden methods
@@ -1022,11 +1118,13 @@ public class Utf8Generator
          *   One downside: when using UTF8Writer, underlying buffer(s)
          *   may not be properly recycled if we don't close the writer.
          */
-        if (_ioContext.isResourceManaged() || isEnabled(Feature.AUTO_CLOSE_TARGET)) {
-            _outputStream.close();
-        } else {
-            // If we can't close it, we should at least flush
-            _outputStream.flush();
+        if (_outputStream != null) {
+            if (_ioContext.isResourceManaged() || isEnabled(Feature.AUTO_CLOSE_TARGET)) {
+                _outputStream.close();
+            } else  if (isEnabled(Feature.FLUSH_PASSED_TO_STREAM)) {
+                // If we can't close it, we should at least flush
+                _outputStream.flush();
+            }
         }
         // Internal buffer(s) generator has can now be released as well
         _releaseBuffers();
@@ -1049,7 +1147,7 @@ public class Utf8Generator
 
     /*
     /**********************************************************
-    /* Internal methods, low-level writing
+    /* Internal methods, low-level writing, raw bytes
     /**********************************************************
      */
 
@@ -1082,6 +1180,12 @@ public class Utf8Generator
         _outputTail += len;
     }
 
+    /*
+    /**********************************************************
+    /* Internal methods, mid-level writing, String segments
+    /**********************************************************
+     */
+    
     /**
      * Method called when String to write is long enough not to fit
      * completely in temporary copy buffer. If so, we will actually
@@ -1127,7 +1231,13 @@ public class Utf8Generator
             totalLen -= len;
         } while (totalLen > 0);
     }
-    
+
+    /*
+    /**********************************************************
+    /* Internal methods, low-level writing, text segments
+    /**********************************************************
+     */
+
     /**
      * This method called when the string content is already in
      * a char buffer, and its maximum total encoded and escaped length
@@ -1146,10 +1256,11 @@ public class Utf8Generator
 
         int outputPtr = _outputTail;
         final byte[] outputBuffer = _outputBuffer;
-        final int[] escCodes = sOutputEscapes;
+        final int[] escCodes = _outputEscapes;
 
         while (offset < len) {
             int ch = cbuf[offset];
+            // note: here we know that (ch > 0x7F) will cover case of escaping non-ASCII too:
             if (ch > 0x7F || escCodes[ch] != 0) {
                 break;
             }
@@ -1158,7 +1269,16 @@ public class Utf8Generator
         }
         _outputTail = outputPtr;
         if (offset < len) {
-            _writeStringSegment2(cbuf, offset, len);
+            // [JACKSON-106]
+            if (_characterEscapes != null) {
+                _writeCustomStringSegment2(cbuf, offset, len);
+            // [JACKSON-102]
+            } else if (_maximumNonEscapedChar == 0) {
+                _writeStringSegment2(cbuf, offset, len);
+            } else {
+                _writeStringSegmentASCII2(cbuf, offset, len);
+            }
+
         }
     }
 
@@ -1177,7 +1297,7 @@ public class Utf8Generator
         int outputPtr = _outputTail;
 
         final byte[] outputBuffer = _outputBuffer;
-        final int[] escCodes = sOutputEscapes;
+        final int[] escCodes = _outputEscapes;
         
         while (offset < end) {
             int ch = cbuf[offset++];
@@ -1186,13 +1306,13 @@ public class Utf8Generator
                      outputBuffer[outputPtr++] = (byte) ch;
                      continue;
                  }
-                int escape = escCodes[ch];
-                if (escape > 0) { // 2-char escape, fine
-                    outputBuffer[outputPtr++] = BYTE_BACKSLASH;
-                    outputBuffer[outputPtr++] = (byte) escape;
-                } else {
-                    // ctrl-char, 6-byte escape...
-                    outputPtr = _writeEscapedControlChar(escape, outputPtr);
+                 int escape = escCodes[ch];
+                 if (escape > 0) { // 2-char escape, fine
+                     outputBuffer[outputPtr++] = BYTE_BACKSLASH;
+                     outputBuffer[outputPtr++] = (byte) escape;
+                 } else {
+                     // ctrl-char, 6-byte escape...
+                     outputPtr = _writeGenericEscape(ch, outputPtr);
                 }
                 continue;
             }
@@ -1206,6 +1326,179 @@ public class Utf8Generator
         _outputTail = outputPtr;
     }
 
+    /*
+    /**********************************************************
+    /* Internal methods, low-level writing, text segment
+    /* with additional escaping (ASCII or such)
+    /* (since 1.8; see [JACKSON-102])
+    /**********************************************************
+     */
+
+    /**
+     * Same as <code>_writeStringSegment2(char[], ...)</code., but with
+     * additional escaping for high-range code points
+     * 
+     * @since 1.8
+     */
+    private final void _writeStringSegmentASCII2(final char[] cbuf, int offset, final int end)
+        throws IOException, JsonGenerationException
+    {
+        // Ok: caller guarantees buffer can have room; but that may require flushing:
+        if ((_outputTail +  6 * (end - offset)) > _outputEnd) {
+            _flushBuffer();
+        }
+    
+        int outputPtr = _outputTail;
+    
+        final byte[] outputBuffer = _outputBuffer;
+        final int[] escCodes = _outputEscapes;
+        final int maxUnescaped = _maximumNonEscapedChar;
+        
+        while (offset < end) {
+            int ch = cbuf[offset++];
+            if (ch <= 0x7F) {
+                 if (escCodes[ch] == 0) {
+                     outputBuffer[outputPtr++] = (byte) ch;
+                     continue;
+                 }
+                 int escape = escCodes[ch];
+                 if (escape > 0) { // 2-char escape, fine
+                     outputBuffer[outputPtr++] = BYTE_BACKSLASH;
+                     outputBuffer[outputPtr++] = (byte) escape;
+                 } else {
+                     // ctrl-char, 6-byte escape...
+                     outputPtr = _writeGenericEscape(ch, outputPtr);
+                 }
+                 continue;
+            }
+            if (ch > maxUnescaped) { // [JACKSON-102] Allow forced escaping if non-ASCII (etc) chars:
+                outputPtr = _writeGenericEscape(ch, outputPtr);
+                continue;
+            }
+            if (ch <= 0x7FF) { // fine, just needs 2 byte output
+                outputBuffer[outputPtr++] = (byte) (0xc0 | (ch >> 6));
+                outputBuffer[outputPtr++] = (byte) (0x80 | (ch & 0x3f));
+            } else {
+                outputPtr = _outputMultiByteChar(ch, outputPtr);
+            }
+        }
+        _outputTail = outputPtr;
+    }
+
+    /*
+    /**********************************************************
+    /* Internal methods, low-level writing, text segment
+    /* with fully custom escaping (and possibly escaping of non-ASCII
+    /**********************************************************
+     */
+
+    /**
+     * Same as <code>_writeStringSegmentASCII2(char[], ...)</code., but with
+     * additional checking for completely custom escapes
+     * 
+     * @since 1.8
+     */
+    private final void _writeCustomStringSegment2(final char[] cbuf, int offset, final int end)
+        throws IOException, JsonGenerationException
+    {
+        // Ok: caller guarantees buffer can have room; but that may require flushing:
+        if ((_outputTail +  6 * (end - offset)) > _outputEnd) {
+            _flushBuffer();
+        }
+        int outputPtr = _outputTail;
+    
+        final byte[] outputBuffer = _outputBuffer;
+        final int[] escCodes = _outputEscapes;
+        // may or may not have this limit
+        final int maxUnescaped = (_maximumNonEscapedChar <= 0) ? 0xFFFF : _maximumNonEscapedChar;
+        final CharacterEscapes customEscapes = _characterEscapes; // non-null
+        
+        while (offset < end) {
+            int ch = cbuf[offset++];
+            if (ch <= 0x7F) {
+                 if (escCodes[ch] == 0) {
+                     outputBuffer[outputPtr++] = (byte) ch;
+                     continue;
+                 }
+                 int escape = escCodes[ch];
+                 if (escape > 0) { // 2-char escape, fine
+                     outputBuffer[outputPtr++] = BYTE_BACKSLASH;
+                     outputBuffer[outputPtr++] = (byte) escape;
+                 } else if (escape == CharacterEscapes.ESCAPE_CUSTOM) {
+                     SerializableString esc = customEscapes.getEscapeSequence(ch);
+                     if (esc == null) {
+                         throw new JsonGenerationException("Invalid custom escape definitions; custom escape not found for character code 0x"
+                                 +Integer.toHexString(ch)+", although was supposed to have one");
+                     }
+                     outputPtr = _writeCustomEscape(outputBuffer, outputPtr, esc, end-offset);
+                 } else {
+                     // ctrl-char, 6-byte escape...
+                     outputPtr = _writeGenericEscape(ch, outputPtr);
+                 }
+                 continue;
+            }
+            if (ch > maxUnescaped) { // [JACKSON-102] Allow forced escaping if non-ASCII (etc) chars:
+                outputPtr = _writeGenericEscape(ch, outputPtr);
+                continue;
+            }
+            SerializableString esc = customEscapes.getEscapeSequence(ch);
+            if (esc != null) {
+                outputPtr = _writeCustomEscape(outputBuffer, outputPtr, esc, end-offset);
+                continue;
+            }
+            if (ch <= 0x7FF) { // fine, just needs 2 byte output
+                outputBuffer[outputPtr++] = (byte) (0xc0 | (ch >> 6));
+                outputBuffer[outputPtr++] = (byte) (0x80 | (ch & 0x3f));
+            } else {
+                outputPtr = _outputMultiByteChar(ch, outputPtr);
+            }
+        }
+        _outputTail = outputPtr;
+    }
+
+    private int _writeCustomEscape(byte[] outputBuffer, int outputPtr, SerializableString esc, int remainingChars)
+        throws IOException, JsonGenerationException
+    {
+        byte[] raw = esc.asUnquotedUTF8(); // must be escaped at this point, shouldn't double-quote
+        int len = raw.length;
+        if (len > 6) { // may violate constraints we have, do offline
+            return _handleLongCustomEscape(outputBuffer, outputPtr, _outputEnd, raw, remainingChars);
+        }
+        // otherwise will fit without issues, so:
+        System.arraycopy(raw, 0, outputBuffer, outputPtr, len);
+        return (outputPtr + len);
+    }
+    
+    private int _handleLongCustomEscape(byte[] outputBuffer, int outputPtr, int outputEnd, byte[] raw,
+            int remainingChars)
+        throws IOException, JsonGenerationException
+    {
+        int len = raw.length;
+        if ((outputPtr + len) > outputEnd) {
+            _outputTail = outputPtr;
+            _flushBuffer();
+            outputPtr = _outputTail;
+            if (len > outputBuffer.length) { // very unlikely, but possible...
+                _outputStream.write(raw, 0, len);
+                return outputPtr;
+            }
+            System.arraycopy(raw, 0, outputBuffer, outputPtr, len);
+            outputPtr += len;
+        }
+        // but is the invariant still obeyed? If not, flush once more
+        if ((outputPtr +  6 * remainingChars) > outputEnd) {
+            _flushBuffer();
+            return _outputTail;
+        }
+        return outputPtr;
+    }
+
+    /*
+    /**********************************************************
+    /* Internal methods, low-level writing, "raw UTF-8" segments
+    /**********************************************************
+     */
+    
     /**
      * Method called when UTF-8 encoded (but NOT yet escaped!) content is not guaranteed
      * to fit in the output buffer after escaping; as such, we just need to
@@ -1226,12 +1519,13 @@ public class Utf8Generator
         throws IOException, JsonGenerationException
     {
         // fast loop to see if escaping is needed; don't copy, just look
-        final int[] escCodes = sOutputEscapes;
+        final int[] escCodes = _outputEscapes;
 
         for (int ptr = offset, end = offset + len; ptr < end; ) {
-            int ch = utf8[ptr++] & 0xFF;
-            if (escCodes[ch] != 0) {
-                _writeUTFSegment2(utf8, offset, len);
+            // 28-Feb-2011, tatu: escape codes just cover 7-bit range, so:
+            int ch = utf8[ptr++];
+            if ((ch >= 0) && escCodes[ch] != 0) {
+                _writeUTF8Segment2(utf8, offset, len);
                 return;
             }
         }
@@ -1244,7 +1538,7 @@ public class Utf8Generator
         _outputTail += len;
     }
 
-    private final void _writeUTFSegment2(final byte[] utf8, int offset, int len)
+    private final void _writeUTF8Segment2(final byte[] utf8, int offset, int len)
         throws IOException, JsonGenerationException
     {
         int outputPtr = _outputTail;
@@ -1256,28 +1550,34 @@ public class Utf8Generator
         }
         
         final byte[] outputBuffer = _outputBuffer;
-        final int[] escCodes = sOutputEscapes;
+        final int[] escCodes = _outputEscapes;
         len += offset; // so 'len' becomes 'end'
         
         while (offset < len) {
             byte b = utf8[offset++];
-            int ch = b & 0xFF;
-            if (escCodes[ch] == 0) {
+            int ch = b;
+            if (ch < 0 || escCodes[ch] == 0) {
                 outputBuffer[outputPtr++] = b;
                 continue;
             }
-            int escape = sOutputEscapes[ch];
+            int escape = escCodes[ch];
             if (escape > 0) { // 2-char escape, fine
                 outputBuffer[outputPtr++] = BYTE_BACKSLASH;
                 outputBuffer[outputPtr++] = (byte) escape;
             } else {
                 // ctrl-char, 6-byte escape...
-                outputPtr = _writeEscapedControlChar(escape, outputPtr);
+                outputPtr = _writeGenericEscape(ch, outputPtr);
             }
         }
         _outputTail = outputPtr;
     }
-
+    
+    /*
+    /**********************************************************
+    /* Internal methods, low-level writing, base64 encoded
+    /**********************************************************
+     */
+    
     protected void _writeBinary(Base64Variant b64variant, byte[] input, int inputPtr, final int inputEnd)
         throws IOException, JsonGenerationException
     {
@@ -1319,6 +1619,12 @@ public class Utf8Generator
         }
     }
 
+    /*
+    /**********************************************************
+    /* Internal methods, character escapes/encoding
+    /**********************************************************
+     */
+    
     /**
      * Method called to output a character that is beyond range of
      * 1- and 2-byte UTF-8 encodings, when outputting "raw" 
@@ -1409,21 +1715,28 @@ public class Utf8Generator
     }
         
     /**
-     * @param escCode Character code for escape sequence (\C); or -1
-     *   to indicate a generic (\\uXXXX) sequence.
+     * Method called to write a generic Unicode escape for given character.
+     * 
+     * @param charToEscape Character to escape using escape sequence (\\uXXXX)
      */
-    private int _writeEscapedControlChar(int escCode, int outputPtr)
+    private int _writeGenericEscape(int charToEscape, int outputPtr)
         throws IOException
     {
         final byte[] bbuf = _outputBuffer;
         bbuf[outputPtr++] = BYTE_BACKSLASH;
-        int value = -(escCode + 1);
         bbuf[outputPtr++] = BYTE_u;
-        bbuf[outputPtr++] = BYTE_0;
-        bbuf[outputPtr++] = BYTE_0;
+        if (charToEscape > 0xFF) {
+            int hi = (charToEscape >> 8) & 0xFF;
+            bbuf[outputPtr++] = HEX_CHARS[hi >> 4];
+            bbuf[outputPtr++] = HEX_CHARS[hi & 0xF];
+            charToEscape &= 0xFF;
+        } else {
+            bbuf[outputPtr++] = BYTE_0;
+            bbuf[outputPtr++] = BYTE_0;
+        }
         // We know it's a control char, so only the last 2 chars are non-0
-        bbuf[outputPtr++] = HEX_CHARS[value >> 4];
-        bbuf[outputPtr++] = HEX_CHARS[value & 0xF];
+        bbuf[outputPtr++] = HEX_CHARS[charToEscape >> 4];
+        bbuf[outputPtr++] = HEX_CHARS[charToEscape & 0xF];
         return outputPtr;
     }
 

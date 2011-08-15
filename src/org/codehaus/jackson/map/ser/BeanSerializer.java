@@ -2,7 +2,6 @@ package org.codehaus.jackson.map.ser;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.Collection;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
@@ -11,7 +10,6 @@ import org.codehaus.jackson.schema.SchemaAware;
 import org.codehaus.jackson.schema.JsonSchema;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.map.*;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 
 /**
@@ -106,80 +104,12 @@ public class BeanSerializer
         this(src._handledType,
                 src._props, src._filteredProps, src._anyGetterWriter, src._propertyFilterId);
     }
-    
-    /**
-     * @deprecated since 1.7, use method that takes more arguments.
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public BeanSerializer(Class<?> type, BeanPropertyWriter[] properties, Object filterId)
-    {
-        super((Class<Object>)type);
-        _props = properties;
-        _filteredProps = null;
-        _anyGetterWriter = null;
-        _propertyFilterId = filterId;
-    }
-
-    /**
-     * @deprecated since 1.7, use method that takes more arguments.
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public BeanSerializer(Class<?> type, BeanPropertyWriter[] properties,
-            BeanPropertyWriter[] filteredProperties)
-    {
-        super((Class<Object>)type);
-        _props = properties;
-        _filteredProps = filteredProperties;
-        _anyGetterWriter = null;
-        _propertyFilterId = null;
-    }
-
-    /**
-     * @deprecated since 1.7, use method that takes more arguments.
-     */
-    @Deprecated
-    public BeanSerializer(Class<?> type, Collection<BeanPropertyWriter> props)
-    {
-        this(type, props.toArray(new BeanPropertyWriter[props.size()]), null, null, null);
-    }
-    
-    /**
-     * @deprecated since 1.7, use method that takes more arguments.
-     */
-    @Deprecated
-    public BeanSerializer(Class<?> type, BeanPropertyWriter[] writers)
-    {
-        this(type, writers, null, null, null);
-    }
 
     /*
     /**********************************************************
     /* Life-cycle: factory methods, fluent factories
     /**********************************************************
      */
-
-    /**
-     * Method used for constructing a filtered serializer instance, using this
-     * serializer as the base.
-     *
-     * @deprecated Since 1.7 {@link BeanSerializerBuilder} should be used,
-     *   so that no copy-methods are not needed
-     */
-    @Deprecated
-    public BeanSerializer withFiltered(BeanPropertyWriter[] filtered)
-    {
-        // 03-Jan-2011, tatu: Need to ensure sub-classes override, so:
-        if (getClass() != BeanSerializer.class) {
-            throw new IllegalStateException("BeanSerializer.withFiltered() called on base class: sub-classes MUST override method");
-        }
-        // if no filters, no need to construct new instance...
-        if (filtered == null && _filteredProps == null) {
-            return this;
-        }
-        return new BeanSerializer(handledType(), _props, filtered, _anyGetterWriter, _propertyFilterId);
-    }    
 
     /**
      * Method for constructing dummy bean deserializer; one that
@@ -370,6 +300,7 @@ public class BeanSerializer
     public void resolve(SerializerProvider provider)
         throws JsonMappingException
     {
+
         //AnnotationIntrospector ai = provider.getConfig().getAnnotationIntrospector();
         int filteredCount = (_filteredProps == null) ? 0 : _filteredProps.length;
         for (int i = 0, len = _props.length; i < len; ++i) {
@@ -385,7 +316,7 @@ public class BeanSerializer
              * the actual type until we get the instance.
              */
             if (type == null) {
-                type = TypeFactory.type(prop.getGenericPropertyType());
+                type = provider.constructType(prop.getGenericPropertyType());
                 if (!type.isFinal()) {
                     /* 18-Feb-2010, tatus: But even if it is non-final,
                      *    we may need to retain some of type information

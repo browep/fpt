@@ -25,20 +25,17 @@ public final class R {
     }
     public static final class id {
         public static final int associated_class=0x7f060000;
-        public static final int buy_button=0x7f060029;
+        public static final int buy_button=0x7f060027;
         public static final int comment=0x7f060013;
+        public static final int content=0x7f060023;
         public static final int count_label=0x7f06000f;
         public static final int data_entered=0x7f060008;
         public static final int date_display=0x7f060011;
-        public static final int delete_data_button=0x7f060025;
         public static final int distance_count=0x7f060010;
-        public static final int done_button=0x7f060034;
-        public static final int edit_data_button=0x7f060024;
-        public static final int edit_data_list=0x7f060022;
+        public static final int done_button=0x7f060032;
         public static final int edit_data_subtitle=0x7f060021;
         public static final int edit_data_title=0x7f060020;
-        public static final int edit_text=0x7f060023;
-        public static final int facebook_button=0x7f06002b;
+        public static final int facebook_button=0x7f060029;
         public static final int facebook_result_failure=0x7f06000c;
         public static final int facebook_result_id=0x7f06000a;
         public static final int facebook_result_success=0x7f06000b;
@@ -48,26 +45,27 @@ public final class R {
         public static final int for_time_button=0x7f06001a;
         public static final int hours=0x7f060016;
         public static final int label_radio=0x7f06001f;
+        public static final int list=0x7f060022;
         public static final int minutes=0x7f060017;
-        public static final int mySimpleXYPlot=0x7f060035;
+        public static final int mySimpleXYPlot=0x7f060033;
         public static final int name_box=0x7f06001e;
         public static final int name_display=0x7f06000e;
         public static final int name_helper_text=0x7f06001d;
-        public static final int next_button=0x7f06002f;
+        public static final int next_button=0x7f06002d;
         public static final int pick_date_button=0x7f060012;
-        public static final int picture_title=0x7f06002e;
-        public static final int previous_button=0x7f06002d;
-        public static final int progress_image_title=0x7f060027;
-        public static final int progress_image_view=0x7f060026;
+        public static final int picture_title=0x7f06002c;
+        public static final int previous_button=0x7f06002b;
+        public static final int progress_image_title=0x7f060025;
+        public static final int progress_image_view=0x7f060024;
         public static final int purchase_successful=0x7f06000d;
         public static final int rep_count=0x7f060015;
-        public static final int report_payment_chooser_text_blurb=0x7f060028;
+        public static final int report_payment_chooser_text_blurb=0x7f060026;
         public static final int seconds=0x7f060018;
-        public static final int send_button=0x7f060032;
-        public static final int send_report_email=0x7f060031;
-        public static final int submittable=0x7f060033;
-        public static final int switcher=0x7f06002c;
-        public static final int tweet_button=0x7f06002a;
+        public static final int send_button=0x7f060030;
+        public static final int send_report_email=0x7f06002f;
+        public static final int submittable=0x7f060031;
+        public static final int switcher=0x7f06002a;
+        public static final int tweet_button=0x7f060028;
         public static final int view_parent=0x7f060006;
         public static final int view_parent_2=0x7f060007;
         public static final int weight=0x7f060014;
@@ -75,7 +73,7 @@ public final class R {
         public static final int workout_definition_id=0x7f060002;
         public static final int workout_definition_name=0x7f060003;
         public static final int workout_entry_id=0x7f060005;
-        public static final int workout_list=0x7f060030;
+        public static final int workout_list=0x7f06002e;
         public static final int workout_modified=0x7f060009;
         public static final int workout_saved=0x7f060001;
     }
@@ -122,6 +120,8 @@ public final class R {
         public static final int buy=0x7f070009;
         public static final int cannot_connect_message=0x7f070005;
         public static final int cannot_connect_title=0x7f070004;
+        public static final int define_workout_message=0x7f070019;
+        public static final int edit_data_message=0x7f07001b;
         public static final int edit_payload=0x7f07000b;
         public static final int edit_payload_accept=0x7f07000d;
         public static final int edit_payload_clear=0x7f07000e;
@@ -136,6 +136,8 @@ public final class R {
         public static final int restoring_transactions=0x7f070006;
         public static final int select_item=0x7f07000a;
         public static final int two_handed_sword=0x7f070012;
+        public static final int view_progress_message=0x7f07001a;
+        public static final int welcome_message=0x7f070018;
     }
     public static final class style {
         public static final int BaseChiclet=0x7f080001;

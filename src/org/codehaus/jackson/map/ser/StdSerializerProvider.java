@@ -7,7 +7,6 @@ import java.util.Date;
 
 import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.ser.impl.ReadOnlyClassToSerializerMap;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.map.util.ClassUtil;
 import org.codehaus.jackson.map.util.RootNameLookup;
 import org.codehaus.jackson.node.ObjectNode;
@@ -48,7 +47,7 @@ public class StdSerializerProvider
     final static boolean CACHE_UNKNOWN_MAPPINGS = false;
 
     public final static JsonSerializer<Object> DEFAULT_NULL_KEY_SERIALIZER =
-        new FailingSerializer("Null key for a Map not allowed in Json (use a converting NullKeySerializer?)");
+        new FailingSerializer("Null key for a Map not allowed in JSON (use a converting NullKeySerializer?)");
 
     public final static JsonSerializer<Object> DEFAULT_KEY_SERIALIZER = new StdKeySerializer();
 
@@ -99,6 +98,9 @@ public class StdSerializerProvider
 
     final protected SerializerFactory _serializerFactory;
 
+    /**
+     * Cache for doing type-to-value-serializer lookups.
+     */
     final protected SerializerCache _serializerCache;
 
     final protected RootNameLookup _rootNames;
@@ -219,6 +221,39 @@ public class StdSerializerProvider
 
     /*
     /**********************************************************
+    /* Configuration methods
+    /**********************************************************
+     */
+
+    @Override
+    public void setDefaultKeySerializer(JsonSerializer<Object> ks)
+    {
+        if (ks == null) {
+            throw new IllegalArgumentException("Can not pass null JsonSerializer");
+        }
+        _keySerializer = ks;
+    }
+
+    @Override
+    public void setNullValueSerializer(JsonSerializer<Object> nvs)
+    {
+        if (nvs == null) {
+            throw new IllegalArgumentException("Can not pass null JsonSerializer");
+        }
+        _nullValueSerializer = nvs;
+    }
+
+    @Override
+    public void setNullKeySerializer(JsonSerializer<Object> nks)
+    {
+        if (nks == null) {
+            throw new IllegalArgumentException("Can not pass null JsonSerializer");
+        }
+        _nullKeySerializer = nks;
+    }
+    
+    /*
+    /**********************************************************
     /* Methods to be called by ObjectMapper
     /**********************************************************
      */
@@ -299,36 +334,6 @@ public class StdSerializerProvider
         return createInstance(config, jsf)._findExplicitUntypedSerializer(cls, null) != null;
     }
     
-    /*
-    /**********************************************************
-    /* Configuration methods
-    /**********************************************************
-     */
-
-    public void setKeySerializer(JsonSerializer<Object> ks)
-    {
-        if (ks == null) {
-            throw new IllegalArgumentException("Can not pass null JsonSerializer");
-        }
-        _keySerializer = ks;
-    }
-
-    public void setNullValueSerializer(JsonSerializer<Object> nvs)
-    {
-        if (nvs == null) {
-            throw new IllegalArgumentException("Can not pass null JsonSerializer");
-        }
-        _nullValueSerializer = nvs;
-    }
-
-    public void setNullKeySerializer(JsonSerializer<Object> nks)
-    {
-        if (nks == null) {
-            throw new IllegalArgumentException("Can not pass null JsonSerializer");
-        }
-        _nullKeySerializer = nks;
-    }
-
     @Override
     public int cachedSerializersCount() {
         return _serializerCache.size();
@@ -358,7 +363,7 @@ public class StdSerializerProvider
             ser = _serializerCache.untypedValueSerializer(valueType);
             if (ser == null) {
                 // ... possibly as fully typed?
-                ser = _serializerCache.untypedValueSerializer(TypeFactory.type(valueType));
+                ser = _serializerCache.untypedValueSerializer(_config.constructType(valueType));
                 if (ser == null) {
                     // If neither, must create
                     ser = _createAndCacheUntypedSerializer(valueType, property);
@@ -371,17 +376,14 @@ public class StdSerializerProvider
                         ser = getUnknownTypeSerializer(valueType);
                         // Should this be added to lookups?
                         if (CACHE_UNKNOWN_MAPPINGS) {
-                            _serializerCache.addNonTypedSerializer(valueType, ser);
+                            _serializerCache.addAndResolveNonTypedSerializer(valueType, ser, this);
                         }
                         return ser;
                     }
                 }
             }
         }            
-        if (ser instanceof ContextualSerializer<?>) {
-            return ((ContextualSerializer<Object>) ser).createContextual(_config, property);
-        }
-        return ser;
+        return _handleContextualResolvable(ser, property);
     }
 
     /**
@@ -411,16 +413,13 @@ public class StdSerializerProvider
                     ser = getUnknownTypeSerializer(valueType.getRawClass());
                     // Should this be added to lookups?
                     if (CACHE_UNKNOWN_MAPPINGS) {
-                        _serializerCache.addNonTypedSerializer(valueType, ser);
+                        _serializerCache.addAndResolveNonTypedSerializer(valueType, ser, this);
                     }
                     return ser;
                 }
             }
         }
-        if (ser instanceof ContextualSerializer<?>) {
-            return ((ContextualSerializer<Object>) ser).createContextual(_config, property);
-        }
-        return ser;
+        return _handleContextualResolvable(ser, property);
     }
     
     /**
@@ -446,7 +445,7 @@ public class StdSerializerProvider
         // Well, let's just compose from pieces:
         ser = findValueSerializer(valueType, property);
         TypeSerializer typeSer = _serializerFactory.createTypeSerializer(_config,
-                TypeFactory.type(valueType), property);
+                _config.constructType(valueType), property);
         if (typeSer != null) {
             ser = new WrappedSerializer(typeSer, ser);
         }
@@ -490,10 +489,24 @@ public class StdSerializerProvider
     /**********************************************************
      */
 
+    @SuppressWarnings("unchecked")
     @Override
-    public JsonSerializer<Object> getKeySerializer(JavaType valueType, BeanProperty property)
+    public JsonSerializer<Object> findKeySerializer(JavaType keyType, BeanProperty property)
+        throws JsonMappingException
     {
-        return _keySerializer;
+        JsonSerializer<Object> ser = _serializerFactory.createKeySerializer(_config, keyType, property);
+
+        // First things first: maybe there are registerd custom implementations
+        // if not, use default one:
+        if (ser == null) {
+            ser = _keySerializer;
+        }
+        // 25-Feb-2011, tatu: As per [JACKSON-519], need to ensure contextuality works here, too
+        if (ser instanceof ContextualSerializer<?>) {
+            ContextualSerializer<?> contextual = (ContextualSerializer<?>) ser;
+            ser = (JsonSerializer<Object>)contextual.createContextual(_config, property);
+        }
+        return ser;
     }
 
     @Override
@@ -692,9 +705,16 @@ public class StdSerializerProvider
         }
     }
 
+    /*
+    /**********************************************************
+    /* Low-level methods for actually constructing and initializing
+    /* serializers
+    /**********************************************************
+     */
+    
     /**
      * Method that will try to construct a value serializer; and if
-     * one is succesfully created, cache it for reuse.
+     * one is successfully created, cache it for reuse.
      */
     protected JsonSerializer<Object> _createAndCacheUntypedSerializer(Class<?> type,
             BeanProperty property)
@@ -702,7 +722,7 @@ public class StdSerializerProvider
     {        
         JsonSerializer<Object> ser;
         try {
-            ser = _createUntypedSerializer(TypeFactory.type(type), property);
+            ser = _createUntypedSerializer(_config.constructType(type), property);
         } catch (IllegalArgumentException iae) {
             /* We better only expose checked exceptions, since those
              * are what caller is expected to handle
@@ -711,13 +731,7 @@ public class StdSerializerProvider
         }
 
         if (ser != null) {
-            _serializerCache.addNonTypedSerializer(type, ser);
-            /* Finally: some serializers want to do post-processing, after
-             * getting registered (to handle cyclic deps).
-             */
-            if (ser instanceof ResolvableSerializer) {
-                _resolveSerializer((ResolvableSerializer)ser);
-            }
+            _serializerCache.addAndResolveNonTypedSerializer(type, ser, this);
         }
         return ser;
     }
@@ -740,13 +754,7 @@ public class StdSerializerProvider
         }
     
         if (ser != null) {
-            _serializerCache.addNonTypedSerializer(type, ser);
-            /* Finally: some serializers want to do post-processing, after
-             * getting registered (to handle cyclic deps).
-             */
-            if (ser instanceof ResolvableSerializer) {
-                _resolveSerializer((ResolvableSerializer)ser);
-            }
+            _serializerCache.addAndResolveNonTypedSerializer(type, ser, this);
         }
         return ser;
     }
@@ -764,10 +772,26 @@ public class StdSerializerProvider
         return (JsonSerializer<Object>)_serializerFactory.createSerializer(_config, type, property);
     }
 
-    protected void _resolveSerializer(ResolvableSerializer ser)
+    /**
+     * @since 1.8.5
+     */
+    @SuppressWarnings("unchecked")
+    protected JsonSerializer<Object> _handleContextualResolvable(JsonSerializer<Object> ser,
+            BeanProperty property)
         throws JsonMappingException
     {
-        ser.resolve(this);
+        if (!(ser instanceof ContextualSerializer<?>)) {
+            return ser;
+        }
+        JsonSerializer<Object> ctxtSer = ((ContextualSerializer<Object>) ser).createContextual(_config, property);
+        if (ctxtSer != ser) {
+            // need to re-resolve?
+            if (ctxtSer instanceof ResolvableSerializer) {
+                ((ResolvableSerializer) ctxtSer).resolve(this);
+            }
+            ser = ctxtSer;
+        }
+        return ser;
     }
     
     /*

@@ -88,7 +88,7 @@ public final class ArrayBuilders
         extends PrimitiveArrayBuilder<boolean[]>
     {
         public BooleanBuilder() { }
-        @Override
+        
         public final boolean[] _constructArray(int len) { return new boolean[len]; }
     }
 
@@ -96,28 +96,28 @@ public final class ArrayBuilders
         extends PrimitiveArrayBuilder<byte[]>
     {
         public ByteBuilder() { }
-        @Override
+        
         public final byte[] _constructArray(int len) { return new byte[len]; }
     }
     public final static class ShortBuilder
         extends PrimitiveArrayBuilder<short[]>
     {
         public ShortBuilder() { }
-        @Override
+        
         public final short[] _constructArray(int len) { return new short[len]; }
     }
     public final static class IntBuilder
         extends PrimitiveArrayBuilder<int[]>
     {
         public IntBuilder() { }
-        @Override
+        
         public final int[] _constructArray(int len) { return new int[len]; }
     }
     public final static class LongBuilder
         extends PrimitiveArrayBuilder<long[]>
     {
         public LongBuilder() { }
-        @Override
+        
         public final long[] _constructArray(int len) { return new long[len]; }
     }
 
@@ -125,14 +125,14 @@ public final class ArrayBuilders
         extends PrimitiveArrayBuilder<float[]>
     {
         public FloatBuilder() { }
-        @Override
+        
         public final float[] _constructArray(int len) { return new float[len]; }
     }
     public final static class DoubleBuilder
         extends PrimitiveArrayBuilder<double[]>
     {
         public DoubleBuilder() { }
-        @Override
+        
         public final double[] _constructArray(int len) { return new double[len]; }
     }
     
@@ -176,7 +176,8 @@ public final class ArrayBuilders
 
     /**
      * Helper method for constructing a new array that contains specified
-     * element followed by contents of the given array
+     * element followed by contents of the given array. No checking is done
+     * to see if element being inserted is duplicate.
      */
     public static <T> T[] insertInList(T[] array, T element)
     {
@@ -190,6 +191,43 @@ public final class ArrayBuilders
         return result;
     }
 
+    /**
+     * Helper method for constructing a new array that contains specified
+     * element followed by contents of the given array but never contains
+     * duplicates.
+     * If element already existed, one of two things happens: if the element
+     * was already the first one in array, array is returned as is; but
+     * if not, a new copy is created in which element has moved as the head.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T[] insertInListNoDup(T[] array, T element)
+    {
+        final int len = array.length;
+        
+        // First: see if the element already exists
+        for (int ix = 0; ix < len; ++ix) {
+            if (array[ix] == element) {
+                // if at head already, return as is
+                if (ix == 0) {
+                    return array;
+                }
+                // otherwise move things around
+                T[] result = (T[]) Array.newInstance(array.getClass().getComponentType(), len);
+                System.arraycopy(array, 0, result, 1, ix);
+                array[0] = element;
+                return result;
+            }
+        }
+
+        // but if not, allocate new array, move
+        T[] result = (T[]) Array.newInstance(array.getClass().getComponentType(), len+1);
+        if (len > 0) {
+            System.arraycopy(array, 0, result, 1, len);
+        }
+        result[0] = element;
+        return result;
+    }
+    
     /**
      * Helper method for exposing contents of arrays using a read-only
      * iterator
@@ -230,11 +268,11 @@ public final class ArrayBuilders
             _index = 0;
         }
         
-        @Override public boolean hasNext() {
+         public boolean hasNext() {
             return _index < _array.length;
         }
 
-        @Override
+        
         public T next()
         {
             if (_index >= _array.length) {
@@ -243,14 +281,13 @@ public final class ArrayBuilders
             return _array[_index++];
         }
 
-        @Override public void remove() {
+         public void remove() {
             throw new UnsupportedOperationException();
         }
 
-        @Override
+        
         public Iterator<T> iterator() {
             return this;
         }
     }
-
 }

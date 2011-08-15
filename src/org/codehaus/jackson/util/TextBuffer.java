@@ -3,6 +3,8 @@ package org.codehaus.jackson.util;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import org.codehaus.jackson.io.NumberInput;
+
 /**
  * TextBuffer is a class similar to {@link StringBuffer}, with
  * following differences:
@@ -262,6 +264,12 @@ public final class TextBuffer
         if (_inputStart >= 0) { // shared copy from input buf
             return _inputLen;
         }
+        if (_resultArray != null) {
+            return _resultArray.length;
+        }
+        if (_resultString != null) {
+            return _resultString.length();
+        }
         // local segmented buffers
         return _segmentSize + _currentSize;
     }
@@ -280,6 +288,12 @@ public final class TextBuffer
         // Are we just using shared input buffer?
         if (_inputStart >= 0) {
             return _inputBuffer;
+        }
+        if (_resultArray != null) {
+            return _resultArray;
+        }
+        if (_resultString != null) {
+            return (_resultArray = _resultString.toCharArray());
         }
         // Nope; but does it fit in just one segment?
         if (!_hasSegments) {
@@ -373,7 +387,7 @@ public final class TextBuffer
     public double contentsAsDouble()
         throws NumberFormatException
     {
-        return Double.parseDouble(contentsAsString());
+        return NumberInput.parseDouble(contentsAsString());
     }
 
     /*

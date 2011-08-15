@@ -4,11 +4,7 @@ import java.io.*;
 
 import org.codehaus.jackson.*;
 import org.codehaus.jackson.io.SegmentedStringWriter;
-import org.codehaus.jackson.map.introspect.VisibilityChecker;
-import org.codehaus.jackson.map.jsontype.SubtypeResolver;
-import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
 import org.codehaus.jackson.map.ser.FilterProvider;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jackson.util.ByteArrayBuilder;
@@ -19,7 +15,6 @@ import org.codehaus.jackson.util.VersionUtil;
 /**
  * Builder object that can be used for per-serialization configuration of
  * serialization parameters, such as JSON View and root type to use.
- * Uses "fluent" (aka builder) pattern so that instances are immutable
  * (and thus fully thread-safe with no external synchronization);
  * new instances are constructed for different configurations.
  * Instances are initially constructed by {@link ObjectMapper} and can be
@@ -57,30 +52,11 @@ public class ObjectWriter
      */
     protected final JsonFactory _jsonFactory;
     
-    // Support for polymorphic types:
-    protected final TypeResolverBuilder<?> _defaultTyper;
-
-    // Configurable visibility limits
-    protected final VisibilityChecker<?> _visibilityChecker;
-
-    /**
-     * Registered concrete subtypes that can be used instead of (or
-     * in addition to) ones declared using annotations.
-     * 
-     * @since 1.6
-     */
-    protected final SubtypeResolver _subtypeResolver;
-    
     /*
     /**********************************************************
     /* Configuration that can be changed during building
     /**********************************************************
-     */   
-    
-    /**
-     * View to use for serialization
      */
-    protected final Class<?> _serializationView;
 
     /**
      * Specified root serialization type to use; can be same
@@ -94,6 +70,14 @@ public class ObjectWriter
      * as well
      */
     protected final PrettyPrinter _prettyPrinter;
+
+    /**
+     * When using data format that uses a schema, schema is passed
+     * to generator.
+     * 
+     * @since 1.8
+     */
+    protected final FormatSchema _schema;
     
     /*
     /**********************************************************
@@ -104,67 +88,72 @@ public class ObjectWriter
     /**
      * Constructor used by {@link ObjectMapper} for initial instantiation
      */
-    protected ObjectWriter(ObjectMapper mapper, 
-            Class<?> view, JavaType rootType, PrettyPrinter pp)
+    protected ObjectWriter(ObjectMapper mapper, SerializationConfig config,
+            JavaType rootType, PrettyPrinter pp)
     {
-        _defaultTyper = mapper._defaultTyper;
-        _visibilityChecker = mapper._visibilityChecker;
-        _subtypeResolver = mapper._subtypeResolver;
-        // must make a copy at this point, to prevent further changes from trickling down
-        _config = mapper._serializationConfig.createUnshared(_defaultTyper, _visibilityChecker,
-                _subtypeResolver, null);
-        _config.setSerializationView(view);
+        _config = config;
 
         _provider = mapper._serializerProvider;
         _serializerFactory = mapper._serializerFactory;
-
         _jsonFactory = mapper._jsonFactory;
-        
-        _serializationView = view;
+
         _rootType = rootType;
         _prettyPrinter = pp;
+        _schema = null;
     }
 
     /**
-     * Alternative constructor for initial instantiation; used when a filter provider
-     * is given.
+     * Alternative constructor for initial instantiation.
      * 
      * @since 1.7
      */
-    protected ObjectWriter(ObjectMapper mapper, FilterProvider filterProvider)
+    protected ObjectWriter(ObjectMapper mapper, SerializationConfig config)
     {
-        _defaultTyper = mapper._defaultTyper;
-        _visibilityChecker = mapper._visibilityChecker;
-        _subtypeResolver = mapper._subtypeResolver;
-        // must make a copy at this point, to prevent further changes from trickling down
-        _config = mapper._serializationConfig.createUnshared(_defaultTyper, _visibilityChecker,
-                _subtypeResolver, filterProvider);
+        _config = config;
+
         _provider = mapper._serializerProvider;
         _serializerFactory = mapper._serializerFactory;
         _jsonFactory = mapper._jsonFactory;
-        _serializationView = null;
+
         _rootType = null;
         _prettyPrinter = null;
+        _schema = null;
+    }
+
+    /**
+     * Alternative constructor for initial instantiation.
+     * 
+     * @since 1.7
+     */
+    protected ObjectWriter(ObjectMapper mapper, SerializationConfig config,
+            FormatSchema s)
+    {
+        _config = config;
+
+        _provider = mapper._serializerProvider;
+        _serializerFactory = mapper._serializerFactory;
+        _jsonFactory = mapper._jsonFactory;
+
+        _rootType = null;
+        _prettyPrinter = null;
+        _schema = s;
     }
     
     /**
      * Copy constructor used for building variations.
      */
     protected ObjectWriter(ObjectWriter base, SerializationConfig config,
-            Class<?> view, JavaType rootType, PrettyPrinter pp)
+            JavaType rootType, PrettyPrinter pp, FormatSchema s)
     {
         _config = config;
+
         _provider = base._provider;
         _serializerFactory = base._serializerFactory;
-
         _jsonFactory = base._jsonFactory;
-        _defaultTyper = base._defaultTyper;
-        _visibilityChecker = base._visibilityChecker;
-        _subtypeResolver = base._subtypeResolver;
         
-        _serializationView = view;
         _rootType = rootType;
         _prettyPrinter = pp;
+        _schema = s;
     }
 
     /**
@@ -178,16 +167,11 @@ public class ObjectWriter
 
         _provider = base._provider;
         _serializerFactory = base._serializerFactory;
-
         _jsonFactory = base._jsonFactory;
-        _defaultTyper = base._defaultTyper;
-        _visibilityChecker = base._visibilityChecker;
-        _subtypeResolver = base._subtypeResolver;
+        _schema = base._schema;
         
-        _serializationView = base._serializationView;
         _rootType = base._rootType;
         _prettyPrinter = base._prettyPrinter;
-        
     }
     
     /**
@@ -213,12 +197,8 @@ public class ObjectWriter
      */
     public ObjectWriter withView(Class<?> view)
     {
-        if (view == _serializationView) return this;
-        // View is included in config, must make immutable version
-        SerializationConfig config = _config.createUnshared(_defaultTyper,
-                _visibilityChecker, _subtypeResolver);
-        config.setSerializationView(view);
-        return new ObjectWriter(this, config);
+        if (view == _config.getSerializationView()) return this;
+        return new ObjectWriter(this, _config.withView(view));
     }    
     
     /**
@@ -230,7 +210,7 @@ public class ObjectWriter
     {
         if (rootType == _rootType) return this;
         // type is stored here, no need to make a copy of config
-        return new ObjectWriter(this, _config, _serializationView, rootType, _prettyPrinter);
+        return new ObjectWriter(this, _config, rootType, _prettyPrinter, _schema);
     }    
 
     /**
@@ -240,7 +220,7 @@ public class ObjectWriter
      */
     public ObjectWriter withType(Class<?> rootType)
     {
-        return withType(TypeFactory.type(rootType));
+        return withType(_config.constructType(rootType));
     }
 
     /**
@@ -248,7 +228,7 @@ public class ObjectWriter
      */
     public ObjectWriter withType(TypeReference<?> rootType)
     {
-        return withType(TypeFactory.type(rootType));
+        return withType(_config.getTypeFactory().constructType(rootType.getType()));
     }
     
     /**
@@ -259,11 +239,14 @@ public class ObjectWriter
      */
     public ObjectWriter withPrettyPrinter(PrettyPrinter pp)
     {
+        if (pp == _prettyPrinter) {
+            return this;
+        }
         // since null would mean "don't care", need to use placeholder to indicate "disable"
         if (pp == null) {
             pp = NULL_PRETTY_PRINTER;
         }
-        return new ObjectWriter(this, _config, _serializationView, _rootType, pp);
+        return new ObjectWriter(this, _config, _rootType, pp, _schema);
     }
 
     /**
@@ -283,11 +266,23 @@ public class ObjectWriter
      * 
      * @since 1.7
      */
-    public ObjectWriter withFilters(FilterProvider filterProvider) {
+    public ObjectWriter withFilters(FilterProvider filterProvider)
+    {
         if (filterProvider == _config.getFilterProvider()) { // no change?
             return this;
         }
         return new ObjectWriter(this, _config.withFilters(filterProvider));
+    }
+
+    /**
+     * @since 1.8
+     */
+    public ObjectWriter withSchema(FormatSchema schema)
+    {
+        if (_schema == schema) {
+            return this;
+        }
+        return new ObjectWriter(this, _config, _rootType, _prettyPrinter, schema);
     }
     
     /*
@@ -428,6 +423,10 @@ public class ObjectWriter
         } else if (_config.isEnabled(SerializationConfig.Feature.INDENT_OUTPUT)) {
             jgen.useDefaultPrettyPrinter();
         }
+        // [JACKSON-520]: add support for pass-through schema:
+        if (_schema != null) {
+            jgen.setSchema(_schema);
+        }
         // [JACKSON-282]: consider Closeable
         if (_config.isEnabled(SerializationConfig.Feature.CLOSE_CLOSEABLE) && (value instanceof Closeable)) {
             _configAndWriteCloseable(jgen, value, _config);
@@ -467,6 +466,10 @@ public class ObjectWriter
                 _provider.serializeValue(cfg, jgen, value, _serializerFactory);
             } else {
                 _provider.serializeValue(cfg, jgen, value, _rootType, _serializerFactory);
+            }
+            // [JACKSON-520]: add support for pass-through schema:
+            if (_schema != null) {
+                jgen.setSchema(_schema);
             }
             JsonGenerator tmpJgen = jgen;
             jgen = null;

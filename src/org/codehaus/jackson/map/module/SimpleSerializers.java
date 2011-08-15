@@ -3,7 +3,12 @@ package org.codehaus.jackson.map.module;
 import java.util.*;
 
 import org.codehaus.jackson.map.*;
+import org.codehaus.jackson.map.type.ArrayType;
 import org.codehaus.jackson.map.type.ClassKey;
+import org.codehaus.jackson.map.type.CollectionLikeType;
+import org.codehaus.jackson.map.type.CollectionType;
+import org.codehaus.jackson.map.type.MapLikeType;
+import org.codehaus.jackson.map.type.MapType;
 import org.codehaus.jackson.type.JavaType;
 
 /**
@@ -88,7 +93,7 @@ public class SimpleSerializers implements Serializers
     /**********************************************************
      */
     
-    @Override
+    
     public JsonSerializer<?> findSerializer(SerializationConfig config, JavaType type,
              BeanDescription beanDesc, BeanProperty property)
     {
@@ -122,9 +127,58 @@ public class SimpleSerializers implements Serializers
         }
         // No direct match? How about super-interfaces?
         if (_interfaceMappings != null) {
-            return _findInterfaceMapping(cls, key);
+            ser = _findInterfaceMapping(cls, key);
+            if (ser != null) {
+                return ser;
+            }
+            // still no matches? Maybe interfaces of super classes
+            if (!cls.isInterface()) {
+                while ((cls = cls.getSuperclass()) != null) {
+                    ser = _findInterfaceMapping(cls, key);
+                    if (ser != null) {
+                        return ser;
+                    }
+                }
+            }
         }
         return null;
+    }
+
+    
+    public JsonSerializer<?> findArraySerializer(SerializationConfig config,
+            ArrayType type, BeanDescription beanDesc, BeanProperty property,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer) {
+        return findSerializer(config, type, beanDesc, property);
+    }
+
+    
+    public JsonSerializer<?> findCollectionSerializer(SerializationConfig config,
+            CollectionType type, BeanDescription beanDesc, BeanProperty property,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer) {
+        return findSerializer(config, type, beanDesc, property);
+    }
+
+    
+    public JsonSerializer<?> findCollectionLikeSerializer(SerializationConfig config,
+            CollectionLikeType type, BeanDescription beanDesc, BeanProperty property,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer) {
+        return findSerializer(config, type, beanDesc, property);
+    }
+        
+    
+    public JsonSerializer<?> findMapSerializer(SerializationConfig config,
+            MapType type, BeanDescription beanDesc, BeanProperty property,
+            JsonSerializer<Object> keySerializer,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer) {
+        return findSerializer(config, type, beanDesc, property);
+    }
+
+    
+    public JsonSerializer<?> findMapLikeSerializer(SerializationConfig config,
+            MapLikeType type, BeanDescription beanDesc, BeanProperty property,
+            JsonSerializer<Object> keySerializer,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer) {
+        return findSerializer(config, type, beanDesc, property);
     }
     
     /*

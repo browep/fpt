@@ -204,19 +204,21 @@ public class BeanPropertyWriter
         
         _member = base._member;
         _contextAnnotations = base._contextAnnotations;
-        _name = base._name;
         _declaredType = base._declaredType;
-        _dynamicSerializers = base._dynamicSerializers;
-        _typeSerializer = base._typeSerializer;
-        _cfgSerializationType = base._cfgSerializationType;
         _accessorMethod = base._accessorMethod;
         _field = base._field;
-        _suppressNulls = base._suppressNulls;
-        _suppressableValue = base._suppressableValue;
         // one more thing: copy internal settings, if any (since 1.7)
         if (base._internalSettings != null) {
             _internalSettings = new HashMap<Object,Object>(base._internalSettings);
         }
+        _name = base._name;
+        _cfgSerializationType = base._cfgSerializationType;
+        _dynamicSerializers = base._dynamicSerializers;
+        _suppressNulls = base._suppressNulls;
+        _suppressableValue = base._suppressableValue;
+        _includeInViews = base._includeInViews;
+        _typeSerializer = base._typeSerializer;
+        _nonTrivialBaseType = base._nonTrivialBaseType;
    }
 
     /**
@@ -480,8 +482,13 @@ public class BeanPropertyWriter
         sb.append("property '").append(getName()).append("' (");
         if (_accessorMethod != null) {
             sb.append("via method ").append(_accessorMethod.getDeclaringClass().getName()).append("#").append(_accessorMethod.getName());
-               } else {
+        } else {
             sb.append("field \"").append(_field.getDeclaringClass().getName()).append("#").append(_field.getName());
+        }
+        if (_serializer == null) {
+            sb.append(", no static serializer");
+        } else {
+            sb.append(", static serializer of type "+_serializer.getClass().getName());
         }
         sb.append(')');
         return sb.toString();

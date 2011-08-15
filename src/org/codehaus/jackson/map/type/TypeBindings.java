@@ -20,6 +20,11 @@ public class TypeBindings
     public final static JavaType UNBOUND = new SimpleType(Object.class);
 
     /**
+     * Factory to use for constructing resolved related types.
+     */
+    protected final TypeFactory _typeFactory;
+    
+    /**
      * Context type used for resolving all types, if specified. May be null,
      * in which case {@link #_contextClass} is used instead.
      */
@@ -58,14 +63,14 @@ public class TypeBindings
     /**********************************************************
      */
     
-    public TypeBindings(Class<?> cc)
+    public TypeBindings(TypeFactory typeFactory, Class<?> cc)
     {
-        this(null, cc, null);
+        this(typeFactory, null, cc, null);
     }
 
-    public TypeBindings(JavaType type)
+    public TypeBindings(TypeFactory typeFactory, JavaType type)
     {
-        this(null, type.getRawClass(), type);
+        this(typeFactory, null, type.getRawClass(), type);
     }
 
     /**
@@ -77,17 +82,32 @@ public class TypeBindings
      * @since 1.7
      */
     public TypeBindings childInstance() {
-        return new TypeBindings(this, _contextClass, _contextType);
+        return new TypeBindings(_typeFactory, this, _contextClass, _contextType);
     }
 
     /**
      * @since 1.7
      */
-    private TypeBindings(TypeBindings parent, Class<?> cc, JavaType type)
+    private TypeBindings(TypeFactory tf, TypeBindings parent, Class<?> cc, JavaType type)
     {
+        _typeFactory = tf;
         _parentBindings = parent;
         _contextClass = cc;
         _contextType = type;
+    }
+
+    /*
+    /**********************************************************
+    /* Pass-through type resolution methods
+    /**********************************************************
+     */
+
+    public JavaType resolveType(Class<?> cls) {
+        return _typeFactory._constructType(cls, this);
+    }
+
+    public JavaType resolveType(Type type) {
+        return _typeFactory._constructType(type, this);
     }
     
     /*
@@ -95,6 +115,15 @@ public class TypeBindings
     /* Accesors
     /**********************************************************
      */
+
+    /**
+     * @since 1.8
+     */
+    /*
+    public TypeFactory getTypeFactory() {
+        return _typeFactory;
+    }
+    */
     
     public int getBindingCount() {
         if (_bindings == null) {
@@ -119,9 +148,35 @@ public class TypeBindings
         if (_parentBindings != null) {
             return _parentBindings.findType(name);
         }
-        // nothing found, so:
-
+        // nothing found, so...
         // Should we throw an exception or just return null?
+        
+        /* [JACKSON-499] 18-Feb-2011, tatu: There are some tricky type bindings within
+         *   java.util, such as HashMap$KeySet; so let's punt the problem
+         *   (honestly not sure what to do -- they are unbound for good, I think)
+         */
+        if (_contextClass != null) {
+            Class<?> enclosing = _contextClass.getEnclosingClass();
+            if (enclosing != null) {
+                // [JACKSON-572]: Actually, let's skip this for all non-static inner classes
+                //   (which will also cover 'java.util' type cases...
+                if (!Modifier.isStatic(_contextClass.getModifiers())) {
+                    return UNBOUND;
+                }
+
+                // ... so this piece of code should not be needed any more
+                /*
+                Package pkg = enclosing.getPackage();
+                if (pkg != null) {
+                    // as per [JACKSON-533], also include "java.util.concurrent":
+                    if (pkg.getName().startsWith("java.util")) {
+                        return UNBOUND;
+                    }
+                }
+                */
+            }
+        }
+        
         String className;
         if (_contextClass != null) {
             className = _contextClass.getName();
@@ -137,7 +192,8 @@ public class TypeBindings
 
     public void addBinding(String name, JavaType type)
     {
-        if (_bindings == null) {
+        // note: emptyMap() is unmodifiable, hence second check is needed:
+        if (_bindings == null || _bindings.size() == 0) {
             _bindings = new LinkedHashMap<String,JavaType>();
         }
         _bindings.put(name, type);
@@ -220,7 +276,7 @@ public class TypeBindings
                     // first: add a placeholder to prevent infinite loops
                     _addPlaceholder(name);
                     // then resolve type
-                    _bindings.put(name, TypeFactory.instance._fromType(args[i], this));
+                    _bindings.put(name, _typeFactory._constructType(args[i], this));
                 }
             }
             raw = (Class<?>)pt.getRawType();
@@ -241,7 +297,7 @@ public class TypeBindings
                             if (_bindings.containsKey(name)) continue;
                         }
                         _addPlaceholder(name); // to prevent infinite loops
-                        _bindings.put(name, TypeFactory.instance._fromType(varType, this));
+                        _bindings.put(name, _typeFactory._constructType(varType, this));
                     }
                 }
             }

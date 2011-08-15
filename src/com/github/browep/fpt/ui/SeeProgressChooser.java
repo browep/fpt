@@ -9,14 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
-import com.github.browep.nosql.Storable;
 import com.github.browep.fpt.util.Util;
+import com.github.browep.nosql.Storable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.github.browep.fpt.C.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,11 +44,11 @@ public class SeeProgressChooser extends FptActivity {
     selectButton.setOnClickListener(seePicturesOnClickListener);
     selectButton.setText("See Your Pictures");
 
-    List<Storable> definitions = getDao().getByType(C.WORKOUT_DEFINITION_TYPE);
+    List<Storable> definitions = getDao().getByType(WORKOUT_DEFINITION_TYPE);
     int i = 1;
     for (Storable definition : definitions) {
       selectButton = (Button) ((LinearLayout) inflater.inflate(R.layout.select_workout_button, wrapper, true)).getChildAt(i);
-      String workoutName = (String) definition.get(C.WORKOUT_NAME);
+      String workoutName = (String) definition.get(WORKOUT_NAME);
       selectButton.setText(workoutName);
       selectButton.setTag(R.id.workout_definition_id, definition.getId());
       selectButton.setTag(R.id.workout_definition_name, workoutName);
@@ -56,7 +57,10 @@ public class SeeProgressChooser extends FptActivity {
       i++;
     }
 
-    // get all the definitions, inflate view_specific_progress
+    tutorialDialog(this.getString(R.string.view_progress_message),
+        "Viewing Your Progress",
+        VIEW_PROGRESS_DIALOG,
+        SeeProgressChooser.this);
   }
 
   public View.OnLongClickListener selectLongClickOnClickListener = new View.OnLongClickListener() {
@@ -75,7 +79,7 @@ public class SeeProgressChooser extends FptActivity {
 
       // check to see if ther are actually any entries for this one, display message and finish if no
       Map where = new HashMap();
-      where.put(C.WORKOUT_DEFINITION_ID, id.toString());
+      where.put(WORKOUT_DEFINITION_ID, id.toString());
       List<Storable> entries = Util.sortByModified(getDao().where(where));
       if(entries.size() == 0){
         Util.longToastMessage(self,"You dont't have any entries for this workout yet.");
@@ -92,7 +96,7 @@ public class SeeProgressChooser extends FptActivity {
         public void onClick(DialogInterface dialog, int which) {
           dialog.dismiss();
           Intent intent = new Intent();
-          intent.putExtra(C.WORKOUT_DEFINITION_ID, id);
+          intent.putExtra(WORKOUT_DEFINITION_ID, id);
           intent.setClass(self, ViewProgress.class);
           startActivity(intent);
         }
@@ -101,7 +105,7 @@ public class SeeProgressChooser extends FptActivity {
       builder.setNegativeButton("Table", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
           Intent intent = new Intent(self, EditData.class);
-          intent.putExtra(C.WORKOUT_DEFINITION_ID, id);
+          intent.putExtra(WORKOUT_DEFINITION_ID, id);
           startActivity(intent);
           dialog.dismiss();
         }
@@ -117,7 +121,7 @@ public class SeeProgressChooser extends FptActivity {
       // check to see if the SD-card is mounted
       String state = Environment.getExternalStorageState();
       if (!Environment.MEDIA_MOUNTED.equals(state)) {
-        Util.longToastMessage(self, C.SD_CARD_NOT_MOUNTED_MESSAGE);
+        Util.longToastMessage(self, SD_CARD_NOT_MOUNTED_MESSAGE);
       } else {
         Intent intent = new Intent();
         intent.setClass(self, SeePictures.class);

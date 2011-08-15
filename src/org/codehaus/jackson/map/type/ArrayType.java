@@ -87,7 +87,14 @@ public final class ArrayType
          * only simple way to do it.
          */
         Class<?> newCompClass = subclass.getComponentType();
-        JavaType newCompType = TypeFactory.type(newCompClass);
+        /* 14-Mar-2011, tatu: it gets even worse, as we do not have access to
+         *   currently configured TypeFactory. This could theoretically cause
+         *   problems (when narrowing from array of Objects, to array of non-standard
+         *   Maps, for example); but for now need to defer solving this until
+         *   it actually becomes a real problem, not just potential one.
+         *   (famous last words?)
+         */
+        JavaType newCompType = TypeFactory.defaultInstance().constructType(newCompClass);
         return construct(newCompType);
     }
 
@@ -102,10 +109,19 @@ public final class ArrayType
         if (contentClass == _componentType.getRawClass()) {
             return this;
         }
-        JavaType newComponentType = _componentType.narrowBy(contentClass);
-        return construct(newComponentType).copyHandlers(this);
+        return construct(_componentType.narrowBy(contentClass)).copyHandlers(this);
     }
 
+    @Override
+    public JavaType widenContentsBy(Class<?> contentClass)
+    {
+        // Can do a quick check first:
+        if (contentClass == _componentType.getRawClass()) {
+            return this;
+        }
+        return construct(_componentType.widenBy(contentClass)).copyHandlers(this);
+    }
+    
     /*
     /**********************************************************
     /* Overridden methods

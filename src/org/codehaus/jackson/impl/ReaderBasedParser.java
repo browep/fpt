@@ -595,17 +595,46 @@ public final class ReaderBasedParser
         throws IOException, JsonParseException
     {
         // Most likely an error, unless we are to allow single-quote-strings
-        if (i != INT_APOSTROPHE || !isEnabled(Feature.ALLOW_SINGLE_QUOTES)) {
-            _reportUnexpectedChar(i, "expected a valid value (number, String, array, object, 'true', 'false' or 'null')");
+        switch (i) {
+        case '\'':
+            /* [JACKSON-173]: allow single quotes. Unlike with regular
+             * Strings, we'll eagerly parse contents; this so that there's
+             * no need to store information on quote char used.
+             *
+             * Also, no separation to fast/slow parsing; we'll just do
+             * one regular (~= slowish) parsing, to keep code simple
+             */
+            if (isEnabled(Feature.ALLOW_SINGLE_QUOTES)) {
+                return _handleApostropheValue();
+            }
+            break;
+        case 'N':
+            if (_matchToken("NaN", 1)) {
+                if (isEnabled(Feature.ALLOW_NON_NUMERIC_NUMBERS)) {
+                    return resetAsNaN("NaN", Double.NaN);
+                }
+                _reportError("Non-standard token 'NaN': enable JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS to allow");
+            }
+            _reportUnexpectedChar(_inputBuffer[_inputPtr++], "expected 'NaN' or a valid value");
+            break;
+        case '+': // note: '-' is taken as number
+            if (_inputPtr >= _inputEnd) {
+                if (!loadMore()) {
+                    _reportInvalidEOFInValue();
+                }
+            }
+            return _handleInvalidNumberStart(_inputBuffer[_inputPtr++], false);
         }
-
-        /* [JACKSON-173]: allow single quotes. Unlike with regular
-         * Strings, we'll eagerly parse contents; this so that there's
-         * no need to store information on quote char used.
-         *
-         * Also, no separation to fast/slow parsing; we'll just do
-         * one regular (~= slow) parsing, to keep code simple
-         */
+        _reportUnexpectedChar(i, "expected a valid value (number, String, array, object, 'true', 'false' or 'null')");
+        return null;
+    }
+    
+    /**
+     * @since 1.8
+     */
+    protected final JsonToken _handleApostropheValue()
+        throws IOException, JsonParseException
+    {
         char[] outBuf = _textBuffer.emptyAndGetCurrentSegment();
         int outPtr = _textBuffer.getCurrentSegmentSize();
 
@@ -616,7 +645,7 @@ public final class ReaderBasedParser
                 }
             }
             char c = _inputBuffer[_inputPtr++];
-            i = (int) c;
+            int i = (int) c;
             if (i <= INT_BACKSLASH) {
                 if (i == INT_BACKSLASH) {
                     /* Although chars outside of BMP are to be escaped as
@@ -644,7 +673,7 @@ public final class ReaderBasedParser
         _textBuffer.setCurrentLength(outPtr);
         return JsonToken.VALUE_STRING;
     }
-
+    
     /**
      * @since 1.2
      */
@@ -839,7 +868,7 @@ public final class ReaderBasedParser
             }
             char c = _inputBuffer[_inputPtr];
             if (c != matchStr.charAt(i)) {
-                _reportInvalidToken(matchStr.substring(0, i));
+                _reportInvalidToken(matchStr.substring(0, i), "'null', 'true' or 'false'");
             }
             ++_inputPtr;
         }
@@ -848,31 +877,6 @@ public final class ReaderBasedParser
          * error later on.
          */
         return;
-    }
-
-    private void _reportInvalidToken(String matchedPart)
-        throws IOException, JsonParseException
-    {
-        StringBuilder sb = new StringBuilder(matchedPart);
-        /* Let's just try to find what appears to be the token, using
-         * regular Java identifier character rules. It's just a heuristic,
-         * nothing fancy here.
-         */
-        while (true) {
-            if (_inputPtr >= _inputEnd) {
-                if (!loadMore()) {
-                    break;
-                }
-            }
-            char c = _inputBuffer[_inputPtr];
-            if (!Character.isJavaIdentifierPart(c)) {
-                break;
-            }
-            ++_inputPtr;
-            sb.append(c);
-        }
-
-        _reportError("Unrecognized token '"+sb.toString()+"': was expecting 'null', 'true' or 'false'");
     }
 
     /*
@@ -1088,12 +1092,6 @@ public final class ReaderBasedParser
     {
         ByteArrayBuilder builder = _getByteArrayBuilder();
 
-        /* !!! 23-Jan-2009, tatu: There are some potential problems
-         *   with this:
-         *
-         * - Escaped chars are not handled. Should they?
-         */
-
         //main_loop:
         while (true) {
             // first, we'll skip preceding white space, if any
@@ -1105,11 +1103,14 @@ public final class ReaderBasedParser
                 ch = _inputBuffer[_inputPtr++];
             } while (ch <= INT_SPACE);
             int bits = b64variant.decodeBase64Char(ch);
-            if (bits < 0) { // reached the end, fair and square?
-                if (ch == '"') {
+            if (bits < 0) {
+                if (ch == '"') { // reached the end, fair and square?
                     return builder.toByteArray();
                 }
-                throw reportInvalidChar(b64variant, ch, 0);
+                bits = _decodeBase64Escape(b64variant, ch, 0);
+                if (bits < 0) { // white space to skip
+                    continue;
+                }
             }
             int decodedData = bits;
             
@@ -1121,7 +1122,7 @@ public final class ReaderBasedParser
             ch = _inputBuffer[_inputPtr++];
             bits = b64variant.decodeBase64Char(ch);
             if (bits < 0) {
-                throw reportInvalidChar(b64variant, ch, 1);
+                bits = _decodeBase64Escape(b64variant, ch, 1);
             }
             decodedData = (decodedData << 6) | bits;
             
@@ -1135,20 +1136,29 @@ public final class ReaderBasedParser
             // First branch: can get padding (-> 1 byte)
             if (bits < 0) {
                 if (bits != Base64Variant.BASE64_VALUE_PADDING) {
-                    throw reportInvalidChar(b64variant, ch, 2);
+                    // as per [JACKSON-631], could also just be 'missing'  padding
+                    if (ch == '"' && !b64variant.usesPadding()) {
+                        decodedData >>= 4;
+                        builder.append(decodedData);
+                        return builder.toByteArray();
+                    }
+                    bits = _decodeBase64Escape(b64variant, ch, 2);
                 }
-                // Ok, must get padding
-                if (_inputPtr >= _inputEnd) {
-                    loadMoreGuaranteed();
+                if (bits == Base64Variant.BASE64_VALUE_PADDING) {
+                    // Ok, must get more padding chars, then
+                    if (_inputPtr >= _inputEnd) {
+                        loadMoreGuaranteed();
+                    }
+                    ch = _inputBuffer[_inputPtr++];
+                    if (!b64variant.usesPaddingChar(ch)) {
+                        throw reportInvalidChar(b64variant, ch, 3, "expected padding character '"+b64variant.getPaddingChar()+"'");
+                    }
+                    // Got 12 bits, only need 8, need to shift
+                    decodedData >>= 4;
+                    builder.append(decodedData);
+                    continue;
                 }
-                ch = _inputBuffer[_inputPtr++];
-                if (!b64variant.usesPaddingChar(ch)) {
-                    throw reportInvalidChar(b64variant, ch, 3, "expected padding character '"+b64variant.getPaddingChar()+"'");
-                }
-                // Got 12 bits, only need 8, need to shift
-                decodedData >>= 4;
-                builder.append(decodedData);
-                continue;
+                // otherwise we got escaped other char, to be processed below
             }
             // Nope, 2 or 3 bytes
             decodedData = (decodedData << 6) | bits;
@@ -1160,24 +1170,55 @@ public final class ReaderBasedParser
             bits = b64variant.decodeBase64Char(ch);
             if (bits < 0) {
                 if (bits != Base64Variant.BASE64_VALUE_PADDING) {
-                    throw reportInvalidChar(b64variant, ch, 3);
+                    // as per [JACKSON-631], could also just be 'missing'  padding
+                    if (ch == '"' && !b64variant.usesPadding()) {
+                        decodedData >>= 2;
+                        builder.appendTwoBytes(decodedData);
+                        return builder.toByteArray();
+                    }
+                    bits = _decodeBase64Escape(b64variant, ch, 3);
                 }
-                /* With padding we only get 2 bytes; but we have
-                 * to shift it a bit so it is identical to triplet
-                 * case with partial output.
-                 * 3 chars gives 3x6 == 18 bits, of which 2 are
-                 * dummies, need to discard:
-                 */
-                decodedData >>= 2;
-                builder.appendTwoBytes(decodedData);
-            } else {
-                // otherwise, our triple is now complete
-                decodedData = (decodedData << 6) | bits;
-                builder.appendThreeBytes(decodedData);
+                if (bits == Base64Variant.BASE64_VALUE_PADDING) {
+                    /* With padding we only get 2 bytes; but we have
+                     * to shift it a bit so it is identical to triplet
+                     * case with partial output.
+                     * 3 chars gives 3x6 == 18 bits, of which 2 are
+                     * dummies, need to discard:
+                     */
+                    decodedData >>= 2;
+                    builder.appendTwoBytes(decodedData);
+                    continue;
+                }
+                // otherwise we got escaped other char, to be processed below
             }
+            // otherwise, our triplet is now complete
+            decodedData = (decodedData << 6) | bits;
+            builder.appendThreeBytes(decodedData);
         }
     }
 
+    private final int _decodeBase64Escape(Base64Variant b64variant, char ch, int index)
+        throws IOException, JsonParseException
+    {
+        // 17-May-2011, tatu: As per [JACKSON-xxx], need to handle escaped chars
+        if (ch != '\\') {
+            throw reportInvalidChar(b64variant, ch, index);
+        }
+        char unescaped = _decodeEscaped();
+        // if white space, skip if first triplet; otherwise errors
+        if (unescaped <= INT_SPACE) {
+            if (index == 0) { // whitespace only allowed to be skipped between triplets
+                return -1;
+            }
+        }
+        // otherwise try to find actual triplet value
+        int bits = b64variant.decodeBase64Char(unescaped);
+        if (bits < 0) {
+            throw reportInvalidChar(b64variant, unescaped, index);
+        }
+        return bits;
+    }
+    
     protected IllegalArgumentException reportInvalidChar(Base64Variant b64variant, char ch, int bindex)
         throws IllegalArgumentException
     {

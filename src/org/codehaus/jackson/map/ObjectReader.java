@@ -6,13 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.deser.StdDeserializationContext;
-import org.codehaus.jackson.map.introspect.VisibilityChecker;
-import org.codehaus.jackson.map.jsontype.SubtypeResolver;
-import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
-import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.map.type.SimpleType;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.NullNode;
+import org.codehaus.jackson.node.TreeTraversingParser;
 import org.codehaus.jackson.type.JavaType;
+import org.codehaus.jackson.type.TypeReference;
 import org.codehaus.jackson.util.VersionUtil;
 
 /**
@@ -29,9 +28,10 @@ import org.codehaus.jackson.util.VersionUtil;
  * @since 1.6
  */
 public class ObjectReader
+    extends ObjectCodec
     implements Versioned
 {
-    private final static JavaType JSON_NODE_TYPE = TypeFactory.type(JsonNode.class);
+    private final static JavaType JSON_NODE_TYPE = SimpleType.constructUnsafe(JsonNode.class);
 
     /*
     /**********************************************************
@@ -40,14 +40,15 @@ public class ObjectReader
      */
 
     /**
+     * General serialization configuration settings; while immutable,
+     * can use copy-constructor to create modified instances as necessary.
+     */
+    protected final DeserializationConfig _config;
+    
+    /**
      * Root-level cached deserializers
      */
     final protected ConcurrentHashMap<JavaType, JsonDeserializer<Object>> _rootDeserializers;
-
-    /**
-     * General serialization configuration settings
-     */
-    protected final DeserializationConfig _config;
    
     protected final DeserializerProvider _provider;
 
@@ -55,20 +56,6 @@ public class ObjectReader
      * Factory used for constructing {@link JsonGenerator}s
      */
     protected final JsonFactory _jsonFactory;
-    
-    // Support for polymorphic types:
-    protected TypeResolverBuilder<?> _defaultTyper;
-
-    // Configurable visibility limits
-    protected VisibilityChecker<?> _visibilityChecker;
-
-    /**
-     * Registered concrete subtypes that can be used instead of (or
-     * in addition to) ones declared using annotations.
-     * 
-     * @since 1.6
-     */
-    protected final SubtypeResolver _subtypeResolver;
     
     /*
     /**********************************************************
@@ -95,6 +82,14 @@ public class ObjectReader
      * types can not be modified because array size is immutable.
      */
     protected final Object _valueToUpdate;
+
+    /**
+     * When using data format that uses a schema, schema is passed
+     * to parser.
+     * 
+     * @since 1.8
+     */
+    protected final FormatSchema _schema;
     
     /*
     /**********************************************************
@@ -104,47 +99,47 @@ public class ObjectReader
 
     /**
      * Constructor used by {@link ObjectMapper} for initial instantiation
+     * 
+     * @since 1.8
      */
-    protected ObjectReader(ObjectMapper mapper,  JavaType valueType, Object valueToUpdate)
+    protected ObjectReader(ObjectMapper mapper, DeserializationConfig config)
     {
+        this(mapper, config, null, null, null);
+    }
+
+    protected ObjectReader(ObjectMapper mapper, DeserializationConfig config,
+            JavaType valueType, Object valueToUpdate, FormatSchema schema)
+    {
+        _config = config;
         _rootDeserializers = mapper._rootDeserializers;
-        _defaultTyper = mapper._defaultTyper;
-        _visibilityChecker = mapper._visibilityChecker;
-        _subtypeResolver = mapper._subtypeResolver;
         _provider = mapper._deserializerProvider;
         _jsonFactory = mapper._jsonFactory;
-
-        // must make a copy at this point, to prevent further changes from trickling down
-        _config = mapper._deserializationConfig.createUnshared(_defaultTyper, _visibilityChecker,
-                _subtypeResolver);
-        
         _valueType = valueType;
         _valueToUpdate = valueToUpdate;
         if (valueToUpdate != null && valueType.isArrayType()) {
             throw new IllegalArgumentException("Can not update an array value");
         }
+        _schema = schema;
     }
     
     /**
      * Copy constructor used for building variations.
      */
     protected ObjectReader(ObjectReader base, DeserializationConfig config,
-            JavaType valueType, Object valueToUpdate)
+            JavaType valueType, Object valueToUpdate, FormatSchema schema)
     {
+        _config = config;
+
         _rootDeserializers = base._rootDeserializers;
-        _defaultTyper = base._defaultTyper;
-        _visibilityChecker = base._visibilityChecker;
         _provider = base._provider;
         _jsonFactory = base._jsonFactory;
-        _subtypeResolver = base._subtypeResolver;
 
-        _config = config;
-        
         _valueType = valueType;
         _valueToUpdate = valueToUpdate;
         if (valueToUpdate != null && valueType.isArrayType()) {
             throw new IllegalArgumentException("Can not update an array value");
         }
+        _schema = schema;
     }
 
     /**
@@ -161,25 +156,32 @@ public class ObjectReader
     {
         if (valueType == _valueType) return this;
         // type is stored here, no need to make a copy of config
-        return new ObjectReader(this, _config, valueType, _valueToUpdate);
+        return new ObjectReader(this, _config, valueType, _valueToUpdate, _schema);
     }    
 
     public ObjectReader withType(Class<?> valueType)
     {
-        return withType(TypeFactory.type(valueType));
+        return withType(_config.constructType(valueType));
     }    
 
     public ObjectReader withType(java.lang.reflect.Type valueType)
     {
-        return withType(TypeFactory.type(valueType));
+        return withType(_config.getTypeFactory().constructType(valueType));
     }    
 
+    /**
+     * @since 1.8
+     */
+    public ObjectReader withType(TypeReference<?> valueTypeRef)
+    {
+        return withType(_config.getTypeFactory().constructType(valueTypeRef.getType()));
+    }    
+    
     public ObjectReader withNodeFactory(JsonNodeFactory f)
     {
         // node factory is stored within config, so need to copy that first
         if (f == _config.getNodeFactory()) return this;
-        DeserializationConfig cfg = _config.createUnshared(f);
-        return new ObjectReader(this, cfg, _valueType, _valueToUpdate);
+        return new ObjectReader(this, _config.withNodeFactory(f), _valueType, _valueToUpdate, _schema);
     }
     
     public ObjectReader withValueToUpdate(Object value)
@@ -188,10 +190,21 @@ public class ObjectReader
         if (value == null) {
             throw new IllegalArgumentException("cat not update null value");
         }
-        JavaType t = TypeFactory.type(value.getClass());
-        return new ObjectReader(this, _config, t, value);
+        JavaType t = _config.constructType(value.getClass());
+        return new ObjectReader(this, _config, t, value, _schema);
     }    
 
+    /**
+     * @since 1.8
+     */
+    public ObjectReader withSchema(FormatSchema schema)
+    {
+        if (_schema == schema) {
+            return this;
+        }
+        return new ObjectReader(this, _config, _valueType, _valueToUpdate, schema);
+    }
+    
     /*
     /**********************************************************
     /* Deserialization methods; basic ones to support ObjectCodec first
@@ -206,6 +219,7 @@ public class ObjectReader
         return (T) _bind(jp);
     }
 
+    @Override // from ObjectCodec
     public JsonNode readTree(JsonParser jp)
         throws IOException, JsonProcessingException
     {
@@ -273,14 +287,12 @@ public class ObjectReader
      *<pre>
      *   objectReader.readValue(src.traverse())
      *</pre>
-     *
-     * @since 1.6
      */
     @SuppressWarnings("unchecked")
     public <T> T readValue(JsonNode src)
         throws IOException, JsonProcessingException
     {
-        return (T) _bindAndClose(src.traverse());
+        return (T) _bindAndClose(treeAsTokens(src));
     }
     
     public JsonNode readTree(InputStream in)
@@ -299,6 +311,120 @@ public class ObjectReader
         throws IOException, JsonProcessingException
     {
         return _bindAndCloseAsTree(_jsonFactory.createJsonParser(content));
+    }
+
+    /*
+    /**********************************************************
+    /* Deserialization methods; reading sequence of values
+    /**********************************************************
+     */
+    
+    /**
+     * Method for reading sequence of Objects from parser stream.
+     * 
+     * @since 1.8
+     */
+    public <T> MappingIterator<T> readValues(JsonParser jp)
+        throws IOException, JsonProcessingException
+    {
+        DeserializationContext ctxt = _createDeserializationContext(jp, _config);
+        return new MappingIterator<T>(_valueType, jp, ctxt, _findRootDeserializer(_config, _valueType));
+    }
+    
+    /**
+     * Method for reading sequence of Objects from parser stream.
+     * 
+     * @since 1.8
+     */
+    public <T> MappingIterator<T> readValues(InputStream src)
+        throws IOException, JsonProcessingException
+    {
+        JsonParser jp = _jsonFactory.createJsonParser(src);
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
+        DeserializationContext ctxt = _createDeserializationContext(jp, _config);
+        return new MappingIterator<T>(_valueType, jp, ctxt, _findRootDeserializer(_config, _valueType));
+    }
+
+    /**
+     * Method for reading sequence of Objects from parser stream.
+     * 
+     * @since 1.8
+     */
+    public <T> MappingIterator<T> readValues(Reader src)
+        throws IOException, JsonProcessingException
+    {
+        JsonParser jp = _jsonFactory.createJsonParser(src);
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
+        DeserializationContext ctxt = _createDeserializationContext(jp, _config);
+        return new MappingIterator<T>(_valueType, jp, ctxt, _findRootDeserializer(_config, _valueType));
+    }
+    
+    /**
+     * Method for reading sequence of Objects from parser stream.
+     * 
+     * @since 1.8
+     */
+    public <T> MappingIterator<T> readValues(String json)
+        throws IOException, JsonProcessingException
+    {
+        JsonParser jp = _jsonFactory.createJsonParser(json);
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
+        DeserializationContext ctxt = _createDeserializationContext(jp, _config);
+        return new MappingIterator<T>(_valueType, jp, ctxt, _findRootDeserializer(_config, _valueType));
+    }
+
+    /**
+     * Method for reading sequence of Objects from parser stream.
+     * 
+     * @since 1.8
+     */
+    public <T> MappingIterator<T> readValues(byte[] src, int offset, int length)
+        throws IOException, JsonProcessingException
+    {
+        JsonParser jp = _jsonFactory.createJsonParser(src, offset, length);
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
+        DeserializationContext ctxt = _createDeserializationContext(jp, _config);
+        return new MappingIterator<T>(_valueType, jp, ctxt, _findRootDeserializer(_config, _valueType));
+    }
+
+    /**
+     * Method for reading sequence of Objects from parser stream.
+     * 
+     * @since 1.8
+     */
+    public <T> MappingIterator<T> readValues(File src)
+        throws IOException, JsonProcessingException
+    {
+        JsonParser jp = _jsonFactory.createJsonParser(src);
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
+        DeserializationContext ctxt = _createDeserializationContext(jp, _config);
+        return new MappingIterator<T>(_valueType, jp, ctxt, _findRootDeserializer(_config, _valueType));
+    }
+
+    /**
+     * Method for reading sequence of Objects from parser stream.
+     * 
+     * @since 1.8
+     */
+    public <T> MappingIterator<T> readValues(URL src)
+        throws IOException, JsonProcessingException
+    {
+        JsonParser jp = _jsonFactory.createJsonParser(src);
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
+        DeserializationContext ctxt = _createDeserializationContext(jp, _config);
+        return new MappingIterator<T>(_valueType, jp, ctxt, _findRootDeserializer(_config, _valueType));
     }
     
     /*
@@ -337,6 +463,9 @@ public class ObjectReader
     protected Object _bindAndClose(JsonParser jp)
         throws IOException, JsonParseException, JsonMappingException
     {
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
         try {
             Object result;
             JsonToken t = _initForReading(jp);
@@ -379,6 +508,9 @@ public class ObjectReader
     protected JsonNode _bindAndCloseAsTree(JsonParser jp)
         throws IOException, JsonParseException, JsonMappingException
     {
+        if (_schema != null) {
+            jp.setSchema(_schema);
+        }
         try {
             return _bindAsTree(jp);
         } finally {
@@ -429,5 +561,69 @@ public class ObjectReader
     protected DeserializationContext _createDeserializationContext(JsonParser jp, DeserializationConfig cfg) {
         // 04-Jan-2010, tatu: we do actually need the provider too... (for polymorphic deser)
         return new StdDeserializationContext(cfg, jp, _provider);
-    }    
+    }
+
+    /*
+    /**********************************************************
+    /* Implementation of rest of ObjectCodec methods
+    /**********************************************************
+     */
+    
+    @Override
+    public JsonNode createArrayNode() {
+        return _config.getNodeFactory().arrayNode();
+    }
+
+    @Override
+    public JsonNode createObjectNode() {
+        return _config.getNodeFactory().objectNode();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T readValue(JsonParser jp, Class<T> valueType)
+            throws IOException, JsonProcessingException
+    {
+        return (T) withType(valueType).readValue(jp);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T readValue(JsonParser jp, TypeReference<?> valueTypeRef) throws IOException, JsonProcessingException
+    {            
+        return (T) withType(valueTypeRef).readValue(jp);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T readValue(JsonParser jp, JavaType valueType) throws IOException, JsonProcessingException {
+        return (T) withType(valueType).readValue(jp);
+    }
+
+    @Override
+    public JsonParser treeAsTokens(JsonNode n) {
+        return new TreeTraversingParser(n, this);
+    }
+
+    @Override
+    public <T> T treeToValue(JsonNode n, Class<T> valueType)
+            throws IOException, JsonProcessingException
+    {
+        return readValue(treeAsTokens(n), valueType);
+    }
+
+    /**
+     * NOTE: NOT implemented for {@link ObjectReader}.
+     */
+    @Override
+    public void writeTree(JsonGenerator jgen, JsonNode rootNode) throws IOException, JsonProcessingException
+    {
+        throw new UnsupportedOperationException("Not implemented for ObjectReader");
+    }
+
+    @Override
+    public void writeValue(JsonGenerator jgen, Object value) throws IOException, JsonProcessingException
+    {
+        throw new UnsupportedOperationException("Not implemented for ObjectReader");
+    }
 }

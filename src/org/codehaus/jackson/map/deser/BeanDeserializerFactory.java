@@ -41,28 +41,47 @@ public class BeanDeserializerFactory
      */
     public static class ConfigImpl extends Config
     {
+        protected final static KeyDeserializers[] NO_KEY_DESERIALIZERS = new KeyDeserializers[0];
         protected final static BeanDeserializerModifier[] NO_MODIFIERS = new BeanDeserializerModifier[0];
-
+        protected final static AbstractTypeResolver[] NO_ABSTRACT_TYPE_RESOLVERS = new AbstractTypeResolver[0];
+        
         /**
          * List of providers for additional deserializers, checked before considering default
-         * basic or bean deserialializers.
+         * basic or bean deserializers.
          * 
          * @since 1.7
          */
         protected final Deserializers[] _additionalDeserializers;
 
         /**
+         * List of providers for additional key deserializers, checked before considering
+         * standard key deserializers.
+         * 
+         * @since 1.7
+         */
+        protected final KeyDeserializers[] _additionalKeyDeserializers;
+        
+        /**
          * List of modifiers that can change the way {@link BeanDeserializer} instances
          * are configured and constructed.
          */
         protected final BeanDeserializerModifier[] _modifiers;
+
+        /**
+         * List of objects that may be able to resolve abstract types to
+         * concrete types. Used by functionality like "mr Bean" to materialize
+         * types as needed.
+         * 
+         * @since 1.8
+         */
+        protected final AbstractTypeResolver[] _abstractTypeResolvers;
         
         /**
          * Constructor for creating basic configuration with no additional
          * handlers.
          */
         public ConfigImpl() {
-            this(null, null);
+            this(null, null, null, null);
         }
 
         /**
@@ -70,11 +89,16 @@ public class BeanDeserializerFactory
          * set of additional deserializer providers.
          */
         protected ConfigImpl(Deserializers[] allAdditionalDeserializers,
-                BeanDeserializerModifier[] modifiers)
+                KeyDeserializers[] allAdditionalKeyDeserializers,
+                BeanDeserializerModifier[] modifiers,
+                AbstractTypeResolver[] atr)
         {
             _additionalDeserializers = (allAdditionalDeserializers == null) ?
                     NO_DESERIALIZERS : allAdditionalDeserializers;
+            _additionalKeyDeserializers = (allAdditionalKeyDeserializers == null) ?
+                    NO_KEY_DESERIALIZERS : allAdditionalKeyDeserializers;
             _modifiers = (modifiers == null) ? NO_MODIFIERS : modifiers;
+            _abstractTypeResolvers = (atr == null) ? NO_ABSTRACT_TYPE_RESOLVERS : atr;
         }
 
         @Override
@@ -83,25 +107,51 @@ public class BeanDeserializerFactory
             if (additional == null) {
                 throw new IllegalArgumentException("Can not pass null Deserializers");
             }
-            Deserializers[] all = ArrayBuilders.insertInList(_additionalDeserializers, additional);
-            return new ConfigImpl(all, _modifiers);
+            Deserializers[] all = ArrayBuilders.insertInListNoDup(_additionalDeserializers, additional);
+            return new ConfigImpl(all, _additionalKeyDeserializers, _modifiers, _abstractTypeResolvers);
         }
 
+        @Override
+        public Config withAdditionalKeyDeserializers(KeyDeserializers additional)
+        {
+            if (additional == null) {
+                throw new IllegalArgumentException("Can not pass null KeyDeserializers");
+            }
+            KeyDeserializers[] all = ArrayBuilders.insertInListNoDup(_additionalKeyDeserializers, additional);
+            return new ConfigImpl(_additionalDeserializers, all, _modifiers, _abstractTypeResolvers);
+        }
+        
         @Override
         public Config withDeserializerModifier(BeanDeserializerModifier modifier)
         {
             if (modifier == null) {
                 throw new IllegalArgumentException("Can not pass null modifier");
             }
-            BeanDeserializerModifier[] all = ArrayBuilders.insertInList(_modifiers, modifier);
-            return new ConfigImpl(_additionalDeserializers, all);
+            BeanDeserializerModifier[] all = ArrayBuilders.insertInListNoDup(_modifiers, modifier);
+            return new ConfigImpl(_additionalDeserializers, _additionalKeyDeserializers, all, _abstractTypeResolvers);
         }
 
+        @Override
+        public Config withAbstractTypeResolver(AbstractTypeResolver resolver)
+        {
+            if (resolver == null) {
+                throw new IllegalArgumentException("Can not pass null resolver");
+            }
+            AbstractTypeResolver[] all = ArrayBuilders.insertInListNoDup(_abstractTypeResolvers, resolver);
+            return new ConfigImpl(_additionalDeserializers, _additionalKeyDeserializers, _modifiers, all);
+        }
+        
         @Override
         public boolean hasDeserializers() { return _additionalDeserializers.length > 0; }
 
         @Override
+        public boolean hasKeyDeserializers() { return _additionalKeyDeserializers.length > 0; }
+        
+        @Override
         public boolean hasDeserializerModifiers() { return _modifiers.length > 0; }
+
+        @Override
+        public boolean hasAbstractTypeResolvers() { return _abstractTypeResolvers.length > 0; }
         
         @Override
         public Iterable<Deserializers> deserializers() {
@@ -109,8 +159,18 @@ public class BeanDeserializerFactory
         }
 
         @Override
+        public Iterable<KeyDeserializers> keyDeserializers() {
+            return ArrayBuilders.arrayAsIterable(_additionalKeyDeserializers);
+        }
+        
+        @Override
         public Iterable<BeanDeserializerModifier> deserializerModifiers() {
             return ArrayBuilders.arrayAsIterable(_modifiers);
+        }
+
+        @Override
+        public Iterable<AbstractTypeResolver> abstractTypeResolvers() {
+            return ArrayBuilders.arrayAsIterable(_abstractTypeResolvers);
         }
     }
     
@@ -190,6 +250,23 @@ public class BeanDeserializerFactory
      */
 
     @Override
+    public KeyDeserializer createKeyDeserializer(DeserializationConfig config, JavaType type,
+            BeanProperty property)
+        throws JsonMappingException
+    {
+        if (_factoryConfig.hasKeyDeserializers()) {
+            BasicBeanDescription beanDesc = config.introspectClassAnnotations(type.getRawClass());
+            for (KeyDeserializers d  : _factoryConfig.keyDeserializers()) {
+                KeyDeserializer deser = d.findKeyDeserializer(type, config, beanDesc, property);
+                if (deser != null) {
+                    return deser;
+                }
+            }
+        }
+        return null;
+    }
+    
+    @Override
     protected JsonDeserializer<?> _findCustomArrayDeserializer(ArrayType type, DeserializationConfig config,
             DeserializerProvider provider,
             BeanProperty property,
@@ -224,6 +301,23 @@ public class BeanDeserializerFactory
     }
 
     @Override
+    protected JsonDeserializer<?> _findCustomCollectionLikeDeserializer(CollectionLikeType type, DeserializationConfig config,
+            DeserializerProvider provider, BasicBeanDescription beanDesc,
+            BeanProperty property,
+            TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer)
+        throws JsonMappingException
+    {
+        for (Deserializers d  : _factoryConfig.deserializers()) {
+            JsonDeserializer<?> deser = d.findCollectionLikeDeserializer(type, config, provider, beanDesc, property,
+                    elementTypeDeserializer, elementDeserializer);
+            if (deser != null) {
+                return deser;
+            }
+        }
+        return null;
+    }
+    
+    @Override
     protected JsonDeserializer<?> _findCustomEnumDeserializer(Class<?> type, DeserializationConfig config,
             BasicBeanDescription beanDesc, BeanProperty property)
         throws JsonMappingException
@@ -238,7 +332,8 @@ public class BeanDeserializerFactory
     }
 
     @Override
-    protected JsonDeserializer<?> _findCustomMapDeserializer(MapType type, DeserializationConfig config,
+    protected JsonDeserializer<?> _findCustomMapDeserializer(MapType type,
+            DeserializationConfig config,
             DeserializerProvider provider, BasicBeanDescription beanDesc, BeanProperty property,
             KeyDeserializer keyDeserializer,
             TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer)
@@ -254,6 +349,24 @@ public class BeanDeserializerFactory
         return null;
     }
 
+    @Override
+    protected JsonDeserializer<?> _findCustomMapLikeDeserializer(MapLikeType type,
+            DeserializationConfig config,
+            DeserializerProvider provider, BasicBeanDescription beanDesc, BeanProperty property,
+            KeyDeserializer keyDeserializer,
+            TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer)
+        throws JsonMappingException
+    {
+        for (Deserializers d  : _factoryConfig.deserializers()) {
+            JsonDeserializer<?> deser = d.findMapLikeDeserializer(type, config, provider, beanDesc, property,
+                    keyDeserializer, elementTypeDeserializer, elementDeserializer);
+            if (deser != null) {
+                return deser;
+            }
+        }
+        return null;
+    }
+    
     @Override
     protected JsonDeserializer<?> _findCustomTreeNodeDeserializer(Class<? extends JsonNode> type,
             DeserializationConfig config, BeanProperty property)
@@ -295,10 +408,15 @@ public class BeanDeserializerFactory
      * enums.
      */
     @Override
-    public JsonDeserializer<Object> createBeanDeserializer(DeserializationConfig config, DeserializerProvider p,
-            JavaType type, BeanProperty property)
+    public JsonDeserializer<Object> createBeanDeserializer(DeserializationConfig config,
+            DeserializerProvider p, JavaType type, BeanProperty property)
         throws JsonMappingException
     {
+        // First things first: abstract types may use defaulting:
+        if (type.isAbstract()) {
+            type = mapAbstractType(config, type);
+        }
+        
         // First things first: maybe explicit definition via annotations?
         BasicBeanDescription beanDesc = config.introspect(type);
         JsonDeserializer<Object> ad = findDeserializerFromAnnotation(config, beanDesc.getClassInfo(), property);
@@ -316,19 +434,6 @@ public class BeanDeserializerFactory
         if (custom != null) {
             return custom;
         }
-
-        /* Let's call super class first: it knows simple types for
-         * which we have default deserializers
-         */
-        JsonDeserializer<Object> deser = super.createBeanDeserializer(config, p, type, property);
-        if (deser != null) {
-            return deser;
-        }
-        // Otherwise: could the class be a Bean class?
-        if (!isPotentialBeanType(type.getRawClass())) {
-            return null;
-        }
-
         /* One more thing to check: do we have an exception type
          * (Throwable or its sub-classes)? If so, need slightly
          * different handling.
@@ -336,40 +441,131 @@ public class BeanDeserializerFactory
         if (type.isThrowable()) {
             return buildThrowableDeserializer(config, type, beanDesc, property);
         }
-
-        /* Abstract types can not be handled using regular bean deserializer, but need
-         * either type deserializer (which caller usually deals with), or resolve
-         * to a concrete type.
+        /* Or, for abstract types, may have alternate means for resolution
+         * (defaulting, materialization)
          */
         if (type.isAbstract()) {
             // [JACKSON-41] (v1.6): Let's make it possible to materialize abstract types.
-            /* One check however: if type information is indicated, we usually do not
-             * want materialization...
-             */
-            AbstractTypeResolver res = config.getAbstractTypeResolver();
-            if (res != null) {
-                AnnotationIntrospector intr = config.getAnnotationIntrospector();
-                if (intr.findTypeResolver(beanDesc.getClassInfo(), type) == null) {
-                    JavaType concrete = res.resolveAbstractType(config, type);
-                    if (concrete != null) {
-                        /* important: introspect actual implementation (abstract class or
-                         * interface doesn't have constructors, for one)
-                         */
-                        beanDesc = config.introspect(concrete);
-                        return buildBeanDeserializer(config, concrete, beanDesc, property);
-                    }
-                }
+            JavaType concreteType = materializeAbstractType(config, beanDesc);
+            if (concreteType != null) {
+                /* important: introspect actual implementation (abstract class or
+                 * interface doesn't have constructors, for one)
+                 */
+                beanDesc = config.introspect(concreteType);
+                return buildBeanDeserializer(config, concreteType, beanDesc, property);
             }
-            // otherwise we assume there must be extra type information coming
-            return new AbstractDeserializer(type);
         }
-        
+
+        // Otherwise, may want to check handlers for standard types, from superclass:
+        JsonDeserializer<Object> deser = findStdBeanDeserializer(config, p, type, property);
+        if (deser != null) {
+            return deser;
+        }
+
+        // Otherwise: could the class be a Bean class? If not, bail out
+        if (!isPotentialBeanType(type.getRawClass())) {
+            return null;
+        }
         /* Otherwise we'll just use generic bean introspection
          * to build deserializer
          */
         return buildBeanDeserializer(config, type, beanDesc, property);
     }
 
+
+    /**
+     * Method that will find complete abstract type mapping for specified type, doing as
+     * many resolution steps as necessary.
+     */
+    @Override
+    protected JavaType mapAbstractType(DeserializationConfig config, JavaType type)
+        throws JsonMappingException
+    {
+        while (true) {
+            JavaType next = _mapAbstractType2(config, type);
+            if (next == null) {
+                return type;
+            }
+            /* Should not have to worry about cycles; but better verify since they will invariably
+             * occur... :-)
+             * (also: guard against invalid resolution to a non-related type)
+             */
+            Class<?> prevCls = type.getRawClass();
+            Class<?> nextCls = next.getRawClass();
+            if ((prevCls == nextCls) || !prevCls.isAssignableFrom(nextCls)) {
+                throw new IllegalArgumentException("Invalid abstract type resolution from "+type+" to "+next+": latter is not a subtype of former");
+            }
+            type = next;
+        }
+    }
+
+    /**
+     * Method that will find abstract type mapping for specified type, doing a single
+     * lookup through registered abstract type resolvers; will not do recursive lookups.
+     */
+    protected JavaType _mapAbstractType2(DeserializationConfig config, JavaType type)
+        throws JsonMappingException
+    {
+        Class<?> currClass = type.getRawClass();
+        if (_factoryConfig.hasAbstractTypeResolvers()) {
+            for (AbstractTypeResolver resolver : _factoryConfig.abstractTypeResolvers()) {
+                JavaType concrete = resolver.findTypeMapping(config, type);
+                if (concrete != null && concrete.getRawClass() != currClass) {
+                    return concrete;
+                }
+            }
+        }
+        // Also; as a fallback,  we support (until 2.0) old extension point too
+        @SuppressWarnings("deprecation")
+        AbstractTypeResolver resolver = config.getAbstractTypeResolver();
+        if (resolver != null) {
+            JavaType concrete = resolver.findTypeMapping(config, type);
+            if (concrete != null && concrete.getRawClass() != currClass) {
+                return concrete;
+            }
+        }
+        return null;
+    }
+    
+    protected JavaType materializeAbstractType(DeserializationConfig config,
+            BasicBeanDescription beanDesc)
+        throws JsonMappingException
+    {
+        // Deprecated registration method, try this one:
+        @SuppressWarnings("deprecation")
+        AbstractTypeResolver resolver = config.getAbstractTypeResolver();
+
+        // Quick shortchut: if nothing registered, return quickly:
+        if (resolver == null && !_factoryConfig.hasAbstractTypeResolvers()) {
+            return null;
+        }
+
+        final JavaType abstractType = beanDesc.getType();
+        // Otherwise check that there is no @JsonTypeInfo registered (to avoid conflicts)
+        AnnotationIntrospector intr = config.getAnnotationIntrospector();
+        if (intr.findTypeResolver(config, beanDesc.getClassInfo(), abstractType) != null) {
+            return null;
+        }
+
+        if (resolver != null) {
+            JavaType concrete = resolver.resolveAbstractType(config, abstractType);
+            if (concrete != null) {
+                return concrete;
+            }
+        }
+        
+        /* [JACKSON-502] (1.8): Now it is possible to have multiple resolvers too,
+         *   as they are registered via module interface.
+         */
+        for (AbstractTypeResolver r : _factoryConfig.abstractTypeResolvers()) {
+            JavaType concrete = r.resolveAbstractType(config, abstractType);
+            if (concrete != null) {
+                return concrete;
+            }
+        }
+        return null;
+    }
+    
     /*
     /**********************************************************
     /* Public construction method beyond DeserializerFactory API:
@@ -389,6 +585,11 @@ public class BeanDeserializerFactory
             JavaType type, BasicBeanDescription beanDesc, BeanProperty property)
         throws JsonMappingException
     {
+        // if we still just have abstract type (but no deserializer), probably need type info, so:
+        if (type.isAbstract()) {
+            return new AbstractDeserializer(type);
+            
+        }
         BeanDeserializerBuilder builder = constructBeanDeserializerBuilder(beanDesc);
         builder.setCreators(findDeserializerCreators(config, beanDesc));
          // And then setters for deserializing from JSON Object
@@ -498,7 +699,7 @@ public class BeanDeserializerFactory
         throws JsonMappingException
     {
         boolean fixAccess = config.isEnabled(DeserializationConfig.Feature.CAN_OVERRIDE_ACCESS_MODIFIERS);
-        CreatorContainer creators =  new CreatorContainer(beanDesc.getBeanClass(), fixAccess);
+        CreatorContainer creators =  new CreatorContainer(beanDesc, fixAccess);
         AnnotationIntrospector intr = config.getAnnotationIntrospector();
 
         // First, let's figure out constructor/factory-based instantation
@@ -537,59 +738,70 @@ public class BeanDeserializerFactory
                 continue;
             }
             boolean isCreator = intr.hasCreatorAnnotation(ctor);
+            boolean isVisible =  vchecker.isCreatorVisible(ctor);
             // some single-arg constructors (String, number) are auto-detected
             if (argCount == 1) {
                 /* but note: if we do have parameter name, it'll be
                  * "property constructor", and needs to be skipped for now
                  */
-                String name = intr.findPropertyNameForParam(ctor.getParameter(0));
+                AnnotatedParameter param = ctor.getParameter(0);
+				String name = intr.findPropertyNameForParam(param);
                 if (name == null || name.length() == 0) { // not property based
                     Class<?> type = ctor.getParameterClass(0);
                     if (type == String.class) {
-                        if (isCreator || vchecker.isCreatorVisible(ctor)) {
+                        if (isCreator || isVisible) {
                             creators.addStringConstructor(ctor);
                         }
                         continue;
                     }
                     if (type == int.class || type == Integer.class) {
-                        if (isCreator || vchecker.isCreatorVisible(ctor)) {
+                        if (isCreator || isVisible) {
                             creators.addIntConstructor(ctor);
                         }
                         continue;
                     }
                     if (type == long.class || type == Long.class) {
-                        if (isCreator || vchecker.isCreatorVisible(ctor)) {
+                        if (isCreator || isVisible) {
                             creators.addLongConstructor(ctor);
                         }
                         continue;
                     }
                     // Delegating constructor ok iff it has @JsonCreator (etc)
-                    if (intr.hasCreatorAnnotation(ctor)) {
+                    if (isCreator) {
                         creators.addDelegatingConstructor(ctor);
                     }
                     // otherwise just ignored
                     continue;
                 }
-                // fall through if there's name
-            } else {
-                // more than 2 args, must be @JsonCreator
-                if (!intr.hasCreatorAnnotation(ctor)) {
-                    continue;
-                }
+                // We know there's a name and it's only 1 parameter.
+                SettableBeanProperty[] properties = new SettableBeanProperty[1];
+                properties[0] = constructCreatorProperty(config, beanDesc, name, 0, param);
+                creators.addPropertyConstructor(ctor, properties);
+                continue;
+            } else if (!isCreator && !isVisible) {
+            	continue;
             }
-
-            // 1 or more args; all params must have name annotations
+            // [JACKSON-541] improved handling a bit so:
+            // 2 or more args; all params must have name annotations.
+            // But if it was auto-detected and there's no annotations, keep silent (was not meant to be a creator?)
+            boolean annotationFound = false;
+            boolean notAnnotatedParamFound = false;
             SettableBeanProperty[] properties = new SettableBeanProperty[argCount];
             for (int i = 0; i < argCount; ++i) {
                 AnnotatedParameter param = ctor.getParameter(i);
                 String name = (param == null) ? null : intr.findPropertyNameForParam(param);
-                // At this point, name annotation is NOT optional
-                if (name == null || name.length() == 0) {
+                // If some parameters are annotated and others not, it's invalid.
+                // If the constructor is annotated with @JsonCreator, all params must have annotation
+                notAnnotatedParamFound |= (name == null || name.length() == 0);
+                annotationFound |= !notAnnotatedParamFound;
+                if (notAnnotatedParamFound && (annotationFound || isCreator)) {
                     throw new IllegalArgumentException("Argument #"+i+" of constructor "+ctor+" has no property name annotation; must have name when multiple-paramater constructor annotated as Creator");
                 }
                 properties[i] = constructCreatorProperty(config, beanDesc, name, i, param);
             }
-            creators.addPropertyConstructor(ctor, properties);
+            if (annotationFound) {
+            	creators.addPropertyConstructor(ctor, properties);
+            }
         }
     }
 
@@ -840,7 +1052,7 @@ public class BeanDeserializerFactory
             setter.fixAccess(); // to ensure we can call it
         }
         // we know it's a 2-arg method, second arg is the value
-        JavaType type = TypeFactory.type(setter.getParameterType(1), beanDesc.bindingsForBeanType());
+        JavaType type = beanDesc.bindingsForBeanType().resolveType(setter.getParameterType(1));
         BeanProperty.Std property = new BeanProperty.Std(setter.getName(), type, beanDesc.getClassAnnotations(), setter);
         type = resolveType(config, beanDesc, type, setter, property);
 
@@ -883,7 +1095,7 @@ public class BeanDeserializerFactory
         }
 
         // note: this works since we know there's exactly one arg for methods
-        JavaType t0 = TypeFactory.type(setter.getParameterType(0), beanDesc.bindingsForBeanType());
+        JavaType t0 = beanDesc.bindingsForBeanType().resolveType(setter.getParameterType(0));
         BeanProperty.Std property = new BeanProperty.Std(name, t0, beanDesc.getClassAnnotations(), setter);
         JavaType type = resolveType(config, beanDesc, t0, setter, property);
         // did type change?
@@ -918,7 +1130,7 @@ public class BeanDeserializerFactory
         if (config.isEnabled(DeserializationConfig.Feature.CAN_OVERRIDE_ACCESS_MODIFIERS)) {
             field.fixAccess();
         }
-        JavaType t0 = TypeFactory.type(field.getGenericType(), beanDesc.bindingsForBeanType());
+        JavaType t0 = beanDesc.bindingsForBeanType().resolveType(field.getGenericType());
         BeanProperty.Std property = new BeanProperty.Std(name, t0, beanDesc.getClassAnnotations(), field);
         JavaType type = resolveType(config, beanDesc, t0, field, property);
         // did type change?

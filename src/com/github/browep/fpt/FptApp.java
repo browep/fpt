@@ -5,9 +5,9 @@ import com.github.browep.fpt.dao.PreferencesService;
 import com.github.browep.fpt.model.FptPicture;
 import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
-import com.github.browep.nosql.Dao;
 import com.github.browep.fpt.view.ModelService;
 import com.github.browep.fpt.view.ViewService;
+import com.github.browep.nosql.Dao;
 import com.github.browep.nosql.NoSqlSqliteOpener;
 import com.github.browep.nosql.Storable;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -22,7 +22,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -87,13 +86,17 @@ public class FptApp extends Application{
       pictureDirectory.mkdirs();
     File[] pictures = pictureDirectory.listFiles();
     for(File pictureFile : pictures){
-      // see if there is an entry for this file
-      Map where = new HashMap();
-      where.put(C.FILE_NAME,pictureFile.getName());
-      List<Storable> fptPictures = getDao().where(where);
-      if(fptPictures.isEmpty()){
-        // there were no entries for that file, create one
-        createdFptPictures.add(FptPicture.fptPictureFromFile(pictureFile, getDao()));
+      try {
+// see if there is an entry for this file
+        Map where = new HashMap();
+        where.put(C.FILE_NAME,pictureFile.getName());
+        List<Storable> fptPictures = getDao().where(where);
+        if(fptPictures.isEmpty()){
+          // there were no entries for that file, create one
+          createdFptPictures.add(FptPicture.fptPictureFromFile(pictureFile, getDao()));
+        }
+      } catch (Exception e) {
+        Log.e("error with pictureFile: " + pictureFile, e);
       }
     }
     return createdFptPictures;

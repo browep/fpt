@@ -241,8 +241,9 @@ public abstract class AnnotationIntrospector
      *
      *  @since 1.5
      */
-    public abstract VisibilityChecker<?> findAutoDetectVisibility(AnnotatedClass ac,
-            VisibilityChecker<?> baseChecker);
+    public VisibilityChecker<?> findAutoDetectVisibility(AnnotatedClass ac, VisibilityChecker<?> checker) {
+        return checker;
+    }
     
     /*
     /**********************************************************
@@ -258,14 +259,16 @@ public abstract class AnnotationIntrospector
      * relevant annotations (not including ones checked with a call to
      * {@link #findSubtypes}
      * 
+     * @param config Configuration settings in effect (for serialization or deserialization)
      * @param ac Annotated class to check for annotations
      * @param baseType Base java type of value for which resolver is to be found
      * 
      * @return Type resolver builder for given type, if one found; null if none
      * 
-     * @since 1.5
+     * @since 1.5 -- although changed in 1.8 to pass configuration object
      */
-    public TypeResolverBuilder<?> findTypeResolver(AnnotatedClass ac, JavaType baseType) {
+    public TypeResolverBuilder<?> findTypeResolver(MapperConfig<?> config,
+            AnnotatedClass ac, JavaType baseType) {
         return null;
     }
 
@@ -277,15 +280,17 @@ public abstract class AnnotationIntrospector
      * relevant annotations (not including ones checked with a call to
      * {@link #findSubtypes}
      * 
+     * @param config Configuration settings in effect (for serialization or deserialization)
      * @param am Annotated member (field or method) to check for annotations
      * @param baseType Base java type of property for which resolver is to be found
      * 
      * @return Type resolver builder for properties of given entity, if one found;
      *    null if none
      * 
-     * @since 1.5
+     * @since 1.5 -- although changed in 1.8 to pass configuration object
      */
-    public TypeResolverBuilder<?> findPropertyTypeResolver(AnnotatedMember am, JavaType baseType) {
+    public TypeResolverBuilder<?> findPropertyTypeResolver(MapperConfig<?> config,
+            AnnotatedMember am, JavaType baseType) {
         return null;
     }
 
@@ -299,15 +304,17 @@ public abstract class AnnotationIntrospector
      * relevant annotations (not including ones checked with a call to
      * {@link #findSubtypes}
      * 
+     * @param config Configuration settings in effect (for serialization or deserialization)
      * @param am Annotated member (field or method) to check for annotations
      * @param containerType Type of property for which resolver is to be found (must be a container type)
      * 
      * @return Type resolver builder for values contained in properties of given entity,
      *    if one found; null if none
      * 
-     * @since 1.5
+     * @since 1.5 -- although changed in 1.8 to pass configuration object
      */    
-    public TypeResolverBuilder<?> findPropertyContentTypeResolver(AnnotatedMember am, JavaType containerType) {
+    public TypeResolverBuilder<?> findPropertyContentTypeResolver(MapperConfig<?> config,
+            AnnotatedMember am, JavaType containerType) {
         return null;
     }
 
@@ -406,22 +413,51 @@ public abstract class AnnotationIntrospector
      * {@link JsonSerializer}) or Class (of type
      * <code>Class<JsonSerializer></code>); if value of different
      * type is returned, a runtime exception may be thrown by caller.
-     * 
-     * @deprecated Should use version that gets property object
+     *<p>
+     * Note: this variant was briefly deprecated for 1.7; should not be
      */
-    @Deprecated
     public Object findSerializer(Annotated am) {
         return findSerializer(am, null);
     }
 
     /**
-     * Method for getting a serializer definition on specified method
-     * or field. Type of definition is either instance (of type
+     * @deprecated (as of 1.8) -- going back to 1.7, since BeanProperty really should not
+     *  have to be bought here; contextualization is via callbacks
+     */
+    @Deprecated
+    public Object findSerializer(Annotated am, BeanProperty property) {
+        if (property != null) {
+            return findSerializer(am);
+        }
+        return null;
+    }
+
+    /**
+     * Method for getting a serializer definition for keys of associated <code>Map</code> property.
+     * Type of definition is either instance (of type
      * {@link JsonSerializer}) or Class (of type
      * <code>Class<JsonSerializer></code>); if value of different
      * type is returned, a runtime exception may be thrown by caller.
+     * 
+     * @since 1.8
      */
-    public abstract Object findSerializer(Annotated am, BeanProperty property);
+    public Class<? extends JsonSerializer<?>> findKeySerializer(Annotated am) {
+        return null;
+    }
+
+    /**
+     * Method for getting a serializer definition for content (values) of
+     * associated <code>Collection</code>, <code>array</code> or <code>Map</code> property.
+     * Type of definition is either instance (of type
+     * {@link JsonSerializer}) or Class (of type
+     * <code>Class<JsonSerializer></code>); if value of different
+     * type is returned, a runtime exception may be thrown by caller.
+     * 
+     * @since 1.8
+     */
+    public Class<? extends JsonSerializer<?>> findContentSerializer(Annotated am) {
+        return null;
+    }
     
     /**
      * Method for checking whether given annotated entity (class, method,
@@ -433,7 +469,9 @@ public abstract class AnnotationIntrospector
      * @return Enumerated value indicating which properties to include
      *   in serialization
      */
-    public abstract JsonSerialize.Inclusion findSerializationInclusion(Annotated a, JsonSerialize.Inclusion defValue);
+    public JsonSerialize.Inclusion findSerializationInclusion(Annotated a, JsonSerialize.Inclusion defValue) {
+        return defValue;
+    }
 
     /**
      * Method for accessing annotated type definition that a
@@ -446,6 +484,30 @@ public abstract class AnnotationIntrospector
      */
     public abstract Class<?> findSerializationType(Annotated a);
 
+    /**
+     * Method for finding possible widening type definition that a property
+     * value can have, to define less specific key type to use for serialization.
+     * It should be only be used with {@link java.util.Map} types.
+     * 
+     * @return Class specifying more general type to use instead of
+     *   declared type, if annotation found; null if not
+     */
+    public Class<?> findSerializationKeyType(Annotated am, JavaType baseType) {
+        return null;
+    }
+
+    /**
+     * Method for finding possible widening type definition that a property
+     * value can have, to define less specific key type to use for serialization.
+     * It should be only used with structured types (arrays, collections, maps).
+     * 
+     * @return Class specifying more general type to use instead of
+     *   declared type, if annotation found; null if not
+     */
+    public Class<?> findSerializationContentType(Annotated am, JavaType baseType) {
+        return null;
+    }
+    
     /**
      * Method for accessing declared typing mode annotated (if any).
      * This is used for type detection, unless more granular settings
@@ -558,10 +620,17 @@ public abstract class AnnotationIntrospector
      */
 
     /**
-     * @deprecated Used version that takes property
+     * Method for getting a deserializer definition on specified method
+     * or field.
+     * Type of definition is either instance (of type
+     * {@link JsonDeserializer}) or Class (of type
+     * <code>Class<JsonDeserializer></code>); if value of different
+     * type is returned, a runtime exception may be thrown by caller.
+     *<p>
+     * Note: this variant was briefly deprecated for 1.7; but it turns out
+     * we really should not try to push BeanProperty through at this point
      */
-    @Deprecated
-    public final Object findDeserializer(Annotated am) {
+    public Object findDeserializer(Annotated am) {
         return findDeserializer(am, null);
     }
 
@@ -572,8 +641,16 @@ public abstract class AnnotationIntrospector
      * {@link JsonDeserializer}) or Class (of type
      * <code>Class<JsonDeserializer></code>); if value of different
      * type is returned, a runtime exception may be thrown by caller.
+     *
+     * @deprecated (as of 1.7) Should use version that gets property object
      */
-    public abstract Object findDeserializer(Annotated am, BeanProperty property);
+    @Deprecated
+    public Object findDeserializer(Annotated am, BeanProperty property) {
+        if (property != null) {
+            return findDeserializer(am);
+        }
+        return null;
+    }
 
     /**
      * Method for getting a deserializer definition for keys of
@@ -911,31 +988,34 @@ public abstract class AnnotationIntrospector
         */
         
         @Override
-        public TypeResolverBuilder<?> findTypeResolver(AnnotatedClass ac, JavaType baseType)
+        public TypeResolverBuilder<?> findTypeResolver(MapperConfig<?> config,
+                AnnotatedClass ac, JavaType baseType)
         {
-            TypeResolverBuilder<?> b = _primary.findTypeResolver(ac, baseType);
+            TypeResolverBuilder<?> b = _primary.findTypeResolver(config, ac, baseType);
             if (b == null) {
-                b = _secondary.findTypeResolver(ac, baseType);
+                b = _secondary.findTypeResolver(config, ac, baseType);
             }
             return b;
         }
 
         @Override
-        public TypeResolverBuilder<?> findPropertyTypeResolver(AnnotatedMember am, JavaType baseType)
+        public TypeResolverBuilder<?> findPropertyTypeResolver(MapperConfig<?> config,
+                AnnotatedMember am, JavaType baseType)
         {
-            TypeResolverBuilder<?> b = _primary.findPropertyTypeResolver(am, baseType);
+            TypeResolverBuilder<?> b = _primary.findPropertyTypeResolver(config, am, baseType);
             if (b == null) {
-                b = _secondary.findPropertyTypeResolver(am, baseType);
+                b = _secondary.findPropertyTypeResolver(config, am, baseType);
             }
             return b;
         }
 
         @Override
-        public TypeResolverBuilder<?> findPropertyContentTypeResolver(AnnotatedMember am, JavaType baseType)
+        public TypeResolverBuilder<?> findPropertyContentTypeResolver(MapperConfig<?> config,
+                AnnotatedMember am, JavaType baseType)
         {
-            TypeResolverBuilder<?> b = _primary.findPropertyContentTypeResolver(am, baseType);
+            TypeResolverBuilder<?> b = _primary.findPropertyContentTypeResolver(config, am, baseType);
             if (b == null) {
-                b = _secondary.findPropertyContentTypeResolver(am, baseType);
+                b = _secondary.findPropertyContentTypeResolver(config, am, baseType);
             }
             return b;
         }
@@ -1012,8 +1092,38 @@ public abstract class AnnotationIntrospector
         }
 
         @Override
+        public Object findSerializer(Annotated am)
+        {
+            Object result = _primary.findSerializer(am);
+            if (result == null) {
+                result = _secondary.findSerializer(am);
+            }
+            return result;
+        }
+        
+        @Override
+        public Class<? extends JsonSerializer<?>> findKeySerializer(Annotated a)
+        {
+            Class<? extends JsonSerializer<?>> result = _primary.findKeySerializer(a);
+            if (result == null || result == JsonSerializer.None.class) {
+                result = _secondary.findKeySerializer(a);
+            }
+            return result;
+        }
+
+        @Override
+        public Class<? extends JsonSerializer<?>> findContentSerializer(Annotated a)
+        {
+            Class<? extends JsonSerializer<?>> result = _primary.findContentSerializer(a);
+            if (result == null || result == JsonSerializer.None.class) {
+                result = _secondary.findContentSerializer(a);
+            }
+            return result;
+        }
+        
+        @Override
         public JsonSerialize.Inclusion findSerializationInclusion(Annotated a,
-                                                                   JsonSerialize.Inclusion defValue)
+                JsonSerialize.Inclusion defValue)
         {
             /* This is bit trickier: need to combine results in a meaningful
              * way. Seems like it should be a disjoint; that is, most
@@ -1041,6 +1151,26 @@ public abstract class AnnotationIntrospector
             return result;
         }
 
+        @Override
+        public Class<?> findSerializationKeyType(Annotated am, JavaType baseType)
+        {
+            Class<?> result = _primary.findSerializationKeyType(am, baseType);
+            if (result == null) {
+                result = _secondary.findSerializationKeyType(am, baseType);
+            }
+            return result;
+        }
+
+        @Override
+        public Class<?> findSerializationContentType(Annotated am, JavaType baseType)
+        {
+            Class<?> result = _primary.findSerializationContentType(am, baseType);
+            if (result == null) {
+                result = _secondary.findSerializationContentType(am, baseType);
+            }
+            return result;
+        }
+        
         @Override
         public JsonSerialize.Typing findSerializationTyping(Annotated a)
         {
@@ -1149,6 +1279,16 @@ public abstract class AnnotationIntrospector
         // // // Deserialization: general annotations
 
         @Override
+        public Object findDeserializer(Annotated am)
+        {
+            Object result = _primary.findDeserializer(am);
+            if (result == null) {
+                result = _secondary.findDeserializer(am);
+            }
+            return result;
+        }
+
+        @Override
         public Object findDeserializer(Annotated am, BeanProperty property)
         {
             Object result = _primary.findDeserializer(am, property);
@@ -1157,7 +1297,7 @@ public abstract class AnnotationIntrospector
             }
             return result;
         }
-
+        
         @Override
         public Class<? extends KeyDeserializer> findKeyDeserializer(Annotated am)
         {

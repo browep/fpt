@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.map.BeanProperty;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.TypeDeserializer;
 import org.codehaus.jackson.map.TypeSerializer;
 import org.codehaus.jackson.type.JavaType;
@@ -23,6 +25,20 @@ import org.codehaus.jackson.type.JavaType;
  * will be called to get actual type resolver constructed
  * and used for resolving types for configured base type and its
  * subtypes.
+ *<p>
+ * Note that instances are used for two related but distinct use cases:
+ *<ul>
+ * <li>To create builders to use with explicit type information
+ *    inclusion (usually via <code>@JsonTypeInfo</code> annotation)
+ *   </li>
+ * <li>To create builders when "default typing" is used; if so, type information
+ *   is automatically included for certain kind of types, regardless of annotations
+ *   </li>
+ *</ul>
+ * Important distinction between the cases is that in first case, calls to
+ * create builders are only made when builders are certainly needed; whereas
+ * in second case builder has to first verify whether type information is
+ * applicable for given type, and if not, just return null to indicate this.
  * 
  * @since 1.5
  * @author tatu
@@ -42,8 +58,8 @@ public interface TypeResolverBuilder<T extends TypeResolverBuilder<T>>
      * @param baseType Base type that constructed resolver will
      *    handle; super type of all types it will be used for.
      */
-    public TypeSerializer buildTypeSerializer(JavaType baseType, Collection<NamedType> subtypes,
-            BeanProperty property);
+    public TypeSerializer buildTypeSerializer(SerializationConfig config,
+            JavaType baseType, Collection<NamedType> subtypes, BeanProperty property);
 
     /**
      * Method for building type deserializer based on current configuration
@@ -53,8 +69,8 @@ public interface TypeResolverBuilder<T extends TypeResolverBuilder<T>>
      *    handle; super type of all types it will be used for.
      * @param subtypes Known subtypes of the base type.
      */
-    public TypeDeserializer buildTypeDeserializer(JavaType baseType,
-            Collection<NamedType> subtypes, BeanProperty property);
+    public TypeDeserializer buildTypeDeserializer( DeserializationConfig config,
+            JavaType baseType, Collection<NamedType> subtypes, BeanProperty property);
     
     /*
     /**********************************************************

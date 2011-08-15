@@ -6,6 +6,7 @@ import java.util.*;
 
 import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.TypeSerializer;
 
 /**
  * Node that maps to JSON Object structures in JSON content.
@@ -75,6 +76,40 @@ public class ObjectNode
         return MissingNode.getInstance();
     }
 
+    /**
+     * Method to use for accessing all fields (with both names
+     * and values) of this JSON Object.
+     */
+    @Override
+    public Iterator<Map.Entry<String, JsonNode>> getFields()
+    {
+        if (_children == null) {
+            return NoFieldsIterator.instance;
+        }
+        return _children.entrySet().iterator();
+    }
+
+    @Override
+    public ObjectNode with(String propertyName)
+    {
+        if (_children == null) {
+            _children = new LinkedHashMap<String, JsonNode>();
+        } else {
+            JsonNode n = _children.get(propertyName);
+            if (n != null) {
+                if (n instanceof ObjectNode) {
+                    return (ObjectNode) n;
+                }
+                throw new UnsupportedOperationException("Property '"+propertyName
+                        +"' has value that is not of type ObjectNode (but "
+                        +n.getClass().getName()+")");
+            }
+        }
+        ObjectNode result = objectNode();
+        _children.put(propertyName, result);
+        return result;
+    }
+    
     /*
     /**********************************************************
     /* Public API, finding value nodes
@@ -198,22 +233,19 @@ public class ObjectNode
         jg.writeEndObject();
     }
 
-    /*
-    /**********************************************************
-    /* Extended ObjectNode API, accessors
-    /**********************************************************
-     */
-
-    /**
-     * Method to use for accessing all fields (with both names
-     * and values) of this Json Object.
-     */
-    public Iterator<Map.Entry<String, JsonNode>> getFields()
+    @Override
+    public void serializeWithType(JsonGenerator jg, SerializerProvider provider,
+            TypeSerializer typeSer)
+        throws IOException, JsonProcessingException
     {
-        if (_children == null) {
-            return NoFieldsIterator.instance;
+        typeSer.writeTypePrefixForObject(this, jg);
+        if (_children != null) {
+            for (Map.Entry<String, JsonNode> en : _children.entrySet()) {
+                jg.writeFieldName(en.getKey());
+                ((BaseJsonNode) en.getValue()).serialize(jg, provider);
+            }
         }
-        return _children.entrySet().iterator();
+        typeSer.writeTypeSuffixForObject(this, jg);
     }
 
     /*

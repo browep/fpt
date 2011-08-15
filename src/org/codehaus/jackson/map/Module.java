@@ -4,6 +4,7 @@ import org.codehaus.jackson.Version;
 import org.codehaus.jackson.Versioned;
 import org.codehaus.jackson.map.deser.BeanDeserializerModifier;
 import org.codehaus.jackson.map.ser.BeanSerializerModifier;
+import org.codehaus.jackson.map.type.TypeModifier;
 
 /**
  * Simple interface for extensions that can be registered with {@link ObjectMapper}
@@ -90,13 +91,6 @@ public abstract class Module
          * @since 1.7.1 (1.7.0 unfortunately had a typo in method name!)
          */
         public SerializationConfig getSerializationConfig();
-
-        /**
-         * @deprecated Typo in method name included in 1.7.0; with 1.7.1 and
-         *    above, please use correctly named {@link #getSerializationConfig()}.
-         */
-        @Deprecated
-        public SerializationConfig getSeserializationConfig();
         
         /*
         /**********************************************************
@@ -112,6 +106,15 @@ public abstract class Module
          *   by module (null returned for non-supported types)
          */
         public void addDeserializers(Deserializers d);
+
+        /**
+         * Method that module can use to register additional deserializers to use for
+         * handling Map key values (which are separate from value deserializers because
+         * they are always serialized from String values)
+         *
+         * @since 1.8
+         */
+        public void addKeyDeserializers(KeyDeserializers s);
         
         /**
          * Method that module can use to register additional serializers to use for
@@ -122,6 +125,15 @@ public abstract class Module
          */
         public void addSerializers(Serializers s);
 
+        /**
+         * Method that module can use to register additional serializers to use for
+         * handling Map key values (which are separate from value serializers because
+         * they must write <code>JsonToken.FIELD_NAME</code> instead of String value).
+         *
+         * @since 1.8
+         */
+        public void addKeySerializers(Serializers s);
+        
         /**
          * Method that module can use to register additional modifier objects to
          * customize configuration and construction of bean deserializers.
@@ -137,6 +149,28 @@ public abstract class Module
          * @param mod Modifier to register
          */
         public void addBeanSerializerModifier(BeanSerializerModifier mod);
+
+        /**
+         * Method that module can use to register additional
+         * {@link AbstractTypeResolver} instance, to handle resolution of
+         * abstract to concrete types (either by defaulting, or by materializing).
+         * 
+         * @param resolver Resolver to add.
+         * 
+         * @since 1.8
+         */
+        public void addAbstractTypeResolver(AbstractTypeResolver resolver);
+
+        /**
+         * Method that module can use to register additional
+         * {@link TypeModifier} instance, which can augment {@link org.codehaus.jackson.type.JavaType}
+         * instances constructed by {@link org.codehaus.jackson.map.type.TypeFactory}.
+         * 
+         * @param modifier to add
+         * 
+         * @since 1.8
+         */
+        public void addTypeModifier(TypeModifier modifier);
         
         /**
          * Method for registering specified {@link AnnotationIntrospector} as the highest

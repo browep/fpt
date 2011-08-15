@@ -93,7 +93,6 @@ public class StdSerializers
     
         @Override
         public JsonNode getSchema(SerializerProvider provider, Type typeHint)
-            throws JsonMappingException
         {
             /*(ryan) it may not, in fact, be optional, but there's no way
              * to tell whether we're referencing a boolean or java.lang.Boolean.
@@ -159,7 +158,6 @@ public class StdSerializers
     
         @Override
         public JsonNode getSchema(SerializerProvider provider, Type typeHint)
-                throws JsonMappingException
         {
             return createSchemaNode("integer", true);
         }
@@ -187,7 +185,6 @@ public class StdSerializers
     
         @Override
         public JsonNode getSchema(SerializerProvider provider, Type typeHint)
-                throws JsonMappingException
         {
             return createSchemaNode("integer", true);
         }
@@ -291,10 +288,16 @@ public class StdSerializers
             /* These shouldn't match (as there are more specific ones),
              * but just to be sure:
              */
+            } else if (value instanceof Integer) {
+                jgen.writeNumber(value.intValue());
+            } else if (value instanceof Long) {
+                jgen.writeNumber(value.longValue());
             } else if (value instanceof Double) {
-                jgen.writeNumber(((Double) value).doubleValue());
+                jgen.writeNumber(value.doubleValue());
             } else if (value instanceof Float) {
-                jgen.writeNumber(((Float) value).floatValue());
+                jgen.writeNumber(value.floatValue());
+            } else if ((value instanceof Byte) || (value instanceof Short)) {
+                jgen.writeNumber(value.intValue()); // doesn't need to be cast to smaller numbers
             } else {
                 // We'll have to use fallback "untyped" number write method
                 jgen.writeNumber(value.toString());
@@ -364,7 +367,6 @@ public class StdSerializers
 
         @Override
         public JsonNode getSchema(SerializerProvider provider, Type typeHint)
-                throws JsonMappingException
         {
             //todo: (ryan) add a format for the date in the schema?
             return createSchemaNode(provider.isEnabled(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS)
@@ -499,7 +501,8 @@ public class StdSerializers
                     throw new IllegalStateException(e);
                 }
             }
-            objectNode.put("optional", true);
+            // always optional, no need to specify:
+            //objectNode.put("required", false);
             return objectNode;
         }
     }
@@ -544,7 +547,7 @@ public class StdSerializers
             String objectProperties = null;
             String itemDefinition = null;
             if (typeHint != null) {
-                Class<?> rawClass = TypeFactory.type(typeHint).getRawClass();
+                Class<?> rawClass = TypeFactory.rawClass(typeHint);
                 if (rawClass.isAnnotationPresent(JsonSerializableSchema.class)) {
                     JsonSerializableSchema schemaInfo = rawClass.getAnnotation(JsonSerializableSchema.class);
                     schemaType = schemaInfo.schemaType();
@@ -571,7 +574,8 @@ public class StdSerializers
                     throw new IllegalStateException(e);
                 }
             }
-            objectNode.put("optional", true);
+            // always optional, no need to specify:
+            //objectNode.put("required", false);
             return objectNode;
         }
     }

@@ -10,7 +10,6 @@ import org.codehaus.jackson.map.annotate.JsonCachable;
 import org.codehaus.jackson.map.deser.impl.BeanPropertyMap;
 import org.codehaus.jackson.map.introspect.AnnotatedClass;
 import org.codehaus.jackson.map.type.ClassKey;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.map.util.ClassUtil;
 import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.util.TokenBuffer;
@@ -527,6 +526,12 @@ public class BeanDeserializer
     	if (_delegatingCreator != null) {
     	    return _delegatingCreator.deserialize(jp, ctxt);
     	}
+    	// [JACKSON-204]: allow "" as null equivalent for POJOs...
+    	if (ctxt.isEnabled(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)) {
+    	    if (jp.getTextLength() == 0) {
+    	        return null;
+    	    }
+    	}
         throw ctxt.instantiationException(getBeanClass(), "no suitable creator method found to deserialize from JSON String");
     }
 
@@ -554,7 +559,7 @@ public class BeanDeserializer
     	    try {
     	        return _delegatingCreator.deserialize(jp, ctxt);
             } catch (Exception e) {
-                wrapAndThrow(e, _beanType.getRawClass(), null, ctxt);
+                wrapInstantiationProblem(e, ctxt);
             }
     	}
     	throw ctxt.mappingException(getBeanClass());
@@ -640,7 +645,7 @@ public class BeanDeserializer
         try {
             bean =  creator.build(buffer);
         } catch (Exception e) {
-            wrapAndThrow(e, _beanType.getRawClass(), null, ctxt);
+            wrapInstantiationProblem(e, ctxt);
             return null; // never gets here
         }
         if (unknown != null) {
@@ -767,7 +772,7 @@ public class BeanDeserializer
         // If not, maybe we can locate one. First, need provider
         DeserializerProvider deserProv = ctxt.getDeserializerProvider();
         if (deserProv != null) {
-            JavaType type = TypeFactory.type(bean.getClass());
+            JavaType type = ctxt.constructType(bean.getClass());
             /* 09-Dec-2010, tatu: Would be nice to know which property pointed to this
              *    bean... but, alas, no such information is retained, so:
              */
@@ -876,6 +881,28 @@ public class BeanDeserializer
         throw JsonMappingException.wrapWithPath(t, bean, index);
     }
 
+    protected void wrapInstantiationProblem(Throwable t, DeserializationContext ctxt)
+        throws IOException
+    {
+        while (t instanceof InvocationTargetException && t.getCause() != null) {
+            t = t.getCause();
+        }
+        // Errors and "plain" IOExceptions to be passed as is
+        if (t instanceof Error) {
+            throw (Error) t;
+        }
+        boolean wrap = (ctxt == null) || ctxt.isEnabled(DeserializationConfig.Feature.WRAP_EXCEPTIONS);
+        if (t instanceof IOException) {
+            // Since we have no more information to add, let's not actually wrap..
+            throw (IOException) t;
+        } else if (!wrap) { // [JACKSON-407] -- allow disabling wrapping for unchecked exceptions
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            }
+        }
+        throw ctxt.instantiationException(_beanType.getRawClass(), t);
+    }
+    
     /**
      * @deprecated Since 1.7 use variant that takes {@link DeserializationContext}
      */

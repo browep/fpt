@@ -1,6 +1,7 @@
 package org.codehaus.jackson.map;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Date;
 
 import org.codehaus.jackson.*;
@@ -21,7 +22,7 @@ import org.codehaus.jackson.type.JavaType;
  */
 public abstract class SerializerProvider
 {
-    protected final static JavaType TYPE_OBJECT = TypeFactory.type(Object.class);
+    protected final static JavaType TYPE_OBJECT = TypeFactory.defaultInstance().uncheckedSimpleType(Object.class);
     
     /**
      * Serialization configuration to use for serialization processing.
@@ -39,6 +40,44 @@ public abstract class SerializerProvider
         _serializationView = (config == null) ? null : _config.getSerializationView();
     }
 
+    /*
+    /**********************************************************
+    /* Methods for configuring default settings
+    /**********************************************************
+     */
+
+    /**
+     * Method that can be used to specify serializer that will be
+     * used to write JSON property names matching null keys for Java
+     * Maps (which will throw an exception if try write such property
+     * name)
+     * 
+     * @since 1.8
+     */
+    public abstract void setNullKeySerializer(JsonSerializer<Object> nks);
+
+    /**
+     * Method that can be used to specify serializer that will be
+     * used to write JSON values matching Java null values
+     * instead of default one (which simply writes JSON null)
+     * 
+     * @since 1.8
+     */
+    public abstract void setNullValueSerializer(JsonSerializer<Object> nvs);
+    
+    /**
+     * Method that can be used to specify serializer to use for serializing
+     * all non-null JSON property names, unless more specific key serializer
+     * is found (i.e. if not custom key serializer has been registered for
+     * Java type).
+     *<p>
+     * Note that key serializer registration are different from value serializer
+     * registrations.
+     * 
+     * @since 1.8
+     */
+    public abstract void setDefaultKeySerializer(JsonSerializer<Object> ks);
+    
     /*
     /**********************************************************
     /* Methods that ObjectMapper will call
@@ -89,7 +128,7 @@ public abstract class SerializerProvider
      * implementations are to swallow exceptions if necessary.
      */
     public abstract boolean hasSerializerFor(SerializationConfig cfg,
-                                             Class<?> cls, SerializerFactory jsf);
+            Class<?> cls, SerializerFactory jsf);
 
     /*
     /**********************************************************
@@ -135,6 +174,13 @@ public abstract class SerializerProvider
      */
     public final FilterProvider getFilterProvider() {
         return _config.getFilterProvider();
+    }
+
+    /**
+     * @since 1.8
+     */
+    public JavaType constructType(Type type) {
+         return _config.getTypeFactory().constructType(type);
     }
     
     /*
@@ -224,14 +270,16 @@ public abstract class SerializerProvider
      *<p>
      * Note that the serializer itself can be called with instances
      * of any Java object, but not nulls.
+     * 
+     * @since 1.8
      */
-    public abstract JsonSerializer<Object> getKeySerializer(JavaType keyType,
+    public abstract JsonSerializer<Object> findKeySerializer(JavaType keyType,
             BeanProperty property)
         throws JsonMappingException;
 
     /*
     /**********************************************************
-    /* Deprecated serializer locating functionality (as of 1.7)
+    /* Deprecated serializer locating functionality
     /**********************************************************
      */
 
@@ -309,7 +357,21 @@ public abstract class SerializerProvider
     public final JsonSerializer<Object> getKeySerializer()
         throws JsonMappingException
     {
-        return getKeySerializer(TYPE_OBJECT, null);
+        return findKeySerializer(TYPE_OBJECT, null);
+    }
+
+    /**
+     * Deprecated version of accessor method that was used before version 1.8;
+     * renamed as {@link #findKeySerializer}, since process is now
+     * more complicated than simple lookup.
+     *
+     * @deprecated As of version 1.8
+     */
+    @Deprecated
+    public final JsonSerializer<Object> getKeySerializer(JavaType valueType, BeanProperty property)
+        throws JsonMappingException
+    {
+        return findKeySerializer(valueType, property);
     }
     
     /*
@@ -458,5 +520,4 @@ public abstract class SerializerProvider
      * @since 1.4
      */
     public abstract void flushCachedSerializers();
-
 }

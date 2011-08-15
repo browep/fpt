@@ -3,13 +3,19 @@ package org.codehaus.jackson.map.jsontype.impl;
 import java.util.*;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.map.MapperConfig;
+import org.codehaus.jackson.map.introspect.BasicBeanDescription;
 import org.codehaus.jackson.map.jsontype.NamedType;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 
 public class TypeNameIdResolver
     extends TypeIdResolverBase
 {
+    /**
+     * @since 1.8
+     */
+    protected final MapperConfig<?> _config;
+    
     /**
      * Mappings from class name to type id, used for serialization
      */
@@ -20,21 +26,21 @@ public class TypeNameIdResolver
      */
     protected final HashMap<String, JavaType> _idToType;
     
-    protected TypeNameIdResolver(JavaType baseType,
-            HashMap<String, String> typeToId,
-            HashMap<String, JavaType> idToType)
+    protected TypeNameIdResolver(MapperConfig<?> config, JavaType baseType,
+            HashMap<String, String> typeToId, HashMap<String, JavaType> idToType)
     {
-        super(baseType);
+        super(baseType, config.getTypeFactory());
+        _config = config;
         _typeToId = typeToId;
         _idToType = idToType;
     }
  
-    public static TypeNameIdResolver construct(JavaType baseType,
+    public static TypeNameIdResolver construct(MapperConfig<?> config,
+            JavaType baseType,
             Collection<NamedType> subtypes, boolean forSer, boolean forDeser)
     {
         // sanity check
         if (forSer == forDeser) throw new IllegalArgumentException();
-        
         HashMap<String, String> typeToId = null;
         HashMap<String, JavaType> idToType = null;
 
@@ -53,32 +59,58 @@ public class TypeNameIdResolver
                 String id = t.hasName() ? t.getName() : _defaultTypeId(cls);
                 if (forSer) {
                     typeToId.put(cls.getName(), id);
-               }
+                }
                 if (forDeser) {
-                    // In case of name collisions, let's make sure first one wins:
-                    if (!idToType.containsKey(id)) {
-                        idToType.put(id, TypeFactory.type(cls));
+                    /* 24-Feb-2011, tatu: [JACKSON-498] One more problem; sometimes
+                     *   we have same name for multiple types; if so, use most specific
+                     *   one.
+                     */
+                    JavaType prev = idToType.get(id);
+                    if (prev != null) { // Can only override if more specific
+                        if (cls.isAssignableFrom(prev.getRawClass())) { // nope, more generic (or same)
+                            continue;
+                        }
                     }
+                    idToType.put(id, config.constructType(cls));
                 }
             }
         }
-        return new TypeNameIdResolver(baseType, typeToId, idToType);
+        return new TypeNameIdResolver(config, baseType, typeToId, idToType);
     }
 
     public JsonTypeInfo.Id getMechanism() { return JsonTypeInfo.Id.NAME; }
-    
+
+    //@Override
     public String idFromValue(Object value)
     {
         Class<?> cls = value.getClass();
-        String name = _typeToId.get(cls.getName());
-        // can either throw an exception, or use default name...
-        if (name == null) {
-            // let's choose default?
-            name = _defaultTypeId(cls);
+        final String key = cls.getName();
+        String name;
+        synchronized (_typeToId) {
+            name = _typeToId.get(key);
+            if (name == null) {
+                // 24-Feb-2011, tatu: As per [JACKSON-498], may need to dynamically look up name
+                // can either throw an exception, or use default name...
+                if (_config.isAnnotationProcessingEnabled()) {
+                    BasicBeanDescription beanDesc = _config.introspectClassAnnotations(cls);
+                    name = _config.getAnnotationIntrospector().findTypeName(beanDesc.getClassInfo());
+                }
+                if (name == null) {
+                    // And if still not found, let's choose default?
+                    name = _defaultTypeId(cls);
+                }
+                _typeToId.put(key, name);
+            }
         }
         return name;
     }
 
+    //@Override
+    public String idFromValueAndType(Object value, Class<?> type)
+    {
+        return idFromValue(value);
+    }
+    
     public JavaType typeFromId(String id)
         throws IllegalArgumentException
     {

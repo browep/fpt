@@ -94,8 +94,20 @@ public class StdDeserializerProvider
     }
 
     @Override
+    public DeserializerProvider withAdditionalKeyDeserializers(KeyDeserializers d) {
+        _factory = _factory.withAdditionalKeyDeserializers(d);
+        return this;
+    }
+    
+    @Override
     public DeserializerProvider withDeserializerModifier(BeanDeserializerModifier modifier) {
         _factory = _factory.withDeserializerModifier(modifier);
+        return this;
+    }
+
+    @Override
+    public DeserializerProvider withAbstractTypeResolver(AbstractTypeResolver resolver) {
+        _factory = _factory.withAbstractTypeResolver(resolver);
         return this;
     }
     
@@ -149,35 +161,44 @@ public class StdDeserializerProvider
         }
         return deser;
     }
-    
-    
+
     @Override
     public KeyDeserializer findKeyDeserializer(DeserializationConfig config,
             JavaType type, BeanProperty property)
         throws JsonMappingException
     {
-        // No serializer needed if it's plain old String, or Object/untyped
-        Class<?> raw = type.getRawClass();
-        if (raw == String.class || raw == Object.class) {
-            return null;
+        // 1.8: check if there are custom key deserializers...
+        KeyDeserializer kd = _factory.createKeyDeserializer(config, type, property);
+        if (kd == null) {
+            // No serializer needed if it's plain old String, or Object/untyped
+            Class<?> raw = type.getRawClass();
+            if (raw == String.class || raw == Object.class) {
+                return null;
+            }
+            // Most other keys are of limited number of static types
+            KeyDeserializer kdes = _keyDeserializers.get(type);
+            if (kdes != null) {
+                return kdes;
+            }
+            // And then other one-offs; first, Enum:
+            if (type.isEnumType()) {
+                return StdKeyDeserializers.constructEnumKeyDeserializer(config, type);
+            }
+            // One more thing: can we find ctor(String) or valueOf(String)?
+            kdes = StdKeyDeserializers.findStringBasedKeyDeserializer(config, type);
+            if (kdes != null) {
+                return kdes;
+            }
+            if (kd == null) {
+                // otherwise, will probably fail:
+                return _handleUnknownKeyDeserializer(type);
+            }
         }
-        // Most other keys are of limited number of static types
-        KeyDeserializer kdes = _keyDeserializers.get(type);
-        if (kdes != null) {
-            return kdes;
+        // One more thing: contextuality:
+        if (kd instanceof ContextualKeyDeserializer) {
+            kd = ((ContextualKeyDeserializer) kd).createContextual(config, property);
         }
-        // And then other one-offs; first, Enum:
-        if (type.isEnumType()) {
-            return StdKeyDeserializers.constructEnumKeyDeserializer(config, type);
-        }
-        // One more thing: can we find ctor(String) or valueOf(String)?
-        kdes = StdKeyDeserializers.findStringBasedKeyDeserializer(config, type);
-        if (kdes != null) {
-            return kdes;
-        }
-
-        // otherwise, will probably fail:
-        return _handleUnknownKeyDeserializer(type);
+        return kd;
     }
 
     /**
@@ -300,12 +321,15 @@ public class StdDeserializerProvider
         boolean isResolvable = (deser instanceof ResolvableDeserializer);
         boolean addToCache = (deser.getClass() == BeanDeserializer.class);
         if (!addToCache) {
-            AnnotationIntrospector aintr = config.getAnnotationIntrospector();
-            // note: pass 'null' to prevent mix-ins from being used
-            AnnotatedClass ac = AnnotatedClass.construct(deser.getClass(), aintr, null);
-            Boolean cacheAnn = aintr.findCachability(ac);
-            if (cacheAnn != null) {
-                addToCache = cacheAnn.booleanValue();
+            // 14-Feb-2011, tatu: As per [JACKSON-487], try fully blocking annotation access:
+            if (config.isEnabled(DeserializationConfig.Feature.USE_ANNOTATIONS)) {
+                AnnotationIntrospector aintr = config.getAnnotationIntrospector();
+                // note: pass 'null' to prevent mix-ins from being used
+                AnnotatedClass ac = AnnotatedClass.construct(deser.getClass(), aintr, null);
+                Boolean cacheAnn = aintr.findCachability(ac);
+                if (cacheAnn != null) {
+                    addToCache = cacheAnn.booleanValue();
+                }
             }
         }
         /* we will temporarily hold on to all created deserializers (to
@@ -343,17 +367,27 @@ public class StdDeserializerProvider
             return (JsonDeserializer<Object>) _factory.createEnumDeserializer(config, this, type, property);
         }
         if (type.isContainerType()) {
-            if (type instanceof ArrayType) {
+            if (type.isArrayType()) {
                 return (JsonDeserializer<Object>)_factory.createArrayDeserializer(config, this,
                         (ArrayType) type, property);
             }
-            if (type instanceof MapType) {
-                return (JsonDeserializer<Object>)_factory.createMapDeserializer(config, this,
-                        (MapType) type, property);
+            if (type.isMapLikeType()) {
+                MapLikeType mlt = (MapLikeType) type;
+                if (mlt.isTrueMapType()) {
+                    return (JsonDeserializer<Object>)_factory.createMapDeserializer(config, this,
+                            (MapType) mlt, property);
+                }
+                return (JsonDeserializer<Object>)_factory.createMapLikeDeserializer(config, this,
+                        mlt, property);
             }
-            if (type instanceof CollectionType) {
-                return (JsonDeserializer<Object>)_factory.createCollectionDeserializer(config, this,
-                        (CollectionType) type, property);
+            if (type.isCollectionLikeType()) {
+                CollectionLikeType clt = (CollectionLikeType) type;
+                if (clt.isTrueCollectionType()) {
+                    return (JsonDeserializer<Object>)_factory.createCollectionDeserializer(config, this,
+                            (CollectionType) clt, property);
+                }
+                return (JsonDeserializer<Object>)_factory.createCollectionLikeDeserializer(config, this,
+                        clt, property);
             }
         }
 

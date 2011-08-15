@@ -14,7 +14,6 @@ import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.io.NumberInput;
 import org.codehaus.jackson.map.*;
 import org.codehaus.jackson.map.annotate.JacksonStdImpl;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.util.TokenBuffer;
 
@@ -84,7 +83,7 @@ public abstract class StdDeserializer<T>
      * inclusion mechanism. Sub-classes are expected to override
      * this method if they are to handle type information.
      */
-    @Override
+    
     public Object deserializeWithType(JsonParser jp, DeserializationContext ctxt,
             TypeDeserializer typeDeserializer)
         throws IOException, JsonProcessingException
@@ -432,7 +431,7 @@ public abstract class StdDeserializer<T>
                 break;
             }
             try {
-                return Double.parseDouble(text);
+                return parseDouble(text);
             } catch (IllegalArgumentException iae) { }
             throw ctxt.weirdStringException(_valueClass, "not a valid Double value");
         }
@@ -476,7 +475,7 @@ public abstract class StdDeserializer<T>
                 break;
             }
             try {
-                return Double.parseDouble(text);
+                return parseDouble(text);
             } catch (IllegalArgumentException iae) { }
             throw ctxt.weirdStringException(_valueClass, "not a valid double value");
         }
@@ -512,6 +511,22 @@ public abstract class StdDeserializer<T>
         }
     }
 
+    /**
+     * Helper method for encapsulating calls to low-level double value parsing; single place
+     * just because we need a work-around that must be applied to all calls.
+     *<p>
+     * Note: copied from <code>org.codehaus.jackson.io.NumberUtil</code> (to avoid dependency to
+     * version 1.8; except for String constants, but that gets compiled in bytecode here)
+     */
+    protected final static double parseDouble(String numStr) throws NumberFormatException
+    {
+        // [JACKSON-486]: avoid some nasty float representations... but should it be MIN_NORMAL or MIN_VALUE?
+        if (NumberInput.NASTY_SMALL_DOUBLE.equals(numStr)) {
+            return Double.MIN_VALUE;
+        }
+        return Double.parseDouble(numStr);
+    }
+    
     /*
     /****************************************************
     /* Helper methods for sub-classes, resolving dependencies
@@ -610,7 +625,7 @@ public abstract class StdDeserializer<T>
             _nullValue = nvl;
         }
         
-        @Override
+        
         public final T getNullValue() {
             return _nullValue;
         }
@@ -628,7 +643,7 @@ public abstract class StdDeserializer<T>
     {
         public StringDeserializer() { super(String.class); }
 
-        @Override
+        
         public String deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -658,7 +673,7 @@ public abstract class StdDeserializer<T>
 
         // 1.6: since we can never have type info ("natural type"; String, Boolean, Integer, Double):
         // (is it an error to even call this version?)
-        @Override
+        
         public String deserializeWithType(JsonParser jp, DeserializationContext ctxt,
                 TypeDeserializer typeDeserializer)
             throws IOException, JsonProcessingException
@@ -673,13 +688,26 @@ public abstract class StdDeserializer<T>
     {
         public ClassDeserializer() { super(Class.class); }
 
-        @Override
+        
             public Class<?> deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
             JsonToken curr = jp.getCurrentToken();
             // Currently will only accept if given simple class name
             if (curr == JsonToken.VALUE_STRING) {
+                String className = jp.getText();
+                // [JACKSON-597]: support primitive types (and void)
+                if (className.indexOf('.') < 0) {
+                    if ("int".equals(className)) return Integer.TYPE;
+                    if ("long".equals(className)) return Long.TYPE;
+                    if ("float".equals(className)) return Float.TYPE;
+                    if ("double".equals(className)) return Double.TYPE;
+                    if ("boolean".equals(className)) return Boolean.TYPE;
+                    if ("byte".equals(className)) return Byte.TYPE;
+                    if ("char".equals(className)) return Character.TYPE;
+                    if ("short".equals(className)) return Short.TYPE;
+                    if ("void".equals(className)) return Void.TYPE;
+                }
                 try {
                     return Class.forName(jp.getText());
                 } catch (ClassNotFoundException e) {
@@ -705,7 +733,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
         
-        @Override
+        
 	public Boolean deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -714,7 +742,7 @@ public abstract class StdDeserializer<T>
 
         // 1.6: since we can never have type info ("natural type"; String, Boolean, Integer, Double):
         // (is it an error to even call this version?)
-        @Override
+        
         public Boolean deserializeWithType(JsonParser jp, DeserializationContext ctxt,
                 TypeDeserializer typeDeserializer)
             throws IOException, JsonProcessingException
@@ -732,7 +760,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
 
-        @Override
+        
         public Byte deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -754,7 +782,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
 
-        @Override
+        
         public Short deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -771,7 +799,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
 
-        @Override
+        
         public Character deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -803,7 +831,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
 
-        @Override
+        
         public Integer deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -812,7 +840,7 @@ public abstract class StdDeserializer<T>
 
         // 1.6: since we can never have type info ("natural type"; String, Boolean, Integer, Double):
         // (is it an error to even call this version?)
-        @Override
+        
         public Integer deserializeWithType(JsonParser jp, DeserializationContext ctxt,
                 TypeDeserializer typeDeserializer)
             throws IOException, JsonProcessingException
@@ -830,7 +858,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
 
-        @Override
+        
         public Long deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -847,7 +875,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
 
-        @Override
+        
         public Float deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -867,7 +895,7 @@ public abstract class StdDeserializer<T>
             super(cls, nvl);
         }
 
-        @Override
+        
         public Double deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -876,7 +904,7 @@ public abstract class StdDeserializer<T>
 
         // 1.6: since we can never have type info ("natural type"; String, Boolean, Integer, Double):
         // (is it an error to even call this version?)
-        @Override
+        
         public Double deserializeWithType(JsonParser jp, DeserializationContext ctxt,
                 TypeDeserializer typeDeserializer)
             throws IOException, JsonProcessingException
@@ -901,7 +929,7 @@ public abstract class StdDeserializer<T>
     {
         public NumberDeserializer() { super(Number.class); }
 
-        @Override
+        
         public Number deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -957,7 +985,7 @@ public abstract class StdDeserializer<T>
          * we must actually check for "raw" integers and doubles first, before
          * calling type deserializer.
          */
-        @Override
+        
         public Object deserializeWithType(JsonParser jp, DeserializationContext ctxt,
                                           TypeDeserializer typeDeserializer)
             throws IOException, JsonProcessingException
@@ -987,7 +1015,7 @@ public abstract class StdDeserializer<T>
     {
         public AtomicBooleanDeserializer() { super(AtomicBoolean.class); }
         
-        @Override
+        
         public AtomicBoolean deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -1010,28 +1038,23 @@ public abstract class StdDeserializer<T>
         protected JsonDeserializer<?> _valueDeserializer;
         
         /**
-         * @param type AtomicReference deserializer is to be constructed for
+         * @param referencedType Parameterization of this reference
          */
-        public AtomicReferenceDeserializer(JavaType type, BeanProperty property)
+        public AtomicReferenceDeserializer(JavaType referencedType, BeanProperty property)
         {
-            super(type.getRawClass());
-            JavaType[] refTypes = TypeFactory.findParameterTypes(type, AtomicReference.class);
-            if (refTypes == null) { // untyped (raw)
-                _referencedType = TypeFactory.type(Object.class);
-            } else {
-                _referencedType = refTypes[0];
-            }
+            super(AtomicReference.class);
+            _referencedType = referencedType;
             _property = property;
         }
 
-        @Override
+        
         public AtomicReference<?> deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
             return new AtomicReference<Object>(_valueDeserializer.deserialize(jp, ctxt));
         }
 
-        @Override
+        
         public void resolve(DeserializationConfig config, DeserializerProvider provider)
             throws JsonMappingException
         {
@@ -1052,7 +1075,7 @@ public abstract class StdDeserializer<T>
     {
         public BigDecimalDeserializer() { super(BigDecimal.class); }
 
-        @Override
+        
 	public BigDecimal deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -1087,7 +1110,7 @@ public abstract class StdDeserializer<T>
     {
         public BigIntegerDeserializer() { super(BigInteger.class); }
 
-        @Override
+        
 		public BigInteger deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -1143,7 +1166,7 @@ public abstract class StdDeserializer<T>
             _calendarClass = cc;
         }
 
-        @Override
+        
         public Calendar deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -1173,7 +1196,7 @@ public abstract class StdDeserializer<T>
     {
         public SqlDateDeserializer() { super(java.sql.Date.class); }
 
-        @Override
+        
         public java.sql.Date deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -1193,7 +1216,7 @@ public abstract class StdDeserializer<T>
     {
         public StackTraceElementDeserializer() { super(StackTraceElement.class); }
 
-        @Override
+        
         public StackTraceElement deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {
@@ -1245,7 +1268,7 @@ public abstract class StdDeserializer<T>
     {
         public TokenBufferDeserializer() { super(TokenBuffer.class); }
 
-        @Override
+        
         public TokenBuffer deserialize(JsonParser jp, DeserializationContext ctxt)
             throws IOException, JsonProcessingException
         {

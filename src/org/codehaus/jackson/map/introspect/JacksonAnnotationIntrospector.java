@@ -10,20 +10,13 @@ import org.codehaus.jackson.map.BeanProperty;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.KeyDeserializer;
-import org.codehaus.jackson.map.annotate.JsonCachable;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonFilter;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonTypeIdResolver;
-import org.codehaus.jackson.map.annotate.JsonTypeResolver;
-import org.codehaus.jackson.map.annotate.JsonView;
-import org.codehaus.jackson.map.annotate.NoClass;
+import org.codehaus.jackson.map.MapperConfig;
+import org.codehaus.jackson.map.annotate.*;
 import org.codehaus.jackson.map.jsontype.NamedType;
 import org.codehaus.jackson.map.jsontype.TypeIdResolver;
 import org.codehaus.jackson.map.jsontype.TypeResolverBuilder;
 import org.codehaus.jackson.map.jsontype.impl.StdTypeResolverBuilder;
 import org.codehaus.jackson.map.ser.impl.RawSerializer;
-import org.codehaus.jackson.map.util.ClassUtil;
 import org.codehaus.jackson.type.JavaType;
 
 /**
@@ -164,32 +157,35 @@ public class JacksonAnnotationIntrospector
     /* Class annotations for PM type handling (1.5+)
     /**********************************************************
      */
-    
+
     @Override
-    public TypeResolverBuilder<?> findTypeResolver(AnnotatedClass ac, JavaType baseType)
+    public TypeResolverBuilder<?> findTypeResolver(MapperConfig<?> config,
+            AnnotatedClass ac, JavaType baseType)
     {
-        return _findTypeResolver(ac, baseType);
+        return _findTypeResolver(config, ac, baseType);
     }
 
     /**
      * Since 1.7, it is possible to use {@link JsonTypeInfo} from a property too.
      */
     @Override
-    public TypeResolverBuilder<?> findPropertyTypeResolver(AnnotatedMember am, JavaType baseType)
+    public TypeResolverBuilder<?> findPropertyTypeResolver(MapperConfig<?> config,
+            AnnotatedMember am, JavaType baseType)
     {
         /* As per definition of @JsonTypeInfo, should only apply to contents of container
          * (collection, map) types, not container types themselves:
          */
         if (baseType.isContainerType()) return null;
         // No per-member type overrides (yet)
-        return _findTypeResolver(am, baseType);
+        return _findTypeResolver(config, am, baseType);
     }
 
     /**
      * Since 1.7, it is possible to use {@link JsonTypeInfo} from a property too.
      */
     @Override
-    public TypeResolverBuilder<?> findPropertyContentTypeResolver(AnnotatedMember am, JavaType containerType)
+    public TypeResolverBuilder<?> findPropertyContentTypeResolver(MapperConfig<?> config,
+            AnnotatedMember am, JavaType containerType)
     {
         /* First: let's ensure property is a container type: caller should have
          * verified but just to be sure
@@ -197,7 +193,7 @@ public class JacksonAnnotationIntrospector
         if (!containerType.isContainerType()) {
             throw new IllegalArgumentException("Must call method with a container type (got "+containerType+")");
         }
-        return _findTypeResolver(am, containerType);
+        return _findTypeResolver(config, am, containerType);
     }
     
     @Override
@@ -267,7 +263,7 @@ public class JacksonAnnotationIntrospector
             }
         }
         
-        /* 18=Oct-2010, tatu: [JACKSON-351] @JsonRawValue handled just here, for now;
+        /* 18-Oct-2010, tatu: [JACKSON-351] @JsonRawValue handled just here, for now;
          *  if we need to get raw indicator from other sources need to add
          *  separate accessor within {@link AnnotationIntrospector} interface.
          */
@@ -280,6 +276,32 @@ public class JacksonAnnotationIntrospector
         return null;
     }
 
+    @Override
+    public Class<? extends JsonSerializer<?>> findKeySerializer(Annotated a)
+    {
+        JsonSerialize ann = a.getAnnotation(JsonSerialize.class);
+        if (ann != null) {
+            Class<? extends JsonSerializer<?>> serClass = ann.keyUsing();
+            if (serClass != JsonSerializer.None.class) {
+                return serClass;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Class<? extends JsonSerializer<?>> findContentSerializer(Annotated a)
+    {
+        JsonSerialize ann = a.getAnnotation(JsonSerialize.class);
+        if (ann != null) {
+            Class<? extends JsonSerializer<?>> serClass = ann.contentUsing();
+            if (serClass != JsonSerializer.None.class) {
+                return serClass;
+            }
+        }
+        return null;
+    }
+    
     @SuppressWarnings("deprecation")
     @Override
     public JsonSerialize.Inclusion findSerializationInclusion(Annotated a, JsonSerialize.Inclusion defValue)
@@ -302,10 +324,35 @@ public class JacksonAnnotationIntrospector
     @Override
     public Class<?> findSerializationType(Annotated am)
     {
-        // Primary annotation, JsonSerialize
         JsonSerialize ann = am.getAnnotation(JsonSerialize.class);
         if (ann != null) {
             Class<?> cls = ann.as();
+            if (cls != NoClass.class) {
+                return cls;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Class<?> findSerializationKeyType(Annotated am, JavaType baseType)
+    {
+        JsonSerialize ann = am.getAnnotation(JsonSerialize.class);
+        if (ann != null) {
+            Class<?> cls = ann.keyAs();
+            if (cls != NoClass.class) {
+                return cls;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Class<?> findSerializationContentType(Annotated am, JavaType baseType)
+    {
+        JsonSerialize ann = am.getAnnotation(JsonSerialize.class);
+        if (ann != null) {
+            Class<?> cls = ann.contentAs();
             if (cls != NoClass.class) {
                 return cls;
             }
@@ -661,7 +708,8 @@ public class JacksonAnnotationIntrospector
      * Helper method called to construct and initialize instance of {@link TypeResolverBuilder}
      * if given annotated element indicates one is needed.
      */
-    protected TypeResolverBuilder<?> _findTypeResolver(Annotated ann, JavaType baseType)
+    protected TypeResolverBuilder<?> _findTypeResolver(MapperConfig<?> config,
+            Annotated ann, JavaType baseType)
     {
         // First: maybe we have explicit type resolver?
         TypeResolverBuilder<?> b;
@@ -678,7 +726,7 @@ public class JacksonAnnotationIntrospector
              * settings through if we did, since that's not doable on some
              * platforms)
              */
-            b = ClassUtil.createInstance(resAnn.value(), false);
+            b = config.typeResolverBuilderInstance(ann, resAnn.value());
         } else { // if not, use standard one, if indicated by annotations
             if (info == null || info.use() == JsonTypeInfo.Id.NONE) {
                 return null;
@@ -688,7 +736,7 @@ public class JacksonAnnotationIntrospector
         // Does it define a custom type id resolver?
         JsonTypeIdResolver idResInfo = ann.getAnnotation(JsonTypeIdResolver.class);
         TypeIdResolver idRes = (idResInfo == null) ? null
-                : ClassUtil.createInstance(idResInfo.value(), true);
+                : config.typeIdResolverInstance(ann, idResInfo.value());
         if (idRes != null) { // [JACKSON-359]
             idRes.init(baseType);
         }

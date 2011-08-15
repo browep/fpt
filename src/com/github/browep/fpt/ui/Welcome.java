@@ -4,23 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
-import android.widget.Button;
-import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.UpdateImagesTask;
-import com.github.browep.fpt.dao.DaoAwareActivity;
-import com.github.browep.fpt.model.FptPicture;
-import com.github.browep.nosql.NoSqlSqliteOpener;
-import com.github.browep.fpt.util.Log;
 import com.github.browep.fpt.util.Util;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import static com.github.browep.fpt.C.*;
 
-public class Welcome extends DaoAwareActivity {
+public class Welcome extends FptActivity {
   private Welcome self = this;
 
   /**
@@ -30,7 +20,7 @@ public class Welcome extends DaoAwareActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    getDao().dumpDbToLog();
+//    getDao().dumpDbToLog();
 
     String state = Environment.getExternalStorageState();
     if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -39,7 +29,10 @@ public class Welcome extends DaoAwareActivity {
 
     setContentView(R.layout.main);
 
+    tutorialDialog(this.getString(R.string.welcome_message), "Welcome", WELCOME_DIALOG, Welcome.this);
+    
   }
+
 
 
   public void createWorkoutButtonOnClickListener(View view) {
@@ -65,7 +58,7 @@ public class Welcome extends DaoAwareActivity {
     // check to see if the SD-card is mounted
     String state = Environment.getExternalStorageState();
     if (!Environment.MEDIA_MOUNTED.equals(state)) {
-      Util.longToastMessage(self, C.SD_CARD_NOT_MOUNTED_MESSAGE);
+      Util.longToastMessage(self, SD_CARD_NOT_MOUNTED_MESSAGE);
     } else {
       Intent intent = new Intent();
       intent.setClass(self, TakeProgressPicture.class);
@@ -74,7 +67,7 @@ public class Welcome extends DaoAwareActivity {
   }
 
   public void sendReportOnClickListener(View view) {
-    if (getFptApplication().getPreferencesService().getBooleanPreference(C.AUTHORIZED_FOR_REPORT)) {
+    if (getFptApplication().getPreferencesService().getBooleanPreference(AUTHORIZED_FOR_REPORT)) {
 //      if(false){
       startActivity(new Intent(self, SendReport.class));
     } else {

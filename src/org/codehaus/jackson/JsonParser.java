@@ -31,11 +31,11 @@ import org.codehaus.jackson.type.TypeReference;
 public abstract class JsonParser
     implements Closeable, Versioned
 {
-    private final static int MIN_BYTE_I = (int) Byte.MIN_VALUE;
-    private final static int MAX_BYTE_I = (int) Byte.MAX_VALUE;
+    private final static int MIN_BYTE_I = Byte.MIN_VALUE;
+    private final static int MAX_BYTE_I = Byte.MAX_VALUE;
 
-    private final static int MIN_SHORT_I = (int) Short.MIN_VALUE;
-    private final static int MAX_SHORT_I = (int) Short.MAX_VALUE;
+    private final static int MIN_SHORT_I = Short.MIN_VALUE;
+    private final static int MAX_SHORT_I = Short.MAX_VALUE;
 
     /**
      * Enumeration of possible "native" (optimal) types that can be
@@ -49,6 +49,9 @@ public abstract class JsonParser
      * Enumeration that defines all togglable features for parsers.
      */
     public enum Feature {
+        
+        // // // Low-level I/O handling features:
+        
         /**
          * Feature that determines whether parser will automatically
          * close underlying input source that is NOT owned by the
@@ -63,6 +66,8 @@ public abstract class JsonParser
          */
         AUTO_CLOSE_SOURCE(true),
             
+        // // // Support for non-standard data format constructs
+
         /**
          * Feature that determines whether parser will allow use
          * of Java/C++ style comments (both '/'+'*' and
@@ -146,6 +151,42 @@ public abstract class JsonParser
         ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER(false),
 
         /**
+         * Feature that determines whether parser will allow
+         * JSON integral numbers to start with additional (ignorable) 
+         * zeroes (like: 000001). If enabled, no exception is thrown, and extra
+         * nulls are silently ignored (and not included in textual representation
+         * exposed via {@link JsonParser#getText}).
+         *<p>
+         * Since JSON specification does not allow leading zeroes,
+         * this is a non-standard feature, and as such disabled by default.
+         *<p>
+         * This feature can be changed for parser instances.
+         *
+         * @since 1.8
+         */
+        ALLOW_NUMERIC_LEADING_ZEROS(false),
+        
+        /**
+         * Feature that allows parser to recognize set of
+         * "Not-a-Number" (NaN) tokens as legal floating number
+         * values (similar to how many other data formats and
+         * programming language source code allows it).
+         * Specific subset contains values that
+         * <a href="http://www.w3.org/TR/xmlschema-2/">XML Schema</a>
+         * (see section 3.2.4.1, Lexical Representation)
+         * allows (tokens are quoted contents, not including quotes):
+         *<ul>
+         *  <li>"INF" (for positive infinity), as well as alias of "Infinity"
+         *  <li>"-INF" (for negative infinity), alias "-Infinity"
+         *  <li>"NaN" (for other not-a-numbers, like result of division by zero)
+         *</ul>
+         */
+
+         ALLOW_NON_NUMERIC_NUMBERS(false),
+        
+        // // // Controlling canonicalization (interning etc)
+        
+        /**
          * Feature that determines whether JSON object field names are
          * to be canonicalized using {@link String#intern} or not:
          * if enabled, all field names will be intern()ed (and caller
@@ -172,24 +213,6 @@ public abstract class JsonParser
          */
         CANONICALIZE_FIELD_NAMES(true),
 
-            // 14-Sep-2009, Tatu: This would be [JACKSON-142] implementation:
-        /*
-         * Feature that allows parser to recognize set of
-         * "Not-a-Number" (NaN) tokens as legal floating number
-         * values (similar to how many other data formats and
-         * programming language source code allows it).
-         * Specific subset contains values that
-         * <a href="http://www.w3.org/TR/xmlschema-2/">XML Schema</a>
-         * (see section 3.2.4.1, Lexical Representation)
-         * allows (tokens are quoted contents, not including quotes):
-         *<ul>
-         *  <li>"INF" (for positive infinity)
-         *  <li>"-INF" (for negative infinity)
-         *  <li>"NaN" (for other not-a-numbers, like result of division by zero)
-         *</ul>
-
-         ,ALLOW_NON_NUMERIC_NUMBERS(false),
-         */
 
             ;
 
@@ -256,7 +279,7 @@ public abstract class JsonParser
 
     /*
     /**********************************************************
-    /* Construction, init
+    /* Construction, configuration, initialization
     /**********************************************************
      */
 
@@ -284,10 +307,67 @@ public abstract class JsonParser
     public abstract void setCodec(ObjectCodec c);
 
     /**
+     * Method to call to make this parser use specified schema. Method must
+     * be called before trying to parse any content, right after parser instance
+     * has been created.
+     * Note that not all parsers support schemas; and those that do usually only
+     * accept specific types of schemas: ones defined for data format parser can read.
+     *<p>
+     * If parser does not support specified schema, {@link UnsupportedOperationException}
+     * is thrown.
+     * 
+     * @param schema Schema to use
+     * 
+     * @throws UnsupportedOperationException if parser does not support schema
+     * 
+     * @since 1.8
+     */
+    public void setSchema(FormatSchema schema)
+    {
+        throw new UnsupportedOperationException("Parser of type "+getClass().getName()+" does not support schema of type '"
+                +schema.getSchemaType()+"'");
+    }
+    
+    /**
+     * Method that can be used to verify that given schema can be used with
+     * this parser (using {@link #setSchema}).
+     * 
+     * @param schema Schema to check
+     * 
+     * @return True if this parser can use given schema; false if not
+     * 
+     * @since 1.8
+     */
+    public boolean canUseSchema(FormatSchema schema) {
+        return false;
+    }
+    
+    /**
      * @since 1.6
      */
     public Version version() {
         return Version.unknownVersion();
+    }
+
+    /**
+     * Method that can be used to get access to object that is used
+     * to access input being parsed; this is usually either
+     * {@link InputStream} or {@link Reader}, depending on what
+     * parser was constructed with.
+     * Note that returned value may be null in some cases; including
+     * case where parser implementation does not want to exposed raw
+     * source to caller.
+     * In cases where input has been decorated, object returned here
+     * is the decorated version; this allows some level of interaction
+     * between users of parser and decorator object.
+     *<p>
+     * In general use of this accessor should be considered as
+     * "last effort", i.e. only used if no other mechanism is applicable.
+     * 
+     * @since 1.8
+     */
+    public Object getInputSource() {
+        return null;
     }
     
     /*
@@ -473,8 +553,6 @@ public abstract class JsonParser
      *   or null to indicate end-of-input (or, for non-blocking
      *   parsers, {@link JsonToken#NOT_AVAILABLE} if no tokens were
      *   available yet)
-     *
-     * @since 0.9.7
      */
     public JsonToken nextValue()
         throws IOException, JsonParseException

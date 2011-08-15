@@ -4,10 +4,7 @@ import java.util.*;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.*;
-import org.codehaus.jackson.map.type.ArrayType;
-import org.codehaus.jackson.map.type.ClassKey;
-import org.codehaus.jackson.map.type.CollectionType;
-import org.codehaus.jackson.map.type.MapType;
+import org.codehaus.jackson.map.type.*;
 import org.codehaus.jackson.type.JavaType;
 
 /**
@@ -49,55 +46,84 @@ public class SimpleDeserializers implements Deserializers
     /**********************************************************
      */
     
-    @Override
+    
     public JsonDeserializer<?> findArrayDeserializer(ArrayType type,
             DeserializationConfig config, DeserializerProvider provider,
             BeanProperty property,
             TypeDeserializer elementTypeDeserializer,
             JsonDeserializer<?> elementDeserializer)
+        throws JsonMappingException
     {
         return (_classMappings == null) ? null : _classMappings.get(new ClassKey(type.getRawClass()));
     }
 
-    @Override
+    
     public JsonDeserializer<?> findBeanDeserializer(JavaType type,
             DeserializationConfig config, DeserializerProvider provider,
             BeanDescription beanDesc, BeanProperty property)
+        throws JsonMappingException
     {
         return (_classMappings == null) ? null : _classMappings.get(new ClassKey(type.getRawClass()));
     }
 
-    @Override
+    
     public JsonDeserializer<?> findCollectionDeserializer(CollectionType type,
             DeserializationConfig config, DeserializerProvider provider,
             BeanDescription beanDesc, BeanProperty property,
             TypeDeserializer elementTypeDeserializer,
             JsonDeserializer<?> elementDeserializer)
+        throws JsonMappingException
     {
         return (_classMappings == null) ? null : _classMappings.get(new ClassKey(type.getRawClass()));
     }
 
-    @Override
+    
+    public JsonDeserializer<?> findCollectionLikeDeserializer(CollectionLikeType type,
+            DeserializationConfig config, DeserializerProvider provider,
+            BeanDescription beanDesc, BeanProperty property,
+            TypeDeserializer elementTypeDeserializer,
+            JsonDeserializer<?> elementDeserializer)
+        throws JsonMappingException
+    {
+        return (_classMappings == null) ? null : _classMappings.get(new ClassKey(type.getRawClass()));
+    }
+    
+    
     public JsonDeserializer<?> findEnumDeserializer(Class<?> type,
             DeserializationConfig config, BeanDescription beanDesc, BeanProperty property)
+        throws JsonMappingException
     {
         return (_classMappings == null) ? null : _classMappings.get(new ClassKey(type));
     }
 
-    @Override
+    
     public JsonDeserializer<?> findMapDeserializer(MapType type,
             DeserializationConfig config, DeserializerProvider provider,
             BeanDescription beanDesc, BeanProperty property,
             KeyDeserializer keyDeserializer,
             TypeDeserializer elementTypeDeserializer,
             JsonDeserializer<?> elementDeserializer)
+        throws JsonMappingException
     {
         return (_classMappings == null) ? null : _classMappings.get(new ClassKey(type.getRawClass()));
     }
 
-    @Override
+    
+    public JsonDeserializer<?> findMapLikeDeserializer(MapLikeType type,
+            DeserializationConfig config, DeserializerProvider provider,
+            BeanDescription beanDesc, BeanProperty property,
+            KeyDeserializer keyDeserializer,
+            TypeDeserializer elementTypeDeserializer,
+            JsonDeserializer<?> elementDeserializer)
+        throws JsonMappingException
+    {
+        return (_classMappings == null) ? null : _classMappings.get(new ClassKey(type.getRawClass()));
+    }
+    
+    
     public JsonDeserializer<?> findTreeNodeDeserializer(Class<? extends JsonNode> nodeType,
             DeserializationConfig config, BeanProperty property)
+        throws JsonMappingException
     {
         return (_classMappings == null) ? null : _classMappings.get(new ClassKey(nodeType));
     }

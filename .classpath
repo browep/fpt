@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="lib" path="libs/AndroidPlot-0.3c-release.jar"/>
+	<classpathentry kind="lib" path="libs/apache-mime4j-0.6.1.jar"/>
+	<classpathentry kind="lib" path="libs/FlurryAgent.jar"/>
+	<classpathentry kind="lib" path="libs/httpmime-4.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/joda-time-1.6.2.jar"/>
+	<classpathentry kind="lib" path="libs/libGoogleAnalytics.jar"/>
+	<classpathentry kind="lib" path="libs/robolectric-0.9.8-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="libs/signpost-commonshttp4-1.2.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/signpost-core-1.2.1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

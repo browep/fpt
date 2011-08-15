@@ -133,7 +133,7 @@ public final class Base64Variant
 
         // Plus if we use padding, add that in too
         if (usesPadding) {
-            _asciiToBase64[(int) paddingChar] = BASE64_VALUE_PADDING;
+            _asciiToBase64[paddingChar] = BASE64_VALUE_PADDING;
         }
     }
 
@@ -177,7 +177,7 @@ public final class Base64Variant
 
     public boolean usesPadding() { return _usesPadding; }
     public boolean usesPaddingChar(char c) { return c == _paddingChar; }
-    public boolean usesPaddingChar(int ch) { return ch == (int) _paddingChar; }
+    public boolean usesPaddingChar(int ch) { return ch == _paddingChar; }
     public char getPaddingChar() { return _paddingChar; }
     public byte getPaddingByte() { return (byte)_paddingChar; }
 
@@ -194,7 +194,7 @@ public final class Base64Variant
      */
     public int decodeBase64Char(char c)
     {
-        int ch = (int) c;
+        int ch = c;
         return (ch <= 127) ? _asciiToBase64[ch] : BASE64_VALUE_INVALID;
     }
 
@@ -205,7 +205,7 @@ public final class Base64Variant
 
     public int decodeBase64Byte(byte b)
     {
-        int ch = (int) b;
+        int ch = b;
         return (ch <= 127) ? _asciiToBase64[ch] : BASE64_VALUE_INVALID;
     }
 
@@ -373,9 +373,9 @@ public final class Base64Variant
 
         while (inputPtr <= safeInputEnd) {
             // First, mash 3 bytes into lsb of 32-bit int
-            int b24 = ((int) input[inputPtr++]) << 8;
-            b24 |= ((int) input[inputPtr++]) & 0xFF;
-            b24 = (b24 << 8) | (((int) input[inputPtr++]) & 0xFF);
+            int b24 = input[inputPtr++] << 8;
+            b24 |= input[inputPtr++] & 0xFF;
+            b24 = (b24 << 8) | (input[inputPtr++] & 0xFF);
             encodeBase64Chunk(sb, b24);
             if (--chunksBeforeLF <= 0) {
                 // note: must quote in JSON value, so not really useful...
@@ -388,9 +388,9 @@ public final class Base64Variant
         // And then we may have 1 or 2 leftover bytes to encode
         int inputLeft = inputEnd - inputPtr; // 0, 1 or 2
         if (inputLeft > 0) { // yes, but do we have room for output?
-            int b24 = ((int) input[inputPtr++]) << 16;
+            int b24 = input[inputPtr++] << 16;
             if (inputLeft == 2) {
-                b24 |= (((int) input[inputPtr++]) & 0xFF) << 8;
+                b24 |= (input[inputPtr++] & 0xFF) << 8;
             }
             encodeBase64Partial(sb, b24, inputLeft);
         }

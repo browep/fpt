@@ -1,42 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+<LinearLayout android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_height="fill_parent"
+              style="@style/BaseScreen"
+              android:orientation="vertical">
+    <LinearLayout
             style="@style/BaseScreen"
-            android:orientation="vertical"
-        >
-    <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  style="@style/BaseScreen"
-                  android:orientation="vertical">
-        <LinearLayout
-                style="@style/BaseScreen"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                >
-            <TextView android:id="@+id/edit_data_title"
-                      style="@style/TitleText"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            >
+        <TextView android:id="@+id/edit_data_title"
+                  style="@style/TitleText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
 
-            <TextView android:id="@+id/edit_data_subtitle"
-                      style="@style/HelperText"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      style="@style/BaseScreen"
-                      android:id="@+id/edit_data_list"
-                      android:orientation="vertical"
-                >
-        </LinearLayout>
+        <TextView android:id="@+id/edit_data_subtitle"
+                  style="@style/HelperText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
     </LinearLayout>
 
 
-</ScrollView>
+    <ListView android:id="@+id/list"
+              android:layout_height="fill_parent"
+              android:layout_width="fill_parent"
+              android:divider="#FFFFFF"
+              style="@style/BaseObject"
+            />
+</LinearLayout>
+
+

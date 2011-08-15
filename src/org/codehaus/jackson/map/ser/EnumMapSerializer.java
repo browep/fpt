@@ -8,7 +8,6 @@ import java.util.*;
 import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.*;
 import org.codehaus.jackson.map.annotate.JacksonStdImpl;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.map.util.EnumValues;
 import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.node.JsonNodeFactory;
@@ -54,9 +53,19 @@ public class EnumMapSerializer
      * Type serializer used for values, if any.
      */
     protected final TypeSerializer _valueTypeSerializer;
-    
+
+    /**
+     * @deprecated Since 1.8, use variant that takes value serializer
+     */
+    @Deprecated
     public EnumMapSerializer(JavaType valueType, boolean staticTyping, EnumValues keyEnums,
             TypeSerializer vts, BeanProperty property)
+    {
+        this(valueType, staticTyping, keyEnums, vts, property, null);
+    }
+
+    public EnumMapSerializer(JavaType valueType, boolean staticTyping, EnumValues keyEnums,
+            TypeSerializer vts, BeanProperty property, JsonSerializer<Object> valueSerializer)
     {
         super(EnumMap.class, false);
         _staticTyping = staticTyping || (valueType != null && valueType.isFinal());
@@ -64,6 +73,7 @@ public class EnumMapSerializer
         _keyEnums = keyEnums;
         _valueTypeSerializer = vts;
         _property = property;
+        _valueSerializer = valueSerializer;
     }
 
     @Override
@@ -175,7 +185,7 @@ public class EnumMapSerializer
     public void resolve(SerializerProvider provider)
         throws JsonMappingException
     {
-        if (_staticTyping) {
+        if (_staticTyping && _valueSerializer == null) {
             _valueSerializer = provider.findValueSerializer(_valueType, _property);
         }
     }
@@ -189,8 +199,8 @@ public class EnumMapSerializer
         if (typeHint instanceof ParameterizedType) {
             Type[] typeArgs = ((ParameterizedType) typeHint).getActualTypeArguments();
             if (typeArgs.length == 2) {
-                JavaType enumType = TypeFactory.type(typeArgs[0]);
-                JavaType valueType = TypeFactory.type(typeArgs[1]);
+                JavaType enumType = provider.constructType(typeArgs[0]);
+                JavaType valueType = provider.constructType(typeArgs[1]);
                 ObjectNode propsNode = JsonNodeFactory.instance.objectNode();
                 Class<Enum<?>> enumClass = (Class<Enum<?>>) enumType.getRawClass();
                 for (Enum<?> enumValue : enumClass.getEnumConstants()) {

@@ -35,12 +35,12 @@ public class StringCollectionSerializer
         super(Collection.class, property);
     }
         
-    @Override protected JsonNode contentSchema() {
+     protected JsonNode contentSchema() {
         return createSchemaNode("string", true);
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+    
     public void resolve(SerializerProvider provider) throws JsonMappingException
     {
         JsonSerializer<?> ser = provider.findValueSerializer(String.class, _property);
@@ -49,7 +49,7 @@ public class StringCollectionSerializer
         }
     }
 
-    @Override
+    
     public void serialize(Collection<String> value, JsonGenerator jgen, SerializerProvider provider)
         throws IOException, JsonGenerationException
     {
@@ -62,7 +62,7 @@ public class StringCollectionSerializer
         jgen.writeEndArray();
     }
     
-    @Override
+    
     public void serializeWithType(Collection<String> value, JsonGenerator jgen, SerializerProvider provider,
             TypeSerializer typeSer)
         throws IOException, JsonGenerationException

@@ -40,7 +40,7 @@ public abstract class JsonGeneratorBase
      * {@link org.codehaus.jackson.JsonGenerator.Feature#WRITE_NUMBERS_AS_STRINGS}).
      */
     protected boolean _cfgNumbersAsStrings;
-
+    
     /*
     /**********************************************************
     /* State
@@ -91,6 +91,8 @@ public abstract class JsonGeneratorBase
         _features |= f.getMask();
         if (f == Feature.WRITE_NUMBERS_AS_STRINGS) {
             _cfgNumbersAsStrings = true;
+        } else if (f == Feature.ESCAPE_NON_ASCII) {
+            setHighestNonEscapedChar(127);
         }
         return this;
     }
@@ -100,6 +102,8 @@ public abstract class JsonGeneratorBase
         _features &= ~f.getMask();
         if (f == Feature.WRITE_NUMBERS_AS_STRINGS) {
             _cfgNumbersAsStrings = false;
+        } else if (f == Feature.ESCAPE_NON_ASCII) {
+            setHighestNonEscapedChar(0);
         }
         return this;
     }
@@ -112,11 +116,10 @@ public abstract class JsonGeneratorBase
     }
 
     @Override
-    public JsonGenerator useDefaultPrettyPrinter()
-    {
+    public JsonGenerator useDefaultPrettyPrinter() {
         return setPrettyPrinter(new DefaultPrettyPrinter());
     }
-
+    
     @Override
     public JsonGenerator setCodec(ObjectCodec oc) {
         _objectCodec = oc;
@@ -163,7 +166,6 @@ public abstract class JsonGeneratorBase
      */
     @Deprecated
     protected void _writeStartArray() throws IOException, JsonGenerationException {
-        // no-op, to be overridden
     }
 
     @Override
@@ -186,7 +188,6 @@ public abstract class JsonGeneratorBase
      */
     @Deprecated
     protected void _writeEndArray() throws IOException, JsonGenerationException {
-        // no-op, to be overridden
     }
 
     @Override
@@ -207,7 +208,6 @@ public abstract class JsonGeneratorBase
      */
     @Deprecated
     protected void _writeStartObject() throws IOException, JsonGenerationException {
-        // no-op, to be overridden
     }
 
     @Override
@@ -230,7 +230,6 @@ public abstract class JsonGeneratorBase
      */
     @Deprecated
     protected void _writeEndObject() throws IOException, JsonGenerationException {
-        // no-op, to be overridden
     }
     
     /*

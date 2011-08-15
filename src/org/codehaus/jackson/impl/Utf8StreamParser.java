@@ -16,10 +16,12 @@ public final class Utf8StreamParser
 {
     final static byte BYTE_LF = (byte) '\n';
 
-    private final static byte BYTE_0 = (byte) 0;
-
     private final static int[] sInputCodesUtf8 = CharTypes.getInputCodeUtf8();
 
+    /**
+     * Latin1 encoding is not supported, but we do use 8-bit subset for
+     * pre-processing task, to simplify first pass, keep it fast.
+     */
     private final static int[] sInputCodesLatin1 = CharTypes.getInputCodeLatin1();
     
     /*
@@ -29,7 +31,9 @@ public final class Utf8StreamParser
      */
 
     /**
-     * Codec used for data binding when (if) requested.
+     * Codec used for data binding when (if) requested; typically full
+     * <code>ObjectMapper</code>, but that abstract is not part of core
+     * package.
      */
     protected ObjectCodec _objectCodec;
 
@@ -77,7 +81,7 @@ public final class Utf8StreamParser
         _symbols = sym;
         // 12-Mar-2010, tatus: Sanity check, related to [JACKSON-259]:
         if (!JsonParser.Feature.CANONICALIZE_FIELD_NAMES.enabledIn(features)) {
-            // should never construct non-canonical utf8/byte parser (instead, use Reader)
+            // should never construct non-canonical UTF-8/byte parser (instead, use Reader)
             _throwInternal();
         }
     }
@@ -493,13 +497,13 @@ public final class Utf8StreamParser
             c = (int) _inputBuffer[_inputPtr++] & 0xFF;
             // Note: must be followed by a digit
             if (c < INT_0 || c > INT_9) {
-                reportInvalidNumber("Missing integer part (next char "+_getCharDesc(c)+")");
+                return _handleInvalidNumberStart(c, true);
             }
         }
 
         // One special case: if first char is 0, must not be followed by a digit
         if (c == INT_0) {
-            _verifyNoLeadingZeroes();
+            c = _verifyNoLeadingZeroes();
         }
         
         // Ok: we can first just add digit we saw first:
@@ -535,7 +539,7 @@ public final class Utf8StreamParser
         // And there we have it!
         return resetInt(negative, intLen);
     }
-
+    
     /**
      * Method called to handle parsing when input is split across buffer boundary
      * (or output is longer than segment used to store it)
@@ -576,16 +580,37 @@ public final class Utf8StreamParser
      * Method called when we have seen one zero, and want to ensure
      * it is not followed by another
      */
-    private final void _verifyNoLeadingZeroes()
+    private final int _verifyNoLeadingZeroes()
         throws IOException, JsonParseException
     {
         // Ok to have plain "0"
         if (_inputPtr >= _inputEnd && !loadMore()) {
-            return;
+            return INT_0;
         }
-        if (_inputBuffer[_inputPtr] == BYTE_0) {
+        int ch = _inputBuffer[_inputPtr] & 0xFF;
+        // if not followed by a number (probably '.'); return zero as is, to be included
+        if (ch < INT_0 || ch > INT_9) {
+            return INT_0;
+        }
+        // [JACKSON-358]: we may want to allow them, after all...
+        if (!isEnabled(Feature.ALLOW_NUMERIC_LEADING_ZEROS)) {
             reportInvalidNumber("Leading zeroes not allowed");
         }
+        // if so, just need to skip either all zeroes (if followed by number); or all but one (if non-number)
+        ++_inputPtr; // Leading zero to be skipped
+        if (ch == INT_0) {
+            while (_inputPtr < _inputEnd || loadMore()) {
+                ch = _inputBuffer[_inputPtr] & 0xFF;
+                if (ch < INT_0 || ch > INT_9) { // followed by non-number; retain one zero
+                    return INT_0;
+                }
+                ++_inputPtr; // skip previous zeroes
+                if (ch != INT_0) { // followed by other number; return 
+                    break;
+                }
+            }
+        }
+        return ch;
     }
     
     private final JsonToken _parseFloatText(char[] outBuf, int outPtr, int c,
@@ -790,7 +815,7 @@ public final class Utf8StreamParser
     protected Name parseLongFieldName(int q)
         throws IOException, JsonParseException
     {
-        // As explained above, will ignore utf-8 encoding at this point
+        // As explained above, will ignore UTF-8 encoding at this point
         final int[] codes = sInputCodesLatin1;
         int qlen = 2;
 
@@ -1321,10 +1346,7 @@ public final class Utf8StreamParser
             cbuf[cix++] = (char) ch;
         }
 
-        /* Ok. Now we have the character array, and can construct the
-         * String (as well as check proper composition of semicolons
-         * for ns-aware mode...)
-         */
+        // Ok. Now we have the character array, and can construct the String
         String baseName = new String(cbuf, 0, cix);
         // And finally, un-align if necessary
         if (lastQuadBytes < 4) {
@@ -1528,14 +1550,42 @@ public final class Utf8StreamParser
      *
      * @since 1.3
      */
-    protected final JsonToken _handleUnexpectedValue(int c)
+    protected JsonToken _handleUnexpectedValue(int c)
         throws IOException, JsonParseException
     {
         // Most likely an error, unless we are to allow single-quote-strings
-        if (c != INT_APOSTROPHE || !isEnabled(Feature.ALLOW_SINGLE_QUOTES)) {
-            _reportUnexpectedChar(c, "expected a valid value (number, String, array, object, 'true', 'false' or 'null')");
+        switch (c) {
+        case '\'':
+            if (isEnabled(Feature.ALLOW_SINGLE_QUOTES)) {
+                return _handleApostropheValue();
+            }
+            break;
+        case 'N':
+            if (_matchToken("NaN", 1)) {
+                if (isEnabled(Feature.ALLOW_NON_NUMERIC_NUMBERS)) {
+                    return resetAsNaN("NaN", Double.NaN);
+                }
+                _reportError("Non-standard token 'NaN': enable JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS to allow");
+            }
+            _reportUnexpectedChar(_inputBuffer[_inputPtr++] & 0xFF, "expected 'NaN' or a valid value");
+            break;
+        case '+': // note: '-' is taken as number
+            if (_inputPtr >= _inputEnd) {
+                if (!loadMore()) {
+                    _reportInvalidEOFInValue();
+                }
+            }
+            return _handleInvalidNumberStart(_inputBuffer[_inputPtr++] & 0xFF, false);
         }
 
+        _reportUnexpectedChar(c, "expected a valid value (number, String, array, object, 'true', 'false' or 'null')");
+        return null;
+    }
+    
+    protected JsonToken _handleApostropheValue()
+        throws IOException, JsonParseException
+    {
+        int c = 0;
         // Otherwise almost verbatim copy of _finishString()
         int outPtr = 0;
         char[] outBuf = _textBuffer.emptyAndGetCurrentSegment();
@@ -1624,12 +1674,42 @@ public final class Utf8StreamParser
         return JsonToken.VALUE_STRING;
     }
 
-    /*
-    /**********************************************************
-    /* Internal methods, other parsing helper methods
-    /**********************************************************
+    /**
+     * Method called if expected numeric value (due to leading sign) does not
+     * look like a number
      */
-
+    protected JsonToken _handleInvalidNumberStart(int ch, boolean negative)
+        throws IOException, JsonParseException
+    {
+        if (ch == 'I') {
+            if (_inputPtr >= _inputEnd) {
+                if (!loadMore()) {
+                    _reportInvalidEOFInValue();
+                }
+            }
+            ch = _inputBuffer[_inputPtr++];
+            if (ch == 'N') {
+                String match = negative ? "-INF" :"+INF";
+                if (_matchToken(match, 3)) {
+                    if (isEnabled(Feature.ALLOW_NON_NUMERIC_NUMBERS)) {
+                        return resetAsNaN(match, negative ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+                    }
+                    _reportError("Non-standard token '"+match+"': enable JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS to allow");
+                }
+            } else if (ch == 'n') {
+                String match = negative ? "-Infinity" :"+Infinity";
+                if (_matchToken(match, 3)) {
+                    if (isEnabled(Feature.ALLOW_NON_NUMERIC_NUMBERS)) {
+                        return resetAsNaN(match, negative ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
+                    }
+                    _reportError("Non-standard token '"+match+"': enable JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS to allow");
+                }
+            }
+        }
+        reportUnexpectedNumberChar(ch, "expected digit (0-9) to follow minus sign, for valid numeric value");
+        return null;
+    }
+    
     protected void _matchToken(JsonToken token)
         throws IOException, JsonParseException
     {
@@ -1642,7 +1722,7 @@ public final class Utf8StreamParser
                 loadMoreGuaranteed();
             }
             if (matchBytes[i] != _inputBuffer[_inputPtr]) {
-                _reportInvalidToken(token.asString().substring(0, i));
+                _reportInvalidToken(token.asString().substring(0, i), "'null', 'true' or 'false'");
             }
             ++_inputPtr;
         }
@@ -1650,10 +1730,41 @@ public final class Utf8StreamParser
          * If there's something wrong there, it'll cause a parsing
          * error later on.
          */
-        return;
     }
 
-    private void _reportInvalidToken(String matchedPart)
+    protected final boolean _matchToken(String matchStr, int i)
+        throws IOException, JsonParseException
+    {
+        final int len = matchStr.length();
+    
+        do {
+            if (_inputPtr >= _inputEnd) {
+                if (!loadMore()) {
+                    _reportInvalidEOF(" in a value");
+                }
+            }
+            if (_inputBuffer[_inputPtr] != matchStr.charAt(i)) {
+                _reportInvalidToken(matchStr.substring(0, i), "'null', 'true', 'false' or NaN");
+            }
+            ++_inputPtr;
+        } while (++i < len);
+    
+        // but let's also ensure we either get EOF, or non-alphanum char...
+        if (_inputPtr >= _inputEnd) {
+            if (!loadMore()) {
+                return true;
+            }
+        }
+        char c = (char) _decodeCharForError(_inputBuffer[_inputPtr] & 0xFF);
+        // if Java letter, it's a problem tho
+        if (Character.isJavaIdentifierPart(c)) {
+            ++_inputPtr;
+            _reportInvalidToken(matchStr.substring(0, i), "'null', 'true', 'false' or NaN");
+        }
+        return true;
+    }
+    
+    protected void _reportInvalidToken(String matchedPart, String msg)
         throws IOException, JsonParseException
     {
         StringBuilder sb = new StringBuilder(matchedPart);
@@ -1673,10 +1784,9 @@ public final class Utf8StreamParser
             ++_inputPtr;
             sb.append(c);
         }
-
-        _reportError("Unrecognized token '"+sb.toString()+"': was expecting 'null', 'true' or 'false'");
+        _reportError("Unrecognized token '"+sb.toString()+"': was expecting "+msg);
     }
-
+    
     /*
     /**********************************************************
     /* Internal methods, ws skipping, escape/unescape
@@ -2163,12 +2273,6 @@ public final class Utf8StreamParser
     {
         ByteArrayBuilder builder = _getByteArrayBuilder();
 
-        /* !!! 23-Jan-2009, tatu: There are some potential problems
-         *   with this:
-         *
-         * - Escaped chars are not handled. Should they?
-         */
-
         //main_loop:
         while (true) {
             // first, we'll skip preceding white space, if any
@@ -2184,7 +2288,10 @@ public final class Utf8StreamParser
                 if (ch == INT_QUOTE) {
                     return builder.toByteArray();
                 }
-                throw reportInvalidChar(b64variant, ch, 0);
+                bits = _decodeBase64Escape(b64variant, ch, 0);
+                if (bits < 0) { // white space to skip
+                    continue;
+                }
             }
             int decodedData = bits;
             
@@ -2196,7 +2303,7 @@ public final class Utf8StreamParser
             ch = _inputBuffer[_inputPtr++] & 0xFF;
             bits = b64variant.decodeBase64Char(ch);
             if (bits < 0) {
-                throw reportInvalidChar(b64variant, ch, 1);
+                bits = _decodeBase64Escape(b64variant, ch, 1);
             }
             decodedData = (decodedData << 6) | bits;
             
@@ -2210,20 +2317,28 @@ public final class Utf8StreamParser
             // First branch: can get padding (-> 1 byte)
             if (bits < 0) {
                 if (bits != Base64Variant.BASE64_VALUE_PADDING) {
-                    throw reportInvalidChar(b64variant, ch, 2);
+                    // as per [JACKSON-631], could also just be 'missing'  padding
+                    if (ch == '"' && !b64variant.usesPadding()) {
+                        decodedData >>= 4;
+                        builder.append(decodedData);
+                        return builder.toByteArray();
+                    }
+                    bits = _decodeBase64Escape(b64variant, ch, 2);
                 }
-                // Ok, must get padding
-                if (_inputPtr >= _inputEnd) {
-                    loadMoreGuaranteed();
+                if (bits == Base64Variant.BASE64_VALUE_PADDING) {
+                    // Ok, must get padding
+                    if (_inputPtr >= _inputEnd) {
+                        loadMoreGuaranteed();
+                    }
+                    ch = _inputBuffer[_inputPtr++] & 0xFF;
+                    if (!b64variant.usesPaddingChar(ch)) {
+                        throw reportInvalidChar(b64variant, ch, 3, "expected padding character '"+b64variant.getPaddingChar()+"'");
+                    }
+                    // Got 12 bits, only need 8, need to shift
+                    decodedData >>= 4;
+                    builder.append(decodedData);
+                    continue;
                 }
-                ch = _inputBuffer[_inputPtr++] & 0xFF;
-                if (!b64variant.usesPaddingChar(ch)) {
-                    throw reportInvalidChar(b64variant, ch, 3, "expected padding character '"+b64variant.getPaddingChar()+"'");
-                }
-                // Got 12 bits, only need 8, need to shift
-                decodedData >>= 4;
-                builder.append(decodedData);
-                continue;
             }
             // Nope, 2 or 3 bytes
             decodedData = (decodedData << 6) | bits;
@@ -2235,24 +2350,54 @@ public final class Utf8StreamParser
             bits = b64variant.decodeBase64Char(ch);
             if (bits < 0) {
                 if (bits != Base64Variant.BASE64_VALUE_PADDING) {
-                    throw reportInvalidChar(b64variant, ch, 3);
+                    // as per [JACKSON-631], could also just be 'missing'  padding
+                    if (ch == '"' && !b64variant.usesPadding()) {
+                        decodedData >>= 2;
+                        builder.appendTwoBytes(decodedData);
+                        return builder.toByteArray();
+                    }
+                    bits = _decodeBase64Escape(b64variant, ch, 3);
                 }
-                /* With padding we only get 2 bytes; but we have
-                 * to shift it a bit so it is identical to triplet
-                 * case with partial output.
-                 * 3 chars gives 3x6 == 18 bits, of which 2 are
-                 * dummies, need to discard:
-                 */
-                decodedData >>= 2;
-                builder.appendTwoBytes(decodedData);
-            } else {
-                // otherwise, our triple is now complete
-                decodedData = (decodedData << 6) | bits;
-                builder.appendThreeBytes(decodedData);
+                if (bits == Base64Variant.BASE64_VALUE_PADDING) {
+                    /* With padding we only get 2 bytes; but we have
+                     * to shift it a bit so it is identical to triplet
+                     * case with partial output.
+                     * 3 chars gives 3x6 == 18 bits, of which 2 are
+                     * dummies, need to discard:
+                     */
+                    decodedData >>= 2;
+                    builder.appendTwoBytes(decodedData);
+                    continue;
+                }
             }
+            // otherwise, our triplet is now complete
+            decodedData = (decodedData << 6) | bits;
+            builder.appendThreeBytes(decodedData);
         }
     }
 
+    private final int _decodeBase64Escape(Base64Variant b64variant, int ch, int index)
+        throws IOException, JsonParseException
+    {
+        // 17-May-2011, tatu: As per [JACKSON-xxx], need to handle escaped chars
+        if (ch != '\\') {
+            throw reportInvalidChar(b64variant, ch, index);
+        }
+        int unescaped = _decodeEscaped();
+        // if white space, skip if first triplet; otherwise errors
+        if (unescaped <= INT_SPACE) {
+            if (index == 0) { // whitespace only allowed to be skipped between triplets
+                return -1;
+            }
+        }
+        // otherwise try to find actual triplet value
+        int bits = b64variant.decodeBase64Char(unescaped);
+        if (bits < 0) {
+            throw reportInvalidChar(b64variant, unescaped, index);
+        }
+        return bits;
+    }
+    
     protected IllegalArgumentException reportInvalidChar(Base64Variant b64variant, int ch, int bindex)
         throws IllegalArgumentException
     {

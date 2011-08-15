@@ -1,6 +1,7 @@
 package org.codehaus.jackson.map;
 
 import org.codehaus.jackson.type.JavaType;
+import org.codehaus.jackson.map.type.*;
 
 /**
  * Interface that defines API for simple extensions that can provide additional serializers
@@ -15,9 +16,12 @@ import org.codehaus.jackson.type.JavaType;
 public interface Serializers
 {
     /**
-     * Method called serialization framework first time a serializer is needed for
-     * specified type. Implementation should return a serializer instance if it supports
-     * specified type; or null if it does not.
+     * Method called by serialization framework first time a serializer is needed for
+     * specified type, which is not of a container type (for which other methods are
+     * called).
+     *<p>
+     * Note: in version 1.7, this method was called to find serializers for all
+     * type, including container types.
      * 
      * @param type Fully resolved type of instances to serialize
      * @param config Serialization configuration in use
@@ -31,4 +35,93 @@ public interface Serializers
      */
     public JsonSerializer<?> findSerializer(SerializationConfig config,
             JavaType type, BeanDescription beanDesc, BeanProperty property);
+
+    /**
+     * Method called by serialization framework first time a serializer is needed for
+     * specified array type.
+     * Implementation should return a serializer instance if it supports
+     * specified type; or null if it does not.
+     * 
+     * @since 1.8
+     */
+    public JsonSerializer<?> findArraySerializer(SerializationConfig config,
+            ArrayType type, BeanDescription beanDesc, BeanProperty property,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer);
+
+    public JsonSerializer<?> findCollectionSerializer(SerializationConfig config,
+            CollectionType type, BeanDescription beanDesc, BeanProperty property,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer);
+
+    public JsonSerializer<?> findCollectionLikeSerializer(SerializationConfig config,
+            CollectionLikeType type, BeanDescription beanDesc, BeanProperty property,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer);
+    
+    public JsonSerializer<?> findMapSerializer(SerializationConfig config,
+            MapType type, BeanDescription beanDesc, BeanProperty property,
+            JsonSerializer<Object> keySerializer,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer);
+
+    public JsonSerializer<?> findMapLikeSerializer(SerializationConfig config,
+            MapLikeType type, BeanDescription beanDesc, BeanProperty property,
+            JsonSerializer<Object> keySerializer,
+            TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer);
+
+    /**
+     * Basic {@link Serializers} implementation that implements all methods but provides
+     * no serializers. Its main purpose is to serve as a base class so that
+     * sub-classes only need to override methods they need.
+     * 
+     * @since 1.8
+     */
+    public static class None implements Serializers
+    {
+        
+        public JsonSerializer<?> findSerializer(SerializationConfig config,
+                JavaType type, BeanDescription beanDesc, BeanProperty property)
+        {
+            return null;
+        }
+        
+        
+        public JsonSerializer<?> findArraySerializer(SerializationConfig config,
+                ArrayType type, BeanDescription beanDesc, BeanProperty property,
+                TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer)
+        {
+            return null;
+        }
+
+        
+        public JsonSerializer<?> findCollectionSerializer(SerializationConfig config,
+                CollectionType type, BeanDescription beanDesc, BeanProperty property,
+                TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer)
+        {
+            return null;
+        }
+
+        
+        public JsonSerializer<?> findCollectionLikeSerializer(SerializationConfig config,
+                CollectionLikeType type, BeanDescription beanDesc, BeanProperty property,
+                TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer)
+        {
+            return null;
+        }
+            
+        
+        public JsonSerializer<?> findMapSerializer(SerializationConfig config,
+                MapType type, BeanDescription beanDesc, BeanProperty property,
+                JsonSerializer<Object> keySerializer,
+                TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer)
+        {
+            return null;
+        }
+
+        
+        public JsonSerializer<?> findMapLikeSerializer(SerializationConfig config,
+                MapLikeType type, BeanDescription beanDesc, BeanProperty property,
+                JsonSerializer<Object> keySerializer,
+                TypeSerializer elementTypeSerializer, JsonSerializer<Object> elementValueSerializer)
+        {
+            return null;
+        }
+    }
 }

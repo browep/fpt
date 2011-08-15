@@ -318,6 +318,11 @@ public abstract class JsonParserMinimalBase
         _reportError("Unexpected end-of-input"+msg);
     }
 
+    protected void _reportInvalidEOFInValue() throws JsonParseException
+    {
+        _reportInvalidEOF(" in a value");
+    }
+    
     protected void _throwInvalidSpace(int i)
         throws JsonParseException
     {
@@ -345,9 +350,14 @@ public abstract class JsonParserMinimalBase
     protected char _handleUnrecognizedCharacterEscape(char ch) throws JsonProcessingException
     {
         // as per [JACKSON-300]
-        if (!isEnabled(Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER))  {
-            _reportError("Unrecognized character escape "+_getCharDesc(ch));
+        if (isEnabled(Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)) {
+            return ch;
         }
+        // and [JACKSON-548]
+        if (ch == '\'' && isEnabled(Feature.ALLOW_SINGLE_QUOTES)) {
+            return ch;
+        }
+        _reportError("Unrecognized character escape "+_getCharDesc(ch));
         return ch;
     }
     
