@@ -141,21 +141,22 @@ public final class R {
     }
     public static final class style {
         public static final int BaseChiclet=0x7f080001;
-        public static final int BaseObject=0x7f080006;
+        public static final int BaseObject=0x7f080007;
         public static final int BaseScreen=0x7f080002;
         public static final int BaseText=0x7f080003;
-        public static final int Button_96=0x7f08000f;
-        public static final int ChicletButton=0x7f080009;
-        public static final int FormRow=0x7f08000b;
-        public static final int FormText=0x7f08000c;
-        public static final int HelperText=0x7f080004;
+        public static final int Button_96=0x7f080010;
+        public static final int ChicletButton=0x7f08000a;
+        public static final int CommentBox=0x7f080004;
+        public static final int FormRow=0x7f08000c;
+        public static final int FormText=0x7f08000d;
+        public static final int HelperText=0x7f080005;
         public static final int HomeButton=0x7f080000;
-        public static final int HomeRow=0x7f080010;
-        public static final int InputBaseObject=0x7f080007;
-        public static final int PicFlipButton=0x7f08000e;
-        public static final int ProgressGraph=0x7f08000d;
-        public static final int SmallButton=0x7f080008;
-        public static final int TitleText=0x7f08000a;
-        public static final int TopHelperText=0x7f080005;
+        public static final int HomeRow=0x7f080011;
+        public static final int InputBaseObject=0x7f080008;
+        public static final int PicFlipButton=0x7f08000f;
+        public static final int ProgressGraph=0x7f08000e;
+        public static final int SmallButton=0x7f080009;
+        public static final int TitleText=0x7f08000b;
+        public static final int TopHelperText=0x7f080006;
     }
 }

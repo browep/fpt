@@ -63,7 +63,7 @@
        <EditText
                  android:layout_height="fill_parent"
                  android:layout_width="fill_parent"
-                 style="@style/HelperText"
+                 style="@style/CommentBox"
                  android:id="@+id/comment"
                />
 

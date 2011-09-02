@@ -158,4 +158,10 @@ public class FptApp extends Application{
   public static FptApp getInstance() {
     return singleton;
   }
+
+  @Override
+  public void onTerminate() {
+    super.onTerminate();
+    dao.onTerminate();
+  }
 }

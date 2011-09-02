@@ -7,7 +7,6 @@ import android.widget.*;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.model.WorkoutDefinition;
-import com.github.browep.fpt.ui.SubmittableActivity;
 import com.github.browep.fpt.util.StringUtils;
 import com.github.browep.fpt.util.Util;
 
@@ -59,7 +58,9 @@ public class WorkoutDefinitionForm extends SubmittableActivity {
     }
 
     // make enter in the name hide the keyboard
-    workoutForm.findViewById(R.id.name_box).setOnKeyListener(hideKeyBoardListener);
+    EditText nameBox = (EditText) workoutForm.findViewById(R.id.name_box);
+    nameBox.setOnEditorActionListener(editorSubmitListener);
+    nameBox.setOnKeyListener(submitKeyboardListener);
 
     RadioGroup radioGroup = (RadioGroup) workoutForm.findViewById(R.id.label_radio);
     if(radioGroup != null && model.get("possible_labels")  != null){
@@ -86,7 +87,7 @@ public class WorkoutDefinitionForm extends SubmittableActivity {
 
 
     if (isEdit) { // update the contents
-      ((EditText) workoutForm.findViewById(R.id.name_box)).setText((CharSequence) definition.get(C.WORKOUT_NAME));
+      nameBox.setText((CharSequence) definition.get(C.WORKOUT_NAME));
 
       updateSubmitButtonText("Update");
 

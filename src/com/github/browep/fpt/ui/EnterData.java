@@ -88,6 +88,7 @@ public class EnterData extends SubmittableActivity {
 
     // display the current date (this method is below)
     updateDisplay();
+
   }
 
   @Override

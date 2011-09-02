@@ -14,7 +14,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,6 +46,7 @@ public class Dao {
 
   public Dao(Context context) {
     self = context;
+    db = (new NoSqlSqliteOpener(self,dbName)).getWritableDatabase();
   }
 
   public Dao(Context context,String dbName) {
@@ -53,7 +57,7 @@ public class Dao {
 
   public void save(Storable storable) {
     // if there is an id, do an update
-    db = getOrOpen();
+   
     try {
 
 
@@ -80,7 +84,7 @@ public class Dao {
     } catch (IOException e) {
       Log.e("Error trying to save" + storable.toString(), e);
     } finally {
-      db.close();
+      
     }
 
   }
@@ -89,7 +93,7 @@ public class Dao {
     Cursor cursor = null;
 
     try {
-      db = getOrOpen();
+     
 
       cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"last_insert_rowid()"}, null, null, null, null, null);
       cursor.moveToFirst();
@@ -99,7 +103,7 @@ public class Dao {
     } finally {
       if(cursor!=null)
         cursor.close();
-      db.close();
+      
     }
 
   }
@@ -112,10 +116,8 @@ public class Dao {
 
 
   public Storable initialize(Storable storable) {
-
-
     try {
-      db = getOrOpen();
+     
 
 // create an entry in the db
       ContentValues values = new ContentValues();
@@ -132,7 +134,7 @@ public class Dao {
 
       storable.setId(getLastInsertedRowId());
     } finally {
-      db.close();
+      
     }
 
     return storable;
@@ -147,7 +149,7 @@ public class Dao {
 
     Log.d("dumping to log");
     try {
-      db = getOrOpen();
+     
 
       cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, null, null, null, null, null,"10000");
       cursor.move(1);
@@ -169,7 +171,7 @@ public class Dao {
     } finally {
       if(cursor!=null)
         cursor.close();
-      db.close();
+      
 
     }
 
@@ -181,7 +183,7 @@ public class Dao {
     Cursor cursor = null;
 
     try {
-      db = getOrOpen();
+     
       cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, "ROWID = ?", new String[]{String.valueOf(id)}, null, null, null);
       cursor.moveToFirst();
       if (cursor.isAfterLast()) {
@@ -198,7 +200,7 @@ public class Dao {
     } finally {
       if(cursor != null)
         cursor.close();
-      db.close();
+      
 
     }
     return storable;
@@ -222,7 +224,7 @@ public class Dao {
     Cursor cursor = null;
 
     try {
-      db = getOrOpen();
+     
 
       List<Integer> found = null;
 
@@ -257,7 +259,7 @@ public class Dao {
     } finally {
       if(cursor!=null)
         cursor.close();
-      db.close();
+      
     }
   }
 
@@ -283,7 +285,7 @@ public class Dao {
     Cursor cursor = null;
 
     try {
-      db = getOrOpen();
+     
       cursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, "type = ?", new String[]{String.valueOf(type)}, null, null, null, String.valueOf(limit));
       cursor.moveToFirst();
       while (!cursor.isAfterLast()) {
@@ -296,7 +298,7 @@ public class Dao {
       }
     } finally {
       cursor.close();
-      db.close();
+      
     }
     return storables;
   }
@@ -304,14 +306,14 @@ public class Dao {
 
   public void delete(int rowId){
      try {
-      db = getOrOpen();
+     
       // delete from instances.
       db.delete(INSTANCES_TABLE_NAME, "ROWID =?", new String[]{String.valueOf(rowId)} );
       // delete all indexes
        db.delete(INDEXES_TABLE_NAME, "instance_id = ? ", new String[]{String.valueOf(rowId)});
 
     } finally {
-      db.close();
+      
     }
   }
 
@@ -322,7 +324,7 @@ public class Dao {
     Cursor definitionCursor = null;
 
     try {
-      db = getOrOpen();
+     
       String whereStr = notType ? " type IS NOT ? " : " type IS ?";
 
       definitionCursor = db.query(INSTANCES_TABLE_NAME, new String[]{"ROWID", "type", "created", "modified", "data"}, whereStr, new String[]{String.valueOf(type)}, null, null, null);
@@ -350,11 +352,15 @@ public class Dao {
       (new ObjectMapper()).writeValue(baos, definitions);
     } finally {
       definitionCursor.close();
-      db.close();
+      
     }
 
     return baos.toString();
   }
 
 
+  public void onTerminate() {
+    if (db != null)
+      db.close();
+  }
 }
