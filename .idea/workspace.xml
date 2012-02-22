@@ -26,9 +26,7 @@
     <option name="historyRevisionsNumber" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="40a6b345-3b8a-411f-943b-c690c7082147" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="40a6b345-3b8a-411f-943b-c690c7082147" name="Default" comment="" />
     <ignored path="SimpleWorkoutTracker.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -130,10 +128,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="63" selection-start="1795" selection-end="1795" vertical-scroll-proportion="0.019011406">
+            <state line="57" column="160" selection-start="2436" selection-end="2436" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -166,10 +164,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Welcome.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Welcome.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="19" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
+            <state line="29" column="19" selection-start="776" selection-end="776" vertical-scroll-proportion="0.019011406">
               <folding />
             </state>
           </provider>
@@ -556,7 +554,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1646" height="962" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
@@ -738,16 +736,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="19" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
+        <state line="57" column="160" selection-start="2436" selection-end="2436" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="63" selection-start="1795" selection-end="1795" vertical-scroll-proportion="0.019011406">
+        <state line="29" column="19" selection-start="776" selection-end="776" vertical-scroll-proportion="0.019011406">
           <folding />
         </state>
       </provider>
