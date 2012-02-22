@@ -26,707 +26,7 @@
     <option name="historyRevisionsNumber" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="40a6b345-3b8a-411f-943b-c690c7082147" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/SimpleWorkoutTracker.apk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/android/vending/billing/IMarketBillingService$Stub$Proxy.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/android/vending/billing/IMarketBillingService$Stub.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/android/vending/billing/IMarketBillingService.aidl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/android/vending/billing/IMarketBillingService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/AsyncFacebookRunner$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/AsyncFacebookRunner$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/AsyncFacebookRunner$RequestListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/AsyncFacebookRunner.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/DialogError.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/Facebook$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/Facebook$FacebookDialogListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/Facebook.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/FacebookError.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/FbDialog$FbWebViewClient.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/FbDialog.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/facebook/android/Util.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/AppRater$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/AppRater$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/AppRater$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/AppRater.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/C.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/FptApp.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/FptDao.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$anim.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$raw.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R$style.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/UpdateImagesTask.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/UploadImageTask$UploadImageTaskPackage.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/UploadImageTask.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingReceiver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingService$BillingRequest.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingService$CheckBillingSupported.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingService$ConfirmNotifications.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingService$GetPurchaseInformation.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingService$RequestPurchase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingService$RestoreTransactions.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/BillingService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/Consts$PurchaseState.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/Consts$ResponseCode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/Consts.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/Dungeons$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/Dungeons.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/FptPurchaseObserver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/PurchaseDatabase$DatabaseHelper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/PurchaseDatabase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/PurchaseObserver$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/PurchaseObserver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/ResponseHandler$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/ResponseHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/Security$VerifiedPurchase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/Security.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/util/Base64.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/billing/util/Base64DecoderException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/connector/Tweeter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/dao/AnalyzableActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/dao/DaoAwareActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/dao/PreferencesService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/model/FPTStorable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/model/FptPicture.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/model/Workout$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/model/Workout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/model/WorkoutDefinition$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/model/WorkoutDefinition.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/CreateWorkout$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/CreateWorkout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EditData$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EditData$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EditData.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EnterData$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EnterData$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EnterData$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EnterData.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EnterDataChooser$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EnterDataChooser$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/EnterDataChooser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/FacebookAuth$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/FacebookAuth.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/FptActivity$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/FptActivity$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/FptActivity$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/FptActivity$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/FptActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$2$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$2$1$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$2$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser$ReportPaymentChooserHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ReportPaymentChooser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeePictures$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeePictures$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeePictures$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeePictures$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeePictures$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeePictures.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeeProgressChooser$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeeProgressChooser$2$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeeProgressChooser$2$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeeProgressChooser$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeeProgressChooser$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SeeProgressChooser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SendReport$1$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SendReport$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SendReport$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SendReport.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SubmittableActivity$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SubmittableActivity$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/SubmittableActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/TakeProgressPicture$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/TakeProgressPicture$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/TakeProgressPicture.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/TwitterSuccessReceiver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/ViewProgress.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/Welcome.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/ui/WorkoutDefinitionForm.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/util/CollectionsUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/util/FptDateFormat.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/util/FptTimeFormat.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/util/Log.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/util/StringUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/util/Util$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/util/Util.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/view/ModelService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/fpt/view/ViewService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/nosql/Dao.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/nosql/Log.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/nosql/NoSqlSqliteOpener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/nosql/NotFoundInDb.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/github/browep/nosql/Storable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/AsyncTwitterRunner$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/AsyncTwitterRunner$RequestListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/AsyncTwitterRunner.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/DialogError.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/TwDialog$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/TwDialog$2$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/TwDialog$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/TwDialog$TwWebViewClient.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/TwDialog.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/Twitter$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/Twitter$DialogListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/Twitter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/TwitterError.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/com/sugree/twitter/Util.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/Base64Variant.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/Base64Variants.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/FormatSchema.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonEncoding.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonGenerationException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonGenerator$Feature.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonGenerator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonLocation.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonParseException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonParser$Feature.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonParser$NumberType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonParser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonProcessingException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonStreamContext.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/JsonToken.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/ObjectCodec.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/PrettyPrinter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/SerializableString.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/Version.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/Versioned.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JacksonAnnotation.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonAnyGetter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonAnySetter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonAutoDetect$Visibility.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonAutoDetect.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonBackReference.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonClass.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonContentClass.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonCreator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonGetter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonIgnore.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonIgnoreProperties.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonIgnoreType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonKeyClass.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonManagedReference.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonMethod.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonPropertyOrder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonRawValue.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonSetter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonSubTypes$Type.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonSubTypes.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonTypeInfo$As.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonTypeInfo$Id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonTypeInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonTypeName.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonValue.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/JsonWriteNullProperties.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/annotate/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/format/DataFormatDetector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/format/DataFormatMatcher.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/format/InputAccessor$Std.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/format/InputAccessor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/format/MatchStrength.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/format/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/ByteSourceBootstrapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/DefaultPrettyPrinter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/Indenter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/JsonGeneratorBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/JsonNumericParserBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/JsonParserBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/JsonParserMinimalBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/JsonReadContext.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/JsonWriteContext.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/ReaderBasedNumericParser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/ReaderBasedParser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/ReaderBasedParserBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/StreamBasedParserBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/Utf8Generator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/Utf8StreamParser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/WriterBasedGenerator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/impl/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/BaseReader.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/CharacterEscapes.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/IOContext.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/InputDecorator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/JsonStringEncoder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/MergedStream.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/NumberInput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/NumberOutput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/OutputDecorator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/SegmentedStringWriter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/SerializedString.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/UTF32Reader.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/UTF8Writer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/io/package.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/AbstractTypeResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/AnnotationIntrospector$Pair.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/AnnotationIntrospector$ReferenceProperty$Type.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/AnnotationIntrospector$ReferenceProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/AnnotationIntrospector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/BeanDescription.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/BeanProperty$Std.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/BeanProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ClassIntrospector$MixInResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ClassIntrospector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ContextualDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ContextualKeyDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ContextualSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/DeserializationConfig$Feature.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/DeserializationConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/DeserializationContext.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/DeserializationProblemHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/DeserializerFactory$Config.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/DeserializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/DeserializerProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/Deserializers$None.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/Deserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/HandlerInstantiator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonDeserializer$None.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonMappingException$Reference.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonMappingException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonSerializable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonSerializableWithType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonSerializer$None.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/JsonSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/KeyDeserializer$None.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/KeyDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/KeyDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/MapperConfig$Base.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/MapperConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/MappingIterator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/MappingJsonFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/Module$SetupContext.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/Module.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ObjectMapper$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ObjectMapper$DefaultTypeResolverBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ObjectMapper$DefaultTyping.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ObjectMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ObjectReader.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ObjectWriter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/PropertyNamingStrategy.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ResolvableDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ResolvableSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/RuntimeJsonMappingException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/SerializationConfig$Feature.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/SerializationConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/SerializerFactory$Config.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/SerializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/SerializerProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/Serializers$None.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/Serializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/TreeMapper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/TypeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/TypeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JacksonStdImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonCachable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonDeserialize.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonSerialize$Inclusion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonSerialize$Typing.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonSerialize.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonTypeIdResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonTypeResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/JsonView.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/NoClass.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/annotate/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/AbstractDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$ArrayDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$BooleanDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$ByteDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$CharDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$DoubleDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$FloatDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$IntDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$LongDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$ShortDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers$StringDeser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ArrayDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/BaseNodeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/BasicDeserializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/BeanDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/BeanDeserializerBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/BeanDeserializerFactory$ConfigImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/BeanDeserializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/BeanDeserializerModifier.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/CollectionDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ContainerDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/Creator$Delegating.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/Creator$NumberBased.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/Creator$PropertyBased.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/Creator$StringBased.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/Creator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/CreatorContainer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/CustomDeserializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/DateDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/EnumDeserializer$FactoryBasedDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/EnumDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/EnumMapDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/EnumResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/EnumSetDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$CurrencyDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$InetAddressDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$LocaleDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$PatternDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$TimeZoneDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$URIDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$URLDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer$UUIDDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/FromStringDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/JsonNodeDeserializer$ArrayDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/JsonNodeDeserializer$ObjectDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/JsonNodeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/MapDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/PropertyValue$Any.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/PropertyValue$Map.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/PropertyValue$Regular.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/PropertyValue.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/PropertyValueBuffer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableAnyProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableBeanProperty$CreatorProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableBeanProperty$FieldProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableBeanProperty$ManagedReferenceProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableBeanProperty$MethodProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableBeanProperty$NullProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableBeanProperty$SetterlessProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/SettableBeanProperty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializationContext.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$AtomicBooleanDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$AtomicReferenceDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$BigDecimalDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$BigIntegerDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$BooleanDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$ByteDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$CalendarDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$CharacterDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$ClassDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$DoubleDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$FloatDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$IntegerDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$LongDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$NumberDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$PrimitiveOrWrapperDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$ShortDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$SqlDateDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$StackTraceElementDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$StringDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer$TokenBufferDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializerProvider$WrappedDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializerProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$BoolKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$ByteKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$CharKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$DoubleKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$EnumKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$FloatKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$IntKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$LongKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$ShortKD.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$StringCtorKeyDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer$StringFactoryKeyDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdKeyDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/StdScalarDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/ThrowableDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/TimestampDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/UntypedObjectDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/impl/BeanPropertyMap$Bucket.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/impl/BeanPropertyMap$IteratorImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/impl/BeanPropertyMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/impl/StringCollectionDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/deser/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/exc/UnrecognizedPropertyException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/CoreXMLDeserializers$DurationDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/CoreXMLDeserializers$GregorianCalendarDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/CoreXMLDeserializers$QNameDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/CoreXMLDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/CoreXMLSerializers$XMLGregorianCalendarSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/CoreXMLSerializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/DOMDeserializer$DocumentDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/DOMDeserializer$NodeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/DOMDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/DOMSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaDeserializers$DateMidnightDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaDeserializers$DateTimeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaDeserializers$JodaDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaDeserializers$LocalDateDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaDeserializers$LocalDateTimeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaSerializers$DateMidnightSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaSerializers$DateTimeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaSerializers$JodaSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaSerializers$LocalDateSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaSerializers$LocalDateTimeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/JodaSerializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/OptionalHandlerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ext/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/Annotated.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedClass.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedConstructor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedField.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedMember.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedMethod.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedMethodMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedParameter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotatedWithParams.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/AnnotationMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/BasicBeanDescription.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/BasicClassIntrospector$GetterMethodFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/BasicClassIntrospector$SetterAndGetterMethodFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/BasicClassIntrospector$SetterMethodFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/BasicClassIntrospector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/JacksonAnnotationIntrospector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/MemberKey.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/MethodFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/NopAnnotationIntrospector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/VisibilityChecker$Std.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/VisibilityChecker.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/introspect/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/NamedType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/SubtypeResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/TypeIdResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/TypeResolverBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/AsArrayTypeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/AsArrayTypeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/AsPropertyTypeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/AsPropertyTypeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/AsWrapperTypeDeserializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/AsWrapperTypeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/ClassNameIdResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/MinimalClassNameIdResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/StdSubtypeResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/StdTypeResolverBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/TypeDeserializerBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/TypeIdResolverBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/TypeNameIdResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/TypeSerializerBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/impl/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/jsontype/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/module/SimpleAbstractTypeResolver.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/module/SimpleDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/module/SimpleKeyDeserializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/module/SimpleModule.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/module/SimpleSerializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/module/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/AnyGetterWriter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$AsArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$BooleanArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$ByteArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$CharArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$DoubleArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$FloatArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$IntArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$LongArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$ShortArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers$StringArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ArraySerializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BasicSerializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BeanPropertyFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BeanPropertyWriter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BeanSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BeanSerializerBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BeanSerializerFactory$ConfigImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BeanSerializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/BeanSerializerModifier.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializerBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializers$AsArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializers$CollectionSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializers$EnumSetSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializers$IndexedListSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializers$IterableSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializers$IteratorSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ContainerSerializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/CustomSerializerFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/EnumMapSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/EnumSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/FailingSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/FilterProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/FilteredBeanPropertyWriter$MultiView.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/FilteredBeanPropertyWriter$SingleView.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/FilteredBeanPropertyWriter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JdkSerializers$AtomicBooleanSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JdkSerializers$AtomicIntegerSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JdkSerializers$AtomicLongSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JdkSerializers$AtomicReferenceSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JdkSerializers$ClassSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JdkSerializers$FileSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JdkSerializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/JsonValueSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/MapSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/NullSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/PropertyBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ScalarSerializerBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/SerializerBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/SerializerCache$TypeKey.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/SerializerCache.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdKeySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializerProvider$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializerProvider$WrappedSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializerProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$BooleanSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$CalendarSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$DoubleSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$FloatSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$IntLikeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$IntegerSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$LongSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$NonTypedScalarSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$NumberSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$SerializableSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$SerializableWithTypeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$SqlDateSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$SqlTimeSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$StringSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$TokenBufferSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers$UtilDateSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/StdSerializers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/ToStringSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/IndexedStringListSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/InetAddressSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/JsonSerializerMap$Bucket.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/JsonSerializerMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/ObjectArraySerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/PropertySerializerMap$Double.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/PropertySerializerMap$Empty.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/PropertySerializerMap$Multi.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/PropertySerializerMap$SerializerAndMapResult.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/PropertySerializerMap$Single.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/PropertySerializerMap$TypeAndSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/PropertySerializerMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/RawSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/ReadOnlyClassToSerializerMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/SimpleBeanPropertyFilter$FilterExceptFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/SimpleBeanPropertyFilter$SerializeExceptFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/SimpleBeanPropertyFilter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/SimpleFilterProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/StaticListSerializerBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/StringCollectionSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/TimeZoneSerializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/impl/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/ser/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/ArrayType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/ClassKey.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/CollectionLikeType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/CollectionType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/HierarchicType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/MapLikeType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/MapType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/SimpleType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/TypeBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/TypeBindings.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/TypeFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/TypeModifier.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/TypeParser$MyTokenizer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/TypeParser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/type/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/Annotations.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$ArrayIterator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$BooleanBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$ByteBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$DoubleBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$FloatBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$IntBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$LongBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders$ShortBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ArrayBuilders.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ClassUtil$EnumTypeLocator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ClassUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/EnumValues.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/JSONPObject.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/JSONWrappedObject.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/LRUMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/LinkedNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ObjectBuffer$Node.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/ObjectBuffer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/PrimitiveArrayBuilder$Node.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/PrimitiveArrayBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/Provider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/RootNameLookup.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/StdDateFormat.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/map/util/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/ArrayNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/BaseJsonNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/BigIntegerNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/BinaryNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/BooleanNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/ContainerNode$NoNodesIterator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/ContainerNode$NoStringsIterator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/ContainerNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/DecimalNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/DoubleNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/IntNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/JsonNodeFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/LongNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/MissingNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/NodeCursor$Array.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/NodeCursor$Object.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/NodeCursor$RootValue.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/NodeCursor.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/NullNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/NumericNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/ObjectNode$NoFieldsIterator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/ObjectNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/POJONode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/TextNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/TreeTraversingParser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/ValueNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/node/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/schema/JsonSchema.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/schema/JsonSerializableSchema.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/schema/SchemaAware.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/schema/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/BytesToNameCanonicalizer$Bucket.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/BytesToNameCanonicalizer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/CharsToNameCanonicalizer$Bucket.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/CharsToNameCanonicalizer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/Name.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/Name1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/Name2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/Name3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/NameN.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/sym/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/type/JavaType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/type/TypeReference.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/type/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/BufferRecycler$ByteBufferType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/BufferRecycler$CharBufferType.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/BufferRecycler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/ByteArrayBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/CharTypes.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/DefaultPrettyPrinter$FixedSpaceIndenter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/DefaultPrettyPrinter$Lf2SpacesIndenter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/DefaultPrettyPrinter$NopIndenter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/DefaultPrettyPrinter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/InternCache.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/JsonGeneratorDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/JsonParserDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/JsonParserSequence.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/MinimalPrettyPrinter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/TextBuffer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/TokenBuffer$Parser.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/TokenBuffer$Segment.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/TokenBuffer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/VersionUtil.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/org/codehaus/jackson/util/package-info.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/resources.ap_" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleWorkoutTracker.apk" afterPath="$PROJECT_DIR$/SimpleWorkoutTracker.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="40a6b345-3b8a-411f-943b-c690c7082147" name="Default" comment="" />
     <ignored path="SimpleWorkoutTracker.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -787,9 +87,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeePictures.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -824,7 +122,7 @@
       <file leaf-file-name="TakeProgressPicture.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/TakeProgressPicture.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="46" selection-start="1766" selection-end="1766" vertical-scroll-proportion="-10.64">
+            <state line="56" column="46" selection-start="1766" selection-end="1766" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -833,7 +131,7 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="66" selection-start="901" selection-end="901" vertical-scroll-proportion="0.37303665">
+            <state line="19" column="66" selection-start="901" selection-end="901" vertical-scroll-proportion="0.019011406">
               <folding />
             </state>
           </provider>
@@ -1066,8 +364,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Favorites" />
     </panes>
   </component>
@@ -1256,13 +554,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1646" height="962" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.670068" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32535884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3962585" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1270,18 +566,20 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2200957" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20551379" sideWeight="0.6495215" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20551379" sideWeight="0.65311" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20551379" sideWeight="0.34210527" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20551379" sideWeight="0.33851674" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22248805" sideWeight="0.99937344" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.9327195" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.670068" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32535884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2200957" sideWeight="0.0" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1365,9 +663,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable/layers.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="44" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="9" column="44" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
@@ -1384,32 +680,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="19" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/EditData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/SeePictures.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/select_workout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="30" selection-start="501" selection-end="501" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1428,13 +701,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="38" selection-start="758" selection-end="758" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="106" selection-start="918" selection-end="918" vertical-scroll-proportion="0.0">
@@ -1444,14 +710,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/TakeProgressPicture.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="46" selection-start="1766" selection-end="1766" vertical-scroll-proportion="-10.64">
+        <state line="56" column="46" selection-start="1766" selection-end="1766" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="38" selection-start="758" selection-end="758" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/select_workout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="30" selection-start="501" selection-end="501" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/EditData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/github/browep/fpt/ui/Welcome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="19" selection-start="776" selection-end="776" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="66" selection-start="901" selection-end="901" vertical-scroll-proportion="0.37303665">
+        <state line="19" column="66" selection-start="901" selection-end="901" vertical-scroll-proportion="0.019011406">
           <folding />
         </state>
       </provider>
