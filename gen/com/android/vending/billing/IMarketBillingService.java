@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /home/paul/Development/java/SimpleWorkoutTracker/src/com/android/vending/billing/IMarketBillingService.aidl
+ * Original file: /home/paul/Dropbox/Development/java/SimpleWorkoutTracker/src/com/android/vending/billing/IMarketBillingService.aidl
  */
 package com.android.vending.billing;
 public interface IMarketBillingService extends android.os.IInterface
