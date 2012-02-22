@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,11 +42,20 @@ public class TakeProgressPicture extends FptActivity {
     super.onCreate(savedInstanceState);
 
 
-    mHandler = new Handler();
 
-    final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(this)));
-    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+      PackageManager pm = getPackageManager();
+
+      if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+          mHandler = new Handler();
+
+          final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+          intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(this)));
+          startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+      } else {
+          Util.longToastMessage(this,"Simple Workout Tracker could not detect a camera on your device.");
+          finish();
+      }
+
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {

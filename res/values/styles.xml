@@ -1,7 +1,7 @@
 <resources>
 
     <style name="HomeButton" >
-        <item name="android:layout_width">256px</item>
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">72px</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">18sp</item>
@@ -11,7 +11,7 @@
     </style>
 
     <style name="BaseChiclet">
-        <item name="android:layout_width">128px</item>
+        <item name="android:layout_width">0px</item>
         <item name="android:layout_height">128px</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">18sp</item>
