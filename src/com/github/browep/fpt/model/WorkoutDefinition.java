@@ -17,7 +17,7 @@ import java.util.List;
  * Time: 1:01 PM
  * To change this template use File | Settings | File Templates.
  */
-public class WorkoutDefinition extends FPTStorable {
+public class WorkoutDefinition extends FPTStorable implements ToTitleable {
     public static final Creator<WorkoutDefinition> CREATOR = new Creator<WorkoutDefinition>() {
         public WorkoutDefinition createFromParcel(Parcel source) {
             try {
@@ -61,4 +61,7 @@ public class WorkoutDefinition extends FPTStorable {
         return indexes;
     }
 
+    public String toTitle() {
+        return (String) get(C.WORKOUT_NAME);
+    }
 }

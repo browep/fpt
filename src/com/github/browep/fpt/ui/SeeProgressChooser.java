@@ -5,12 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import com.github.browep.fpt.R;
 import com.github.browep.fpt.util.Util;
+import com.github.browep.fpt.view.ArrayAdapter;
 import com.github.browep.nosql.Storable;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import static com.github.browep.fpt.C.*;
  * Time: 11:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SeeProgressChooser extends FptActivity {
+public class SeeProgressChooser extends FptActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
   SeeProgressChooser self = this;
 
 
@@ -35,29 +35,20 @@ public class SeeProgressChooser extends FptActivity {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.select_workout);
-    LinearLayout wrapper = (LinearLayout) findViewById(R.id.workout_list);
-
-    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
     // add see pictures button
-    Button selectButton = (Button) ((LinearLayout) inflater.inflate(R.layout.select_workout_button, wrapper, true)).getChildAt(0);
-    selectButton.setOnClickListener(seePicturesOnClickListener);
-    selectButton.setText("See Your Pictures");
+//    Button selectButton = (Button) ((LinearLayout) inflater.inflate(R.layout.select_workout_button, wrapper, true)).getChildAt(0);
+//    selectButton.setOnClickListener(seePicturesOnClickListener);
+//    selectButton.setText("See Your Pictures");
 
-    List<Storable> definitions = getDao().getByType(WORKOUT_DEFINITION_TYPE);
-    int i = 1;
-    for (Storable definition : definitions) {
-      selectButton = (Button) ((LinearLayout) inflater.inflate(R.layout.select_workout_button, wrapper, true)).getChildAt(i);
-      String workoutName = (String) definition.get(WORKOUT_NAME);
-      selectButton.setText(workoutName);
-      selectButton.setTag(R.id.workout_definition_id, definition.getId());
-      selectButton.setTag(R.id.workout_definition_name, workoutName);
-      selectButton.setOnClickListener(selectOnClickListener);
-      selectButton.setOnLongClickListener(selectLongClickOnClickListener);
-      i++;
-    }
+      List<Storable> definitions = getDao().getByType(WORKOUT_DEFINITION_TYPE);
 
-    tutorialDialog(this.getString(R.string.view_progress_message),
+      ListView listView = (ListView) findViewById(R.id.listview);
+      listView.setAdapter(new ArrayAdapter(this, R.layout.simple_list_row, definitions));
+      listView.setOnItemClickListener(this);
+      listView.setOnItemLongClickListener(this);
+
+      tutorialDialog(this.getString(R.string.view_progress_message),
         "Viewing Your Progress",
         VIEW_PROGRESS_DIALOG,
         SeeProgressChooser.this);
@@ -145,4 +136,11 @@ public class SeeProgressChooser extends FptActivity {
   public String getPageName() {
     return "SeeProgressChooser";
   }
+
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    }
+
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        return false;
+    }
 }
