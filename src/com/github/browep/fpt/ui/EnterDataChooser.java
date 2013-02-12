@@ -1,35 +1,49 @@
 package com.github.browep.fpt.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.github.browep.fpt.C;
+import com.github.browep.fpt.FptApp;
 import com.github.browep.fpt.R;
+import com.github.browep.fpt.dao.PreferencesService;
 import com.github.browep.fpt.model.WorkoutDefinition;
 import com.github.browep.fpt.util.Util;
 import com.github.browep.fpt.view.ArrayAdapter;
 import com.github.browep.nosql.Storable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: paul
- * Date: 3/6/11
- * Time: 6:54 PM
- * To change this template use File | Settings | File Templates.
- */
+import static com.github.browep.fpt.SortOrder.ALPHABETICALLY;
+import static com.github.browep.fpt.SortOrder.MODIFIED;
+
 public class EnterDataChooser extends FptActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+
+    private PreferencesService prefsService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
         // get the list of workouts.  Create a button for each, inflate into scroll view
+        prefsService = FptApp.getInstance().getPreferencesService();
+
         setContentView(R.layout.select_workout);
 
-        List<Storable> definitions = getDao().getByType(C.WORKOUT_DEFINITION_TYPE);
+        fillData();
+    }
+
+    private void fillData() {
+        List<Storable> byType = getDao().getByType(C.WORKOUT_DEFINITION_TYPE);
+        List<WorkoutDefinition> definitions = new ArrayList<WorkoutDefinition>();
+        for(Storable storable : byType){
+            definitions.add((WorkoutDefinition) storable);
+        }
 
         // if there are no workout definitions, show message and close
         if (definitions.size() == 0) {
@@ -37,12 +51,14 @@ public class EnterDataChooser extends FptActivity implements AdapterView.OnItemC
             finish();
         }
 
+        if ( prefsService.getIntPreference(C.ENTER_DATA_SORT_ORDER) == ALPHABETICALLY.ordinal()){
+            Util.sortAlphabetically(definitions);
+        }
+
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(new ArrayAdapter(this,R.layout.simple_list_row,definitions));
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
-
-
     }
 
     @Override
@@ -71,4 +87,24 @@ public class EnterDataChooser extends FptActivity implements AdapterView.OnItemC
         onLongCLickHandlerInner(definitionId, (String) view.getTag(R.id.workout_definition_name), view);
         return true;
     }
+
+    @Override public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        if(prefsService.getIntPreference(C.ENTER_DATA_SORT_ORDER) == ALPHABETICALLY.ordinal()){
+            menu.add(0, MODIFIED.ordinal(),0,R.string.sort_modified);
+        } else {
+            menu.add(0, ALPHABETICALLY.ordinal(),0,R.string.sort_alphabetically);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        prefsService.setIntPreference(C.ENTER_DATA_SORT_ORDER, item.getItemId());
+        if(Build.VERSION.SDK_INT >= 11)
+            invalidateOptionsMenu();
+        fillData();
+        return true;
+    }
+
 }

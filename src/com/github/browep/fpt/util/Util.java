@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.widget.Toast;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.model.FptPicture;
+import com.github.browep.fpt.model.ToTitleable;
 import com.github.browep.nosql.Dao;
 import com.github.browep.nosql.Storable;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -15,13 +15,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.*;
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: paul
- * Date: 3/6/11
- * Time: 6:24 PM
- * To change this template use File | Settings | File Templates.
- */
 public class Util {
     public static Toast longToastMessage(Context context, String message) {
         int duration = Toast.LENGTH_SHORT;
@@ -213,4 +206,15 @@ public static byte[] getBytesFromFile(File file) throws IOException {
 
     return baos.toString();
   }
+
+    public static void sortAlphabetically(List<? extends ToTitleable> titleables) {
+        Collections.sort(titleables, new TitleComparator());
+    }
+
+    public static class TitleComparator implements Comparator<ToTitleable> {
+
+        public int compare(ToTitleable toTitleable, ToTitleable toTitleable2) {
+            return toTitleable.toTitle().compareTo(toTitleable2.toTitle());
+        }
+    }
 }

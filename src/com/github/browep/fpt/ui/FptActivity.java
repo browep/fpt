@@ -100,24 +100,24 @@ public abstract class FptActivity extends DaoAwareActivity{
     getDao().delete(workoutDefintionId);
   }
 
-  protected void tutorialDialog(String message, String title, final String dialogName, final Activity context) {
+    protected void tutorialDialog(String message, String title, final String dialogName, final Activity context) {
 
-    final PreferencesService prefsService = FptApp.getInstance().getPreferencesService();
+        final PreferencesService prefsService = FptApp.getInstance().getPreferencesService();
 
 //    prefsService.setBooleanPreference(dialogName, false); // for debug purposes, remove for prod
 
-    if(!prefsService.getBooleanPreference(dialogName)){
-    	final AlertDialog dialog = new AlertDialog.Builder(context).create();
-      dialog.setTitle(title);
-      dialog.setMessage(message);
-    	dialog.setButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-        prefsService.setBooleanPreference(dialogName, true);
-			}
-		});
-    	dialog.show();
+        if (!prefsService.getBooleanPreference(dialogName)) {
+            final AlertDialog dialog = new AlertDialog.Builder(context).create();
+            dialog.setTitle(title);
+            dialog.setMessage(message);
+            dialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    prefsService.setBooleanPreference(dialogName, true);
+                }
+            });
+            dialog.show();
+        }
     }
-  }
 
 }

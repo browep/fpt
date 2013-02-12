@@ -45,4 +45,6 @@
       Click and Hold on a workout to change the details or name of a workout. View the \"Table\" to change individual data entries.</string>
     <string name="edit_data_message">This is your workout data as a table.  Click and hold on a data entry to edit or delete one.</string>
     <string name="see_your_pictures">See Your Pictures</string>
+    <string name="sort_alphabetically">Sort Alphabetically</string>
+    <string name="sort_modified">Sort Modified</string>
 </resources>
