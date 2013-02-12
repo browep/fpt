@@ -3,16 +3,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@style/BaseScreen">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  style="@style/BaseScreen"
-                  android:id="@+id/workout_list"
-                  android:orientation="vertical"
+        android:fillViewport="true"
+        >
 
-            >
-
-    </LinearLayout>
+   <ListView android:id="@+id/listview"
+             android:layout_height="fill_parent"
+             android:layout_width="fill_parent"
+           />
 </ScrollView>

@@ -17,6 +17,7 @@
                  android:label="Simple Workout Tracker"
                  android:icon="@drawable/swt_72_72"
                  android:debuggable="false"
+                 android:theme="@android:style/Theme.Light"
             >
 
         <activity android:name=".ui.Welcome"
