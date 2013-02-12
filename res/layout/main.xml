@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+
+
         >
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:orientation="vertical"
-                 android:layout_width="fill_parent"
-                 android:layout_height="fill_parent"
-
-
+    <LinearLayout
+            style="@style/WelcomeRow"
             >
-        <TableRow style="@style/HomeRow">
-            <Button
-                    android:text="Enter Workout Data"
-                    android:onClick="enterDataOnClickListener"
-                    style="@style/BaseChiclet"
-                    android:background="@drawable/layers"
-                    />
-        </TableRow>
+
+        <Button
+                android:text="Enter Workout Data"
+                android:onClick="enterDataOnClickListener"
+                style="@style/BaseChiclet"
+                android:background="@drawable/layers"
+                />
+    </LinearLayout>
 
 
-        <TableRow style="@style/HomeRow">
-            <Button
-                    android:onClick="seeProgressOnClickListener"
-                    android:text="See Your Progress"
-                    style="@style/BaseChiclet"
-                    android:background="@drawable/layers"
-                    />
+    <LinearLayout style="@style/WelcomeRow">
 
-            <Button
+        <Button
+                android:onClick="seeProgressOnClickListener"
+                android:text="See Your Progress"
+                style="@style/BaseChiclet"
+                android:background="@drawable/layers"
+                />
 
-                    android:onClick="takeProgressPictureOnClickListener"
-                    android:text="Add a Progress Picture"
-                    style="@style/BaseChiclet"
-                    android:background="@drawable/layers"
-                    />
-        </TableRow>
-        <TableRow style="@style/HomeRow">
+        <Button
+
+                android:onClick="takeProgressPictureOnClickListener"
+                android:text="Add a Progress Picture"
+                style="@style/BaseChiclet"
+                android:background="@drawable/layers"
+                />
+    </LinearLayout>
+
+    <LinearLayout style="@style/WelcomeRow">
 
 
-            <Button
-                    android:text="Define a New Workout"
-                    style="@style/BaseChiclet"
-                    android:onClick="createWorkoutButtonOnClickListener"
-                    android:background="@drawable/layers"
-                    />
-            <Button
-                    android:onClick="sendReportOnClickListener"
-                    android:text="Get Report by Email"
-                    style="@style/BaseChiclet"
-                    android:background="@drawable/layers"
-                    />
+        <Button
+                android:text="Define a New Workout"
+                style="@style/BaseChiclet"
+                android:onClick="createWorkoutButtonOnClickListener"
+                android:background="@drawable/layers"
+                />
 
-        </TableRow>
+        <Button
+                android:onClick="sendReportOnClickListener"
+                android:text="Get Report by Email"
+                style="@style/BaseChiclet"
+                android:background="@drawable/layers"
+                />
 
-    </TableLayout>
+    </LinearLayout>
 
-</ScrollView>
+</LinearLayout>
+

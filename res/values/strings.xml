@@ -46,5 +46,5 @@
     <string name="edit_data_message">This is your workout data as a table.  Click and hold on a data entry to edit or delete one.</string>
     <string name="see_your_pictures">See Your Pictures</string>
     <string name="sort_alphabetically">Sort Alphabetically</string>
-    <string name="sort_modified">Sort Modified</string>
+    <string name="sort_modified">Sort by Last Modified</string>
 </resources>
