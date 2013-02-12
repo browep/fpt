@@ -44,8 +44,10 @@ public class C {
   public static final String TWITTER_MARKET_LINK = "http://bit.ly/lyAggv"; //http://saml.heroku.com/?id=com.github.browep.fpt&referrer=utm_source%3Dinapp%26utm_medium%3Dtwitter%26utm_term%3Dworkout%26utm_content%3Dmycontent%26utm_campaign%3Dinapp
   public static final String SD_CARD_NOT_MOUNTED_MESSAGE = "Your SD Card is currently unavailable.  Is it present or do you have your phone" +
       " plugged in?";
+    public static final String ENTER_DATA_SORT_ORDER = "enter_data_sort_order";
+    public static final String SEE_PROGRESS_CHOOSER_ORDER = "see_progress_chooser_order";
 
-  private C() {
+    private C() {
   } // should never be used
 
   public static final String WORKOUT_CLASS = "workout_class";
