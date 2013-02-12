@@ -66,7 +66,7 @@ public class EditData extends FptActivity {
         // setup list adapater
         listView = (ListView) findViewById(R.id.list);
 
-        listView.setAdapter(new EditDataAdapter(this, R.layout.edit_data, entries));
+        listView.setAdapter(new EditDataAdapter(this, R.layout.edit_data_entry, entries));
         listView.setOnItemLongClickListener(itemLongClickListener);
 
 
