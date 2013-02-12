@@ -45,6 +45,7 @@ public class C {
   public static final String SD_CARD_NOT_MOUNTED_MESSAGE = "Your SD Card is currently unavailable.  Is it present or do you have your phone" +
       " plugged in?";
     public static final String ENTER_DATA_SORT_ORDER = "enter_data_sort_order";
+    public static final String SEE_PROGRESS_CHOOSER_ORDER = "see_progress_chooser_order";
 
     private C() {
   } // should never be used
