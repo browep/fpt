@@ -29,9 +29,7 @@
                 />
         <EditText
                 android:id="@+id/rep_count"
-                style="@style/InputBaseObject"
-                android:layout_width="72px"
-                android:layout_height="wrap_content"
+                style="@style/InputNumberFull"
                 android:inputType="number"
                 />
     </LinearLayout>

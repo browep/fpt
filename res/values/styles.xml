@@ -30,6 +30,9 @@
 
     <style name="CommentBox" parent="HelperText">
         <item name="android:imeOptions">actionDone</item>
+        <item name="android:layout_marginRight">@dimen/base_margin</item>
+        <item name="android:layout_marginLeft">@dimen/base_margin</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <style name="HelperText">
@@ -51,9 +54,27 @@
     <style name="InputBaseObject" parent="BaseObject">
         <item name="android:layout_marginBottom">10px</item>
     </style>
+    <style name="InputFullLength" parent="InputBaseObject">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/base_margin</item>
+        <item name="android:layout_marginRight">@dimen/base_margin</item>
+    </style>
+    <style name="InputNumberFull" parent="InputBaseObject">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/base_margin</item>
+    </style>
+    <style name="TimeInput" parent="InputBaseObject">
+        <item name="android:layout_width">72dp</item>
+        <item name="android:maxLength">2</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">number</item>
+    </style>
     <style name="SmallButton" parent="HomeButton">
-        <item name="android:layout_width">72px</item>
-        <item name="android:layout_height">36px</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="ChicletButton" parent="HomeButton">
         <item name="android:layout_width">86px</item>

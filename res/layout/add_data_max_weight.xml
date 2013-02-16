@@ -27,9 +27,7 @@
                 />
         <EditText
                 android:id="@+id/weight"
-                style="@style/InputBaseObject"
-                android:layout_width="72px"
-                android:layout_height="wrap_content"
+                style="@style/InputNumberFull"
                 android:inputType="number"
                 />
     </LinearLayout>

@@ -27,10 +27,8 @@
                 />
         <EditText
                 android:id="@+id/distance_count"
-                style="@style/InputBaseObject"
-                android:layout_width="72px"
-                android:layout_height="wrap_content"
-                android:inputType="number"
+                style="@style/InputNumberFull"
+                android:inputType="numberDecimal"
                 />
     </LinearLayout>
 

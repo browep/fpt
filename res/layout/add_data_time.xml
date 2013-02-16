@@ -29,12 +29,8 @@
                 />
         <EditText
                 android:id="@+id/hours"
-                style="@style/InputBaseObject"
-                android:layout_width="72px"
-                android:layout_height="wrap_content"
-                android:maxLength="2"
+                style="@style/TimeInput"
                 android:nextFocusDown="@+id/minutes"
-                android:inputType="number"
                 />
 
 
@@ -47,13 +43,8 @@
                 />
         <EditText
                 android:id="@+id/minutes"
-                style="@style/InputBaseObject"
-                android:layout_width="72px"
-                android:layout_height="wrap_content"
+                style="@style/TimeInput"
                 android:nextFocusDown="@+id/seconds"
-                android:maxLength="2"
-
-                android:inputType="number"
                 />
         <TextView
                 style="@style/FormText"
@@ -65,14 +56,9 @@
 
         <EditText
                 android:id="@+id/seconds"
-                style="@style/InputBaseObject"
-                android:layout_width="72px"
-                android:layout_height="wrap_content"
+                style="@style/TimeInput"
                 android:nextFocusDown="@+id/comment"
                 android:maxLength="2"
-
-
-                android:inputType="number"
                 />
 
     </LinearLayout>
