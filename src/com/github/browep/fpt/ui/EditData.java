@@ -215,11 +215,11 @@ public class EditData extends FptActivity {
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.edit_data_entry, null);
-                v.setTag(R.id.workout_entry_id, storable.getId());
 
             }
             if (storable != null) {
                 TextView textView = (TextView) v.findViewById(R.id.content);
+                v.setTag(R.id.workout_entry_id, storable.getId());
                 Object entryValue = storable.get(xValueName);
                 if (formatter != null) {
                     entryValue = formatter.format(entryValue);
