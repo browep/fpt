@@ -1,6 +1,7 @@
 package com.github.browep.fpt.model;
 
 import android.os.Parcel;
+import android.text.TextUtils;
 import com.github.browep.fpt.C;
 import com.github.browep.fpt.util.Log;
 import org.json.JSONException;
@@ -62,6 +63,7 @@ public class WorkoutDefinition extends FPTStorable implements ToTitleable {
     }
 
     public String toTitle() {
-        return (String) get(C.WORKOUT_NAME);
+        String title = (String) get(C.WORKOUT_NAME);
+        return TextUtils.isEmpty(title) ? "<no name>" : title;
     }
 }
