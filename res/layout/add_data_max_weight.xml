@@ -28,7 +28,7 @@
         <EditText
                 android:id="@+id/weight"
                 style="@style/InputNumberFull"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 />
     </LinearLayout>
 
